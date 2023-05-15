@@ -1,5 +1,5 @@
 {
-  "name": "web3auth",
+  "name": "@vitacore-company/vita3auth",
   "private": true,
   "version": "0.0.0",
   "type": "module",

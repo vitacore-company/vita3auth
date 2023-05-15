@@ -1,5 +1,1 @@
-const test = () => console.log("hi")
-
-module.exports = {
-  test,
-}
+console.log("Hello, World!")
