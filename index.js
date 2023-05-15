@@ -1,3 +1,3 @@
-const test = 'test'
+const auth = 'hello from auth'
 
-module.exports = { test }
+module.exports = { auth }
