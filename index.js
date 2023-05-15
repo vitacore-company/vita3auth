@@ -1,7 +1,3 @@
-const sayHello = () => {
-  console.log("Hello")
-}
+const test = 'test'
 
-module.exports = {
-  sayHello,
-}
+module.exports = { test }
