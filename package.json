@@ -24,6 +24,6 @@
     "vite": "^4.1.0"
   },
   "publishConfig": {
-    "@vitacore-company:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/@vitacore-company"
   }
 }
