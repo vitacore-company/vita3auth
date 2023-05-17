@@ -25,6 +25,11 @@
       "react-app/jest"
     ]
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@vitacore-company"
   }
