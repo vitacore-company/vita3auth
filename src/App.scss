@@ -28,21 +28,6 @@
         }
       }
     }
-    .test {
-      position: absolute;
-      top: 150px;
-      display: flex;
-      gap: 10px;
-      &_btn {
-        border: 1px solid black;
-        width: fit-content;
-        padding: 10px;
-        margin-top: 10px;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-    }
   }
 
   .address {
@@ -50,25 +35,5 @@
     top: 10px;
     left: 10px;
     font-weight: 700;
-  }
-  .address-right {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-weight: 700;
-  }
-
-  .transaction {
-    &_btn {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      border: 3px solid black;
-      margin-top: 30px;
-      padding: 20px;
-      &:hover {
-        cursor: pointer;
-      }
-    }
   }
 }
