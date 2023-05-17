@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test8",
+  "version": "0.0.0-test9",
   "babel": {
     "presets": [
       "@babel/preset-react"
