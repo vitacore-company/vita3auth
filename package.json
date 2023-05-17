@@ -1,6 +1,11 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test7",
+  "version": "0.0.0-test8",
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start ",
+    "dist": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -32,5 +38,9 @@
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@vitacore-company"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.5",
+    "@babel/preset-react": "^7.18.6"
   }
 }

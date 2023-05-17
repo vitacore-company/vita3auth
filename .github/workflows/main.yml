@@ -14,8 +14,9 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@vitacore-company'
+          scope: "@vitacore-company"
       - run: npm install
+      - run: npm run dist
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
