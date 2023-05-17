@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test14",
+  "version": "0.0.0-test15",
   "main": "dist",
   "module": "dist",
   "babel": {
@@ -21,7 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "compile-sass": "sass dist/index.scss dist/index.css",
+    "compile-sass": "sass dist/exports/index.scss dist/exports/index.css",
     "start": "react-scripts start ",
     "compile": "rm -rf dist && mkdir dist &&  babel src -d dist --copy-files && npm run compile-sass",
     "build": "react-scripts build",
