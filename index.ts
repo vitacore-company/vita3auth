@@ -1,1 +1,1 @@
-export { default as App } from "./src/App"
+export { default as Auth } from "./src/components/Auth"
