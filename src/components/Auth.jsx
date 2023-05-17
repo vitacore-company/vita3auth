@@ -5,13 +5,13 @@ import { getCryptoHash } from "../utils/utils"
 
 function Auth() {
   const [email, setEmail] = useState("")
-  const [walletEOA, setWalletEOA] = useState<any>()
+  const [walletEOA, setWalletEOA] = useState()
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value)
   }
 
-  const handleEnterDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterDown = (e) => {
     if (e.key === "Enter") {
       handleAuth()
     }
