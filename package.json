@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test9",
+  "version": "0.0.0-test10",
   "babel": {
     "presets": [
       "@babel/preset-react"
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start ",
-    "dist": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files",
+    "dist": "rm -rf dist && mkdir dist &&  babel src -d dist --copy-files",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
