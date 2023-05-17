@@ -1,4 +1,3 @@
-import "./App.scss"
 import Auth from "./components/Auth"
 
 function App() {

@@ -1,6 +1,6 @@
 import { ethers } from "ethers"
 import React, { useEffect, useState } from "react"
-import { getCryptoHash } from "../utils/utils"
+import { getCryptoHash } from "../../utils/utils"
 
 function Auth() {
   const [email, setEmail] = useState("")
