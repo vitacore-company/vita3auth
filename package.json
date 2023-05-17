@@ -1,8 +1,8 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test15",
-  "main": "dist",
-  "module": "dist",
+  "version": "0.0.0-test16",
+  "main": "dist/exports",
+  "module": "dist/exports",
   "babel": {
     "presets": [
       "@babel/preset-react"
