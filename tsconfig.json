@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "module": "esnext",
     "target": "es5",
     "lib": ["es2017", "dom"],
