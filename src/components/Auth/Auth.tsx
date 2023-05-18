@@ -2,16 +2,16 @@ import { ethers } from "ethers"
 import React, { useEffect, useState } from "react"
 import { getCryptoHash } from "../../utils/utils"
 
-function Auth(props) {
+function Auth(props: any) {
   const { onEOAchange } = props
   const [email, setEmail] = useState("")
-  const [walletEOA, setWalletEOA] = useState()
+  const [walletEOA, setWalletEOA] = useState<any>()
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: any) => {
     setEmail(e.target.value)
   }
 
-  const handleEnterDown = (e) => {
+  const handleEnterDown = (e: any) => {
     if (e.key === "Enter") {
       handleAuth()
     }
@@ -21,7 +21,7 @@ function Auth(props) {
     if (email) {
       const userPrivateKey = await getCryptoHash(email)
       console.log(`User private key: ${userPrivateKey}`)
-      const newUserWallet = new ethers.Wallet(userPrivateKey)
+      const newUserWallet: any = new ethers.Wallet(userPrivateKey)
       console.log("newUserWallet", newUserWallet)
       setWalletEOA(newUserWallet)
       onEOAchange(newUserWallet)
