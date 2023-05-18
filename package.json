@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test17",
+  "version": "0.0.0-test18",
   "main": "dist/main",
   "module": "dist/main",
   "babel": {
