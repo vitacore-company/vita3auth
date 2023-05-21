@@ -1,17 +1,18 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import { getCryptoHash } from "../../utils/utils"
+import { AuthI, walletEOAState } from "src/types"
 
-function Auth(props: any) {
+function Auth(props: AuthI) {
   const { onEOAchange } = props
-  const [email, setEmail] = useState("")
-  const [walletEOA, setWalletEOA] = useState<any>()
+  const [email, setEmail] = useState<string>("")
+  const [walletEOA, setWalletEOA] = useState<walletEOAState>(null)
 
-  const handleEmailChange = (e: any) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
 
-  const handleEnterDown = (e: any) => {
+  const handleEnterDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleAuth()
     }
@@ -39,7 +40,7 @@ function Auth(props: any) {
         <div className="input_label">Enter email</div>
         <div className="input_form">
           <input
-            onKeyDown={(e) => handleEnterDown(e)}
+            onKeyDown={handleEnterDown}
             value={email}
             type="text"
             className="input_form_field"

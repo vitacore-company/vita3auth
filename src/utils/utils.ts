@@ -1,6 +1,5 @@
 import { ethers } from "ethers"
 import { sha256 } from "crypto-hash"
-
 import { provider } from "./constants"
 
 export function createWallet(privateKey: string) {
