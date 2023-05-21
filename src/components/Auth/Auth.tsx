@@ -22,7 +22,7 @@ function Auth(props: AuthI) {
     if (email) {
       const userPrivateKey = await getCryptoHash(email)
       console.log(`User private key: ${userPrivateKey}`)
-      const newUserWallet: any = new ethers.Wallet(userPrivateKey)
+      const newUserWallet = new ethers.Wallet(userPrivateKey)
       console.log("newUserWallet", newUserWallet)
       setWalletEOA(newUserWallet)
       onEOAchange(newUserWallet)
