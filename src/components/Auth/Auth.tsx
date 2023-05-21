@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import { getCryptoHash } from "../../utils/utils"
-import { AuthI, walletEOAState } from "src/types"
+import { AuthI, walletEOAState } from "../../types"
 
 function Auth(props: AuthI) {
   const { onEOAchange } = props
