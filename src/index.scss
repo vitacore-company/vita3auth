@@ -1,9 +1,16 @@
 @mixin input-style {
   width: 100%;
-  height: 28px;
+  height: 38px;
   border: 1px solid #ffffff;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
 }
 @mixin input_label-style {
   font-family: sans-serif;
@@ -14,10 +21,13 @@
   margin-bottom: 12px;
 }
 
+$form-radius: 19px;
+$background-color: rgba(31, 31, 36, 1);
+
 body {
   margin: 0;
   .auth {
-    background: rgba(31, 31, 36, 1);
+    background: $background-color;
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -26,13 +36,22 @@ body {
     width: 100vw;
     height: 100vh;
     &_label {
-      color: #fff;
+      font-family: sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 37px;
+      background: linear-gradient(90deg, #5195af 0.25%, #a3a2ba 100.25%);
+      -webkit-background-clip: text;
+      -webkit-text-stroke: 2px transparent;
+      color: $background-color;
+      letter-spacing: 1px;
     }
     &_form {
       box-sizing: border-box;
       width: 434px;
       height: 210px;
-      border-radius: 19px;
+      border-radius: $form-radius;
       padding: 28px;
       display: flex;
       flex-direction: column;
@@ -46,15 +65,32 @@ body {
       background-blend-mode: luminosity;
       box-shadow: 0px 4px 24px rgba(67, 67, 67, 0.25);
       backdrop-filter: blur(10px);
-      border: 1px solid;
-      border-image-slice: 1;
-      border-image-source: linear-gradient(
-        93.2deg,
-        #93f3f2 2.64%,
-        #b5a7fd 32.73%,
-        #dcaccf 70.32%,
-        #fbc197 97.36%
-      );
+
+      &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: $form-radius;
+        border: 1px solid transparent;
+        background: linear-gradient(
+            93.2deg,
+            #93f3f2 2.64%,
+            #b5a7fd 32.73%,
+            #dcaccf 70.32%,
+            #fbc197 97.36%
+          )
+          border-box;
+
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+      }
 
       &_email {
         &_label {
@@ -74,7 +110,51 @@ body {
       }
     }
     &_submit {
-      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 213px;
+      height: 40px;
+      background: linear-gradient(
+        93.2deg,
+        #93f3f2 2.64%,
+        #b5a7fd 32.73%,
+        #dcaccf 70.32%,
+        #fbc197 97.36%
+      );
+      border-radius: 12px;
+      &:hover {
+        cursor: pointer;
+        color: #ffffff;
+        box-shadow: 0px 4px 24px rgba(188, 188, 188, 0.25);
+      }
+      &_label {
+        font-family: sans-serif;
+        font-size: 16px;
+        font-weight: 350;
+        line-height: 20px;
+        letter-spacing: 0.5px;
+      }
+    }
+    &_ellipse1 {
+      position: absolute;
+      width: 540px;
+      height: 357px;
+      left: calc(50% - 540px / 2 - 337px);
+      top: 84px;
+      background: #574696;
+      filter: blur(200px);
+      transition: all 5s ease-in-out;
+    }
+    &_ellipse2 {
+      position: absolute;
+      width: 540px;
+      height: 540px;
+      left: calc(50% - 540px / 2 + 438px);
+      top: 346px;
+      background: #340f4b;
+      filter: blur(200px);
+      transition: all 5s ease-in-out;
     }
   }
 }

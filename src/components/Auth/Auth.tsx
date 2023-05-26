@@ -65,9 +65,11 @@ function Auth(props: AuthI) {
           />
         </div>
       </div>
-      <div className="auth_submit">
-        <div onClick={handleAuth}>Войти</div>
+      <div onClick={handleAuth} className="auth_submit">
+        <div className="auth_submit_label">Войти</div>
       </div>
+      <div className="auth_ellipse1" />
+      <div className="auth_ellipse2" />
     </div>
   )
 }
