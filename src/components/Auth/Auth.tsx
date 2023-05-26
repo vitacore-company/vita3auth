@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { getCryptoHash } from "../../utils/utils"
 import { AuthI, walletEOAState } from "../../types"
 import Ellipse from "../Ellipse/Ellipse"
@@ -9,6 +9,8 @@ function Auth(props: AuthI) {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [walletEOA, setWalletEOA] = useState<walletEOAState>(null)
+  const [authError, setAuthError] = useState<boolean>(false)
+  const passwordInput = useRef<HTMLInputElement | null>(null)
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
@@ -17,23 +19,56 @@ function Auth(props: AuthI) {
     setPassword(e.target.value)
   }
 
-  const handleEnterDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterEmailDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      passwordInput.current?.focus()
+    }
+  }
+  const handleEnterPasswordDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Enter") {
       handleAuth()
     }
   }
 
+  const activateAuthError = () => {
+    setAuthError(true)
+    setTimeout(() => {
+      setAuthError(false)
+    }, 1000)
+  }
+
   const handleAuth = async () => {
-    if (email) {
-      const userPrivateKey = await getCryptoHash(email)
+    if (email && password) {
+      console.log("auth")
+      // const userPrivateKey = await getCryptoHash(`${email}_${password}`)
+      // console.log(`User private key: ${userPrivateKey}`)
+      // const newUserWallet = new ethers.Wallet(userPrivateKey)
+      // console.log("newUserWallet", newUserWallet)
+      // setWalletEOA(newUserWallet)
+      // onEOAchange(newUserWallet)
+      setEmail("")
+      setPassword("")
+    } else {
+      console.log("here")
+      activateAuthError()
+    }
+  }
+  const handleAuth1 = async () => {
+    if (email && password) {
+      console.log("auth")
+      const userPrivateKey = await getCryptoHash(`${email}_${password}`)
       console.log(`User private key: ${userPrivateKey}`)
       const newUserWallet = new ethers.Wallet(userPrivateKey)
       console.log("newUserWallet", newUserWallet)
       setWalletEOA(newUserWallet)
       onEOAchange(newUserWallet)
       setEmail("")
+      setPassword("")
     }
   }
+  console.log(handleAuth1)
 
   useEffect(() => console.log("walletEOA", walletEOA), [walletEOA])
 
@@ -44,11 +79,12 @@ function Auth(props: AuthI) {
   return (
     <div className="auth">
       <div className="auth_label">Войти</div>
-      <div className="auth_form">
+      <div className={`auth_form ${authError && "auth_form-error"}`}>
         <div className="auth_form_email">
           <div className="auth_form_email_label">Логин</div>
           <input
-            onKeyDown={handleEnterDown}
+            autoFocus
+            onKeyDown={handleEnterEmailDown}
             value={email}
             type="text"
             className="auth_form_email_input"
@@ -58,7 +94,8 @@ function Auth(props: AuthI) {
         <div className="auth_form_password">
           <div className="auth_form_password_label">Пароль</div>
           <input
-            onKeyDown={handleEnterDown}
+            ref={passwordInput}
+            onKeyDown={handleEnterPasswordDown}
             value={password}
             type="text"
             className="auth_form_password_input"

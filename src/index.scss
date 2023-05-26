@@ -24,7 +24,7 @@
 @mixin ellipse-style {
   position: absolute;
   width: 240px;
-  filter: blur(100px);
+  filter: blur(150px);
   transition: all 6s ease;
 }
 
@@ -116,10 +116,24 @@ body {
           @include input-style;
         }
       }
+      &-error {
+        animation-name: form-error;
+        animation-duration: 0.5s;
+        &:after {
+          background-color: rgba(255, 0, 0, 0.242);
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: $form-radius;
+        }
+      }
     }
+
     &_submit {
       z-index: 1;
-
       display: flex;
       justify-content: center;
       align-items: center;
@@ -160,5 +174,26 @@ body {
       background: #574696;
       height: 540px;
     }
+  }
+}
+
+@keyframes form-error {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5%);
+  }
+  40% {
+    transform: translateX(5%);
+  }
+  60% {
+    transform: translateX(-5%);
+  }
+  80% {
+    transform: translateX(5);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
