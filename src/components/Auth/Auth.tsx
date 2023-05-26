@@ -42,22 +42,6 @@ function Auth(props: AuthI) {
   const handleAuth = async () => {
     if (email && password) {
       console.log("auth")
-      // const userPrivateKey = await getCryptoHash(`${email}_${password}`)
-      // console.log(`User private key: ${userPrivateKey}`)
-      // const newUserWallet = new ethers.Wallet(userPrivateKey)
-      // console.log("newUserWallet", newUserWallet)
-      // setWalletEOA(newUserWallet)
-      // onEOAchange(newUserWallet)
-      setEmail("")
-      setPassword("")
-    } else {
-      console.log("here")
-      activateAuthError()
-    }
-  }
-  const handleAuth1 = async () => {
-    if (email && password) {
-      console.log("auth")
       const userPrivateKey = await getCryptoHash(`${email}_${password}`)
       console.log(`User private key: ${userPrivateKey}`)
       const newUserWallet = new ethers.Wallet(userPrivateKey)
@@ -66,9 +50,10 @@ function Auth(props: AuthI) {
       onEOAchange(newUserWallet)
       setEmail("")
       setPassword("")
+    } else {
+      activateAuthError()
     }
   }
-  console.log(handleAuth1)
 
   useEffect(() => console.log("walletEOA", walletEOA), [walletEOA])
 
