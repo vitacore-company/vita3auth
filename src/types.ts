@@ -9,3 +9,6 @@ export type walletEOAState = ethers.Wallet | null
 export interface IEllipse {
   className: string
 }
+export interface IAddressEOA {
+  address?: string
+}

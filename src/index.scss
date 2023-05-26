@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Manrope:wght@200;400&display=swap");
+
+//constants
+
 @mixin input-style {
   width: 100%;
   height: 38px;
@@ -28,152 +32,204 @@
   transition: all 6s ease;
 }
 
-$form-radius: 19px;
+@mixin gradient-border {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: $border-radius;
+  border: 1px solid transparent;
+  background: $linear-gradient-light;
+
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+$border-radius: 19px;
+$linear-gradient-light: linear-gradient(
+    93.2deg,
+    #93f3f2 2.64%,
+    #b5a7fd 32.73%,
+    #dcaccf 70.32%,
+    #fbc197 97.36%
+  )
+  border-box;
+
+$linear-gradient-dark: linear-gradient(
+  118.79deg,
+  rgba(255, 255, 255, 0.06) 14.72%,
+  rgba(255, 255, 255, 0.1) 53.94%,
+  rgba(255, 255, 255, 0.07) 92.4%
+);
+
+$box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
 
 body {
   margin: 0;
-  .auth {
-    background: rgba(31, 31, 36, 1);
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    &_label {
-      z-index: 1;
-      font-family: sans-serif;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 30px;
-      line-height: 37px;
-      background: linear-gradient(90deg, #5195af 0.25%, #a3a2ba 100.25%);
-      -webkit-background-clip: text;
-      -webkit-text-stroke: 2px transparent;
-      color: rgb(54, 31, 64);
-      letter-spacing: 1px;
-    }
-    &_form {
-      z-index: 1;
-      box-sizing: border-box;
-      width: 434px;
-      height: 210px;
-      border-radius: $form-radius;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background: linear-gradient(
-        118.79deg,
-        rgba(255, 255, 255, 0.06) 14.72%,
-        rgba(255, 255, 255, 0.1) 53.94%,
-        rgba(255, 255, 255, 0.07) 92.4%
-      );
-      background-blend-mode: luminosity;
-      box-shadow: 0px 4px 24px rgba(67, 67, 67, 0.25);
-      backdrop-filter: blur(10px);
+}
 
-      &:before {
-        z-index: -1;
+//auth
+.auth {
+  background: rgba(31, 31, 36, 1);
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  &_label {
+    z-index: 1;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 37px;
+    background: linear-gradient(90deg, #5195af 0.25%, #a3a2ba 100.25%);
+    -webkit-background-clip: text;
+    -webkit-text-stroke: 2px transparent;
+    color: rgb(54, 31, 64);
+    letter-spacing: 1px;
+  }
+  &_form {
+    z-index: 1;
+    box-sizing: border-box;
+    width: 434px;
+    height: 210px;
+    border-radius: $border-radius;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: $linear-gradient-dark;
+    background-blend-mode: luminosity;
+    box-shadow: $box-shadow-component;
+    backdrop-filter: blur(10px);
+
+    &:before {
+      @include gradient-border;
+    }
+
+    &_email {
+      &_label {
+        @include input_label-style;
+      }
+      &_input {
+        @include input-style();
+      }
+    }
+    &_password {
+      &_label {
+        @include input_label-style;
+      }
+      &_input {
+        @include input-style;
+      }
+    }
+    &-error {
+      animation-name: form-error;
+      animation-duration: 0.5s;
+      &:after {
+        background-color: rgba(255, 0, 0, 0.242);
         content: "";
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: $form-radius;
-        border: 1px solid transparent;
-        background: linear-gradient(
-            93.2deg,
-            #93f3f2 2.64%,
-            #b5a7fd 32.73%,
-            #dcaccf 70.32%,
-            #fbc197 97.36%
-          )
-          border-box;
+        border-radius: $border-radius;
+      }
+    }
+  }
 
-        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-        -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-          linear-gradient(#fff 0 0);
-        -webkit-mask-composite: destination-out;
-        mask-composite: exclude;
-      }
+  &_submit {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 213px;
+    height: 40px;
+    background: $linear-gradient-light;
+    border-radius: 12px;
+    &:hover {
+      cursor: pointer;
+      color: #ffffff;
+      box-shadow: 0px 4px 24px rgba(188, 188, 188, 0.25);
+    }
+    &_label {
+      font-family: sans-serif;
+      font-size: 16px;
+      font-weight: 350;
+      line-height: 20px;
+      letter-spacing: 0.5px;
+    }
+  }
 
-      &_email {
-        &_label {
-          @include input_label-style;
-        }
-        &_input {
-          @include input-style();
-        }
-      }
-      &_password {
-        &_label {
-          @include input_label-style;
-        }
-        &_input {
-          @include input-style;
-        }
-      }
-      &-error {
-        animation-name: form-error;
-        animation-duration: 0.5s;
-        &:after {
-          background-color: rgba(255, 0, 0, 0.242);
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-radius: $form-radius;
-        }
-      }
-    }
+  //ellipse
 
-    &_submit {
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 213px;
-      height: 40px;
-      background: linear-gradient(
-        93.2deg,
-        #93f3f2 2.64%,
-        #b5a7fd 32.73%,
-        #dcaccf 70.32%,
-        #fbc197 97.36%
-      );
-      border-radius: 12px;
-      &:hover {
-        cursor: pointer;
-        color: #ffffff;
-        box-shadow: 0px 4px 24px rgba(188, 188, 188, 0.25);
-      }
-      &_label {
-        font-family: sans-serif;
-        font-size: 16px;
-        font-weight: 350;
-        line-height: 20px;
-        letter-spacing: 0.5px;
-      }
+  &_ellipse1 {
+    @include ellipse-style;
+    left: calc(50% - 540px / 2 - 337px);
+    top: 84px;
+    background: #340f4b;
+    height: 357px;
+  }
+  &_ellipse2 {
+    @include ellipse-style;
+    left: calc(50% - 540px / 2 + 438px);
+    top: 346px;
+    background: #574696;
+    height: 540px;
+  }
+}
+
+// addressEOA
+
+.address {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 20px;
+  width: 263px;
+  height: 58px;
+  background: $linear-gradient-dark;
+  border-radius: $border-radius;
+  backdrop-filter: blur(10px);
+  box-shadow: $box-shadow-component;
+  box-sizing: border-box;
+  &:before {
+    @include gradient-border;
+  }
+  &_number {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #e8e8e8;
+  }
+  &_copy {
+    display: flex;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
     }
-    &_ellipse1 {
-      @include ellipse-style;
-      left: calc(50% - 540px / 2 - 337px);
-      top: 84px;
-      background: #340f4b;
-      height: 357px;
-    }
-    &_ellipse2 {
-      @include ellipse-style;
-      left: calc(50% - 540px / 2 + 438px);
-      top: 346px;
-      background: #574696;
-      height: 540px;
-    }
+  }
+  &_no {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 17px;
+    color: #e8e8e8;
   }
 }
 
