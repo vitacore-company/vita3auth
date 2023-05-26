@@ -6,10 +6,14 @@ import { AuthI, walletEOAState } from "../../types"
 function Auth(props: AuthI) {
   const { onEOAchange } = props
   const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   const [walletEOA, setWalletEOA] = useState<walletEOAState>(null)
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
+  }
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
   }
 
   const handleEnterDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -30,28 +34,40 @@ function Auth(props: AuthI) {
     }
   }
 
+  useEffect(() => console.log("walletEOA", walletEOA), [walletEOA])
+
   useEffect(() => {
     console.log("email", email)
   }, [email])
 
   return (
-    <div className="app">
-      <div className="input">
-        <div className="input_label">Enter email</div>
-        <div className="input_form">
+    <div className="auth">
+      <div className="auth_label">Войти</div>
+      <div className="auth_form">
+        <div className="auth_form_email">
+          <div className="auth_form_email_label">Логин</div>
           <input
             onKeyDown={handleEnterDown}
             value={email}
             type="text"
-            className="input_form_field"
+            className="auth_form_email_input"
             onChange={handleEmailChange}
           />
-          <div className="input_form_btn">
-            <div onClick={handleAuth}>Go</div>
-          </div>
+        </div>
+        <div className="auth_form_password">
+          <div className="auth_form_password_label">Пароль</div>
+          <input
+            onKeyDown={handleEnterDown}
+            value={password}
+            type="text"
+            className="auth_form_password_input"
+            onChange={handlePasswordChange}
+          />
         </div>
       </div>
-      {walletEOA && <div className="address">EOA {walletEOA.address}</div>}
+      <div className="auth_submit">
+        <div onClick={handleAuth}>Войти</div>
+      </div>
     </div>
   )
 }

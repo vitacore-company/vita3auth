@@ -1,42 +1,80 @@
+@mixin input-style {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+}
+@mixin input_label-style {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  color: rgba(255, 255, 255, 1);
+  margin-bottom: 12px;
+}
+
 body {
   margin: 0;
-  .app {
-    position: relative;
+  .auth {
+    background: rgba(31, 31, 36, 1);
+    flex-direction: column;
     display: flex;
     justify-content: center;
+    gap: 40px;
     align-items: center;
     width: 100vw;
     height: 100vh;
-    .input {
-      width: 500px;
-      &_label {
-        text-align: center;
-        font-size: 40px;
-      }
-      &_form {
-        display: flex;
-        &_field {
-          font-size: 20px;
-          width: 460px;
+    &_label {
+      color: #fff;
+    }
+    &_form {
+      box-sizing: border-box;
+      width: 434px;
+      height: 210px;
+      border-radius: 19px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: linear-gradient(
+        118.79deg,
+        rgba(255, 255, 255, 0.06) 14.72%,
+        rgba(255, 255, 255, 0.1) 53.94%,
+        rgba(255, 255, 255, 0.07) 92.4%
+      );
+      background-blend-mode: luminosity;
+      box-shadow: 0px 4px 24px rgba(67, 67, 67, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid;
+      border-image-slice: 1;
+      border-image-source: linear-gradient(
+        93.2deg,
+        #93f3f2 2.64%,
+        #b5a7fd 32.73%,
+        #dcaccf 70.32%,
+        #fbc197 97.36%
+      );
+
+      &_email {
+        &_label {
+          @include input_label-style;
         }
-        &_btn {
-          border: 1px solid black;
-          width: 40px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          &:hover {
-            cursor: pointer;
-          }
+        &_input {
+          @include input-style();
+        }
+      }
+      &_password {
+        &_label {
+          @include input_label-style;
+        }
+        &_input {
+          @include input-style;
         }
       }
     }
-
-    .address {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-weight: 700;
+    &_submit {
+      color: white;
     }
   }
 }
