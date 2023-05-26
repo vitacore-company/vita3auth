@@ -21,13 +21,19 @@
   margin-bottom: 12px;
 }
 
+@mixin ellipse-style {
+  position: absolute;
+  width: 240px;
+  filter: blur(100px);
+  transition: all 6s ease;
+}
+
 $form-radius: 19px;
-$background-color: rgba(31, 31, 36, 1);
 
 body {
   margin: 0;
   .auth {
-    background: $background-color;
+    background: rgba(31, 31, 36, 1);
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -36,6 +42,7 @@ body {
     width: 100vw;
     height: 100vh;
     &_label {
+      z-index: 1;
       font-family: sans-serif;
       font-style: normal;
       font-weight: 700;
@@ -44,10 +51,11 @@ body {
       background: linear-gradient(90deg, #5195af 0.25%, #a3a2ba 100.25%);
       -webkit-background-clip: text;
       -webkit-text-stroke: 2px transparent;
-      color: $background-color;
+      color: rgb(54, 31, 64);
       letter-spacing: 1px;
     }
     &_form {
+      z-index: 1;
       box-sizing: border-box;
       width: 434px;
       height: 210px;
@@ -110,6 +118,8 @@ body {
       }
     }
     &_submit {
+      z-index: 1;
+
       display: flex;
       justify-content: center;
       align-items: center;
@@ -137,24 +147,18 @@ body {
       }
     }
     &_ellipse1 {
-      position: absolute;
-      width: 540px;
-      height: 357px;
+      @include ellipse-style;
       left: calc(50% - 540px / 2 - 337px);
       top: 84px;
-      background: #574696;
-      filter: blur(200px);
-      transition: all 5s ease-in-out;
+      background: #340f4b;
+      height: 357px;
     }
     &_ellipse2 {
-      position: absolute;
-      width: 540px;
-      height: 540px;
+      @include ellipse-style;
       left: calc(50% - 540px / 2 + 438px);
       top: 346px;
-      background: #340f4b;
-      filter: blur(200px);
-      transition: all 5s ease-in-out;
+      background: #574696;
+      height: 540px;
     }
   }
 }

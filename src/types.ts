@@ -5,3 +5,7 @@ export interface AuthI {
 }
 
 export type walletEOAState = ethers.Wallet | null
+
+export interface IEllipse {
+  className: string
+}

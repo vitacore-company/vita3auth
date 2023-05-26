@@ -2,6 +2,7 @@ import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import { getCryptoHash } from "../../utils/utils"
 import { AuthI, walletEOAState } from "../../types"
+import Ellipse from "../Ellipse/Ellipse"
 
 function Auth(props: AuthI) {
   const { onEOAchange } = props
@@ -68,8 +69,8 @@ function Auth(props: AuthI) {
       <div onClick={handleAuth} className="auth_submit">
         <div className="auth_submit_label">Войти</div>
       </div>
-      <div className="auth_ellipse1" />
-      <div className="auth_ellipse2" />
+      <Ellipse className="auth_ellipse1" />
+      <Ellipse className="auth_ellipse2" />
     </div>
   )
 }
