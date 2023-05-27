@@ -10,22 +10,16 @@ const AddressEOA = (props: IAddressEOA) => {
     await navigator.clipboard.writeText(address || "")
   }
 
-  return (
+  return address ? (
     <div className="address">
-      {address ? (
-        <>
-          <MetamaskLogo />
-          <div className="address_number">
-            {address && parseAccount(address)}
-          </div>
-          <div className="address_copy" onClick={copy}>
-            <CopyLogo />
-          </div>
-        </>
-      ) : (
-        <div className="address_no">Кошелек отсутствует</div>
-      )}
+      <MetamaskLogo />
+      <div className="address_number">{address && parseAccount(address)}</div>
+      <div className="address_copy" onClick={copy}>
+        <CopyLogo />
+      </div>
     </div>
+  ) : (
+    <div className="address-no">Кошелек отсутствует</div>
   )
 }
 
