@@ -55,8 +55,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 213px;
-  height: 40px;
+
   background: $linear-gradient-light;
   border-radius: 12px;
   font-family: sans-serif;
@@ -166,6 +165,8 @@ body {
   }
 
   &_submit {
+    width: 213px;
+    height: 40px;
     @include gradient-light-inner;
     &:hover {
       cursor: pointer;
@@ -234,6 +235,8 @@ body {
   }
   &-no {
     color: white;
+    width: 263px;
+    height: 58px;
     @include gradient-light-inner;
   }
 }
