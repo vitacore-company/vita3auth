@@ -1,6 +1,6 @@
 import { IAddressEOA } from "../../types"
-import { ReactComponent as MetamaskLogo } from "./metamask.svg"
-import { ReactComponent as CopyLogo } from "./copy.svg"
+import { ReactComponent as MetamaskLogo } from "../../assets/metamask.svg"
+import { ReactComponent as CopyLogo } from "../../assets/copy.svg"
 import { parseAccount } from "../../utils/utils"
 
 const AddressEOA = (props: IAddressEOA) => {

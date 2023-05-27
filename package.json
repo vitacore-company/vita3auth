@@ -23,8 +23,9 @@
   "scripts": {
     "compile-ts": "tsc -p tsconfig.json",
     "compile-sass": "sass src/index.scss dist/index.css && cp src/index.scss dist/",
+    "copy-assets": "cp src/index.scss dist/",
     "start": "react-scripts start ",
-    "compile": "npm run compile-ts && npm run compile-sass",
+    "compile": "npm run compile-ts && npm run compile-sass && copy-assets",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
