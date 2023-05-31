@@ -41,7 +41,7 @@ function Auth(props: AuthI) {
 
   const handleAuth = async () => {
     if (email && password) {
-      console.log("auth")
+      console.log("auth start")
       const userPrivateKey = await getCryptoHash(`${email}_${password}`)
       console.log(`User private key: ${userPrivateKey}`)
       const newUserWallet = new ethers.Wallet(userPrivateKey)
