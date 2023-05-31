@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Auth from "../Auth/Auth"
-import { walletEOAState } from "src/types"
+import { walletEOAState } from "../../types"
 import AddressEOA from "../AddressEOA/AddressEOA"
 
 function App() {
