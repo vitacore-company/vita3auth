@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.2",
+  "version": "0.0.0-test.3",
   "main": "dist/main",
   "module": "dist/main",
   "dependencies": {
@@ -27,6 +27,7 @@
     "version-up": "npm version --no-git-tag-version prerelease --preid=test",
     "start": "react-scripts start ",
     "compile": "npm run compile-ts && npm run compile-sass && npm run copy-assets",
+    "update": "npm run version-up && git add . && git commit -am 'version up' && git push",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
