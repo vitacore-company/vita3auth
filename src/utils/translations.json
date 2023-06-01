@@ -1,0 +1,42 @@
+{
+    "ru": {
+        "email": "Почта",
+        "password": "Пароль",
+        "login": "Войти"
+    },
+    "en": {
+        "email": "Email",
+        "password": "Password",
+        "login": "Enter"
+    },
+    "ch": {
+        "email": "電子郵件",
+        "password": "密碼",
+        "login": "進入"
+    },
+    "ar": {
+        "email": "تسجيل الدخول",
+        "password": "كلمة المرور ",
+        "login": "تسجيل الدخول"
+    },
+    "sp": {
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "login": "Acceso"
+    },
+    "in": {
+        "email": "ईमेल",
+        "password": "पासवर्ड",
+        "login": "लॉग इन करें"
+    },
+    "it": {
+        "email": "Posta",
+        "password": "Parola d'ordine",
+        "login": "Accedere"
+    },
+    "ge": {
+        "email": "Post",
+        "password": "Passwort",
+        "login": "Willkommen"
+    }
+}

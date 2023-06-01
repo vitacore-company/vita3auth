@@ -3,6 +3,7 @@ import { ethers } from "ethers"
 export interface AuthI {
   onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
   label: string
+  language?: "en" | "ru" | "ch" | "ar" | "sp" | "in" | "it" | "ge"
 }
 
 export type walletEOAState = ethers.Wallet | null
