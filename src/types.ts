@@ -13,4 +13,5 @@ export interface IEllipse {
 }
 export interface IAddressEOA {
   address?: string
+  noAddressLabel?: string
 }

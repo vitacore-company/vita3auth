@@ -4,7 +4,7 @@ import { ReactComponent as CopyLogo } from "../../assets/copy.svg"
 import { parseAccount } from "../../utils/utils"
 
 const AddressEOA = (props: IAddressEOA) => {
-  const { address } = props
+  const { address, noAddressLabel } = props
 
   const copy = async () => {
     await navigator.clipboard.writeText(address || "")
@@ -19,7 +19,7 @@ const AddressEOA = (props: IAddressEOA) => {
       </div>
     </div>
   ) : (
-    <div className="address-no">Кошелек отсутствует</div>
+    <div className="address-no">{noAddressLabel || "No Wallet"}</div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { getCryptoHash } from "../../utils/utils"
-import { AuthI, walletEOAState } from "../../types"
+import { AuthI } from "../../types"
 import Ellipse from "../Ellipse/Ellipse"
 import i18n from "i18next"
 import { initReactI18next, useTranslation } from "react-i18next"
@@ -28,7 +28,6 @@ function Auth(props: AuthI) {
   const { t } = useTranslation()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const [walletEOA, setWalletEOA] = useState<walletEOAState>(null)
   const [authError, setAuthError] = useState<boolean>(false)
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
@@ -41,7 +40,11 @@ function Auth(props: AuthI) {
 
   const handleEnterEmailDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      passwordInput.current?.focus()
+      if (checkEmail()) {
+        passwordInput.current?.focus()
+        return
+      }
+      activateAuthError()
     }
   }
   const handleEnterPasswordDown = (
@@ -59,27 +62,31 @@ function Auth(props: AuthI) {
     }, 1000)
   }
 
+  const checkEmail = () => {
+    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/
+    if (emailRegex.test(email)) {
+      return true
+    }
+    return false
+  }
+
   const handleAuth = async () => {
+    if (!checkEmail()) {
+      console.log("email problem")
+      activateAuthError()
+      return
+    }
     if (email && password) {
-      console.log("auth")
       const userPrivateKey = await getCryptoHash(`${email}_${password}`)
-      console.log(`User private key: ${userPrivateKey}`)
       const newUserWallet = new ethers.Wallet(userPrivateKey)
-      console.log("newUserWallet", newUserWallet)
-      setWalletEOA(newUserWallet)
       onEOAchange(newUserWallet)
       setEmail("")
       setPassword("")
-    } else {
-      activateAuthError()
+      return
     }
+    console.log("password problem")
+    activateAuthError()
   }
-
-  useEffect(() => console.log("walletEOA", walletEOA), [walletEOA])
-
-  useEffect(() => {
-    console.log("email", email)
-  }, [email])
 
   useEffect(() => {
     if (language) {
@@ -94,10 +101,10 @@ function Auth(props: AuthI) {
         <div className="auth_form_email">
           <div className="auth_form_email_label">{t("email")}</div>
           <input
+            type="email"
             autoFocus
             onKeyDown={handleEnterEmailDown}
             value={email}
-            type="text"
             className="auth_form_email_input"
             onChange={handleEmailChange}
           />
