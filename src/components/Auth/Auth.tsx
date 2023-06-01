@@ -5,7 +5,7 @@ import { AuthI, walletEOAState } from "../../types"
 import Ellipse from "../Ellipse/Ellipse"
 
 function Auth(props: AuthI) {
-  const { onEOAchange } = props
+  const { onEOAchange, label } = props
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [walletEOA, setWalletEOA] = useState<walletEOAState>(null)
@@ -63,7 +63,7 @@ function Auth(props: AuthI) {
 
   return (
     <div className="auth">
-      <div className="auth_label">Войти</div>
+      <div className="auth_label">{label}</div>
       <div className={`auth_form ${authError && "auth_form-error"}`}>
         <div className="auth_form_email">
           <div className="auth_form_email_label">Логин</div>
