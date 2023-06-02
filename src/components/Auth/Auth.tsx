@@ -64,19 +64,22 @@ function Auth(props: AuthI) {
   }
 
   useEffect(() => {
+    let notifyTimeout: any
     if (notify) {
-      setTimeout(() => {
+      notifyTimeout = setTimeout(() => {
         setNotify("")
       }, 3000)
+    }
+
+    return () => {
+      clearTimeout(notifyTimeout)
     }
   }, [notify])
 
   useEffect(() => {
-    if (authError) {
-      setTimeout(() => {
-        setAuthError(false)
-      }, 1000)
-    }
+    setTimeout(() => {
+      setAuthError(false)
+    }, 1000)
   }, [authError])
 
   const checkEmail = () => {
