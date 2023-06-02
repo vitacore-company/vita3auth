@@ -15,3 +15,8 @@ export interface IAddressEOA {
   address?: string
   noAddressLabel?: string
 }
+
+export interface INotify {
+  message: string
+  label: string
+}

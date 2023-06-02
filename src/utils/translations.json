@@ -2,41 +2,65 @@
     "ru": {
         "email": "Почта",
         "password": "Пароль",
-        "login": "Войти"
+        "login": "Войти",
+        "notifyLabel": "Ошибка",
+        "wrongEmail": "некооректная почта",
+        "lackData": "нехватает данных"
     },
     "en": {
         "email": "Email",
         "password": "Password",
-        "login": "Enter"
+        "login": "Enter",
+        "notifyLabel": "Error",
+        "wrongEmail": "invalid email",
+        "lackData": "lack data"
     },
     "ch": {
         "email": "電子郵件",
         "password": "密碼",
-        "login": "進入"
+        "login": "進入",
+        "notifyLabel": "錯誤",
+        "wrongEmail": "不合規電郵",
+        "lackData": "缺乏數據"
     },
     "ar": {
         "email": "تسجيل الدخول",
         "password": "كلمة المرور ",
-        "login": "تسجيل الدخول"
+        "login": "تسجيل الدخول",
+        "notifyLabel": "خطأ",
+        "wrongEmail": "بريد إلكتروني خاطئ",
+        "lackData": "نقص البيانات"
     },
     "sp": {
         "email": "Correo electrónico",
         "password": "Contraseña",
-        "login": "Acceso"
+        "login": "Acceso",
+        "notifyLabel": "Error",
+        "wrongEmail": "email inválido",
+        "lackData": "carecen de datos"
     },
     "in": {
         "email": "ईमेल",
         "password": "पासवर्ड",
-        "login": "लॉग इन करें"
+        "login": "लॉग इन करें",
+        "notifyLabel": "गलती",
+        "wrongEmail": "अमान्य ईमेल",
+        "lackData": "डेटा की कमी"
     },
     "it": {
         "email": "Posta",
         "password": "Parola d'ordine",
-        "login": "Accedere"
+        "login": "Accedere",
+        "notifyLabel": "Errore",
+        "wrongEmail": "e-mail non valido",
+        "lackData": "mancanza di dati"
     },
     "ge": {
         "email": "Post",
         "password": "Passwort",
-        "login": "Willkommen"
+        "login": "Willkommen",
+        "notifyLabel": "Fehler",
+        "wrongEmail": "ungültige E-Mail",
+        "lackData": "es fehlen Daten"
     }
 }

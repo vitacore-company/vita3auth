@@ -6,6 +6,7 @@ import Ellipse from "../Ellipse/Ellipse"
 import i18n from "i18next"
 import { initReactI18next, useTranslation } from "react-i18next"
 import translation from "../../utils/translations.json"
+import Notify from "../Notify/Notify"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -29,6 +30,8 @@ function Auth(props: AuthI) {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [authError, setAuthError] = useState<boolean>(false)
+  const [notify, setNotify] = useState<string>("")
+
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +47,7 @@ function Auth(props: AuthI) {
         passwordInput.current?.focus()
         return
       }
-      activateAuthError()
+      activateAuthError(t("wrongEmail"))
     }
   }
   const handleEnterPasswordDown = (
@@ -55,12 +58,26 @@ function Auth(props: AuthI) {
     }
   }
 
-  const activateAuthError = () => {
+  const activateAuthError = (message: string) => {
     setAuthError(true)
-    setTimeout(() => {
-      setAuthError(false)
-    }, 1000)
+    setNotify(message)
   }
+
+  useEffect(() => {
+    if (notify) {
+      setTimeout(() => {
+        setNotify("")
+      }, 3000)
+    }
+  }, [notify])
+
+  useEffect(() => {
+    if (authError) {
+      setTimeout(() => {
+        setAuthError(false)
+      }, 1000)
+    }
+  }, [authError])
 
   const checkEmail = () => {
     const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/
@@ -72,8 +89,7 @@ function Auth(props: AuthI) {
 
   const handleAuth = async () => {
     if (!checkEmail()) {
-      console.log("email problem")
-      activateAuthError()
+      activateAuthError(t("wrongEmail"))
       return
     }
     if (email && password) {
@@ -81,11 +97,11 @@ function Auth(props: AuthI) {
       const newUserWallet = new ethers.Wallet(userPrivateKey)
       onEOAchange(newUserWallet)
       setEmail("")
+
       setPassword("")
       return
     }
-    console.log("password problem")
-    activateAuthError()
+    activateAuthError(t("lackData"))
   }
 
   useEffect(() => {
@@ -126,6 +142,7 @@ function Auth(props: AuthI) {
       </div>
       <Ellipse className="auth_ellipse1" />
       <Ellipse className="auth_ellipse2" />
+      {notify && <Notify message={notify} label={t("notifyLabel")} />}
     </div>
   )
 }

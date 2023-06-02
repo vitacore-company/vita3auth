@@ -109,6 +109,7 @@ body {
     line-height: 37px;
     background: linear-gradient(90deg, #5195af 0.25%, #a3a2ba 100.25%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-stroke: 2px transparent;
     color: rgb(54, 31, 64);
     letter-spacing: 1px;
@@ -238,6 +239,56 @@ body {
     width: 263px;
     height: 58px;
     @include gradient-light-inner;
+  }
+}
+
+//notify
+
+.notify {
+  animation-name: notify;
+  animation-duration: 0.5s;
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  width: 300px;
+  height: 100px;
+  background: rgba(225, 36, 36, 0.267);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-sizing: border-box;
+  padding-left: 20px;
+  &_icon {
+    color: rgb(115 54 54);
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    background-color: rgb(216, 215, 215);
+    width: 30px;
+    height: 30px;
+  }
+  &_info {
+    color: rgb(224, 219, 219);
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    &_title {
+      font-size: 20px;
+    }
+  }
+}
+
+@keyframes notify {
+  0% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
