@@ -4,7 +4,7 @@
         "password": "Пароль",
         "login": "Войти",
         "notifyLabel": "Ошибка",
-        "wrongEmail": "некооректная почта",
+        "wrongEmail": "некорректная почта",
         "lackData": "нехватает данных"
     },
     "en": {

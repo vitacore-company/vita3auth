@@ -6,7 +6,7 @@ import Ellipse from "../Ellipse/Ellipse"
 import i18n from "i18next"
 import { initReactI18next, useTranslation } from "react-i18next"
 import translation from "../../utils/translations.json"
-import Notify from "../Notify/Notify"
+import { useNotify } from "../Notify/Notify"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -29,10 +29,12 @@ function Auth(props: AuthI) {
   const { t } = useTranslation()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const [authError, setAuthError] = useState<boolean>(false)
+  const [authError, setAuthError] = useState<any>({ status: false })
   const [notify, setNotify] = useState<string>("")
+  const [showNotify] = useNotify()
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
+  const formRef = useRef<any>(null)
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
@@ -59,8 +61,8 @@ function Auth(props: AuthI) {
   }
 
   const activateAuthError = (message: string) => {
-    setAuthError(true)
-    setNotify(message)
+    setAuthError({ status: true })
+    showNotify(message, t("notifyLabel"))
   }
 
   useEffect(() => {
@@ -77,9 +79,19 @@ function Auth(props: AuthI) {
   }, [notify])
 
   useEffect(() => {
-    setTimeout(() => {
-      setAuthError(false)
-    }, 1000)
+    formRef.current.classList.remove("auth_form-error")
+    let timeout: any
+    if (authError.status) {
+      formRef.current.classList.add("auth_form-error")
+      timeout = setTimeout(() => {
+        setAuthError({ status: false })
+      }, 1000)
+    }
+
+    return () => {
+      console.log("clear")
+      clearTimeout(timeout)
+    }
   }, [authError])
 
   const checkEmail = () => {
@@ -114,9 +126,9 @@ function Auth(props: AuthI) {
   }, [language])
 
   return (
-    <div className="auth">
+    <div className="auth" id="auth">
       <div className="auth_label">{label}</div>
-      <div className={`auth_form ${authError && "auth_form-error"}`}>
+      <div ref={formRef} id="form" className="auth_form">
         <div className="auth_form_email">
           <div className="auth_form_email_label">{t("email")}</div>
           <input
@@ -145,7 +157,7 @@ function Auth(props: AuthI) {
       </div>
       <Ellipse className="auth_ellipse1" />
       <Ellipse className="auth_ellipse2" />
-      {notify && <Notify message={notify} label={t("notifyLabel")} />}
+      <div id="auth" />
     </div>
   )
 }
