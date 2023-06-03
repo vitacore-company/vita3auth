@@ -1,12 +1,12 @@
 import { ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
-import { getCryptoHash } from "../../utils/utils"
-import { AuthI } from "../../types"
-import Ellipse from "../Ellipse/Ellipse"
-import i18n from "i18next"
+import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { initReactI18next, useTranslation } from "react-i18next"
+import { getCryptoHash } from "../../utils/utils"
+import { AuthI, IauthError } from "../../types"
+import Ellipse from "../Ellipse/Ellipse"
 import translation from "../../utils/translations.json"
-import { useNotify } from "../Notify/Notify"
+import i18n from "i18next"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -29,12 +29,10 @@ function Auth(props: AuthI) {
   const { t } = useTranslation()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const [authError, setAuthError] = useState<any>({ status: false })
-  const [notify, setNotify] = useState<string>("")
-  const [showNotify] = useNotify()
+  const [authError, setAuthError] = useState<IauthError>({ status: false })
+  const { setMessage } = useNotifyContext()
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
-  const formRef = useRef<any>(null)
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
@@ -52,6 +50,7 @@ function Auth(props: AuthI) {
       activateAuthError(t("wrongEmail"))
     }
   }
+
   const handleEnterPasswordDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
@@ -62,37 +61,8 @@ function Auth(props: AuthI) {
 
   const activateAuthError = (message: string) => {
     setAuthError({ status: true })
-    showNotify(message, t("notifyLabel"))
+    setMessage({ text: message })
   }
-
-  useEffect(() => {
-    let notifyTimeout: any
-    if (notify) {
-      notifyTimeout = setTimeout(() => {
-        setNotify("")
-      }, 3000)
-    }
-
-    return () => {
-      clearTimeout(notifyTimeout)
-    }
-  }, [notify])
-
-  useEffect(() => {
-    formRef.current.classList.remove("auth_form-error")
-    let timeout: any
-    if (authError.status) {
-      formRef.current.classList.add("auth_form-error")
-      timeout = setTimeout(() => {
-        setAuthError({ status: false })
-      }, 1000)
-    }
-
-    return () => {
-      console.log("clear")
-      clearTimeout(timeout)
-    }
-  }, [authError])
 
   const checkEmail = () => {
     const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/
@@ -125,10 +95,27 @@ function Auth(props: AuthI) {
     }
   }, [language])
 
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+
+    if (authError.status) {
+      timeout = setTimeout(() => {
+        setAuthError({ status: false })
+      }, 1000)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [authError])
+
   return (
     <div className="auth" id="auth">
       <div className="auth_label">{label}</div>
-      <div ref={formRef} id="form" className="auth_form">
+      <div
+        id="form"
+        className={`auth_form ${authError.status && "auth_form-error"}`}
+      >
         <div className="auth_form_email">
           <div className="auth_form_email_label">{t("email")}</div>
           <input
@@ -157,9 +144,8 @@ function Auth(props: AuthI) {
       </div>
       <Ellipse className="auth_ellipse1" />
       <Ellipse className="auth_ellipse2" />
-      <div id="auth" />
     </div>
   )
 }
 
-export default Auth
+export default withNotifyContext(Auth)

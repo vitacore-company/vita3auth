@@ -84,10 +84,6 @@ $linear-gradient-dark: linear-gradient(
 
 $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
 
-body {
-  margin: 0;
-}
-
 //auth
 .auth {
   background: rgba(31, 31, 36, 1);
@@ -248,7 +244,7 @@ body {
   animation-name: notify;
   animation-duration: 0.5s;
   position: absolute;
-  top: 10px;
+  top: 50px;
   right: 50px;
   backdrop-filter: blur(10px);
   border-radius: 25px;
@@ -260,6 +256,7 @@ body {
   gap: 20px;
   box-sizing: border-box;
   padding-left: 20px;
+  z-index: 2;
   &_icon {
     color: rgb(115 54 54);
     font-size: 24px;

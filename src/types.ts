@@ -1,4 +1,5 @@
 import { ethers } from "ethers"
+import { Dispatch, SetStateAction } from "react"
 
 export interface AuthI {
   onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
@@ -16,7 +17,22 @@ export interface IAddressEOA {
   noAddressLabel?: string
 }
 
+export interface IauthError {
+  status: true | false
+}
+
+export interface IMessage {
+  text: string
+}
+
 export interface INotify {
   message: string
-  label: string
+}
+
+export interface INotifyContext {
+  setMessage: Dispatch<SetStateAction<IMessage>>
+}
+
+export interface INotifyContextProvider {
+  children: React.ReactNode
 }
