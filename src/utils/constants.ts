@@ -1,5 +1,1 @@
-import { ethers } from "ethers"
-
-export const provider = new ethers.providers.JsonRpcProvider(
-  "https://rpc.chiadochain.net"
-)
+export const PROVIDER_URL = "https://rpc.chiadochain.net"

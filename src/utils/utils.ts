@@ -1,6 +1,8 @@
 import { ethers } from "ethers"
 import { sha256 } from "crypto-hash"
-import { provider } from "./constants"
+import { PROVIDER_URL } from "./constants"
+
+export const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
 
 export function createWallet(privateKey: string) {
   const userWallet = new ethers.Wallet(privateKey)
