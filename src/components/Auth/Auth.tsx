@@ -115,7 +115,7 @@ function Auth(props: AuthI) {
     if (hashRegex.test(clipboardText)) {
       setLoginHash(clipboardText)
     } else {
-      setMessage({ text: "Wrong hash" })
+      setMessage({ text: t("wrongHash") })
     }
   }
 
@@ -138,10 +138,6 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
-
-  useEffect(() => {
-    console.log("loginHash", loginHash)
-  }, [loginHash])
 
   return (
     <div className="auth" id="auth">

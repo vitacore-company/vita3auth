@@ -5,7 +5,8 @@
         "login": "Войти",
         "notifyLabel": "Ошибка",
         "wrongEmail": "некорректная почта",
-        "lackData": "нехватает данных"
+        "lackData": "нехватает данных",
+        "wrongHash": "неверный код"
     },
     "en": {
         "email": "Email",
@@ -13,7 +14,8 @@
         "login": "Enter",
         "notifyLabel": "Error",
         "wrongEmail": "invalid email",
-        "lackData": "lack data"
+        "lackData": "lack data",
+        "wrongHash": "wrong hash"
     },
     "ch": {
         "email": "電子郵件",
@@ -21,7 +23,8 @@
         "login": "進入",
         "notifyLabel": "錯誤",
         "wrongEmail": "不合規電郵",
-        "lackData": "缺乏數據"
+        "lackData": "缺乏數據",
+        "wrongHash": "錯誤代碼"
     },
     "ar": {
         "email": "تسجيل الدخول",
@@ -29,7 +32,8 @@
         "login": "تسجيل الدخول",
         "notifyLabel": "خطأ",
         "wrongEmail": "بريد إلكتروني خاطئ",
-        "lackData": "نقص البيانات"
+        "lackData": "نقص البيانات",
+        "wrongHash": "رمز خاطئ"
     },
     "sp": {
         "email": "Correo electrónico",
@@ -37,7 +41,8 @@
         "login": "Acceso",
         "notifyLabel": "Error",
         "wrongEmail": "email inválido",
-        "lackData": "carecen de datos"
+        "lackData": "carecen de datos",
+        "wrongHash": "codigo erroneo"
     },
     "in": {
         "email": "ईमेल",
@@ -45,7 +50,8 @@
         "login": "लॉग इन करें",
         "notifyLabel": "गलती",
         "wrongEmail": "अमान्य ईमेल",
-        "lackData": "डेटा की कमी"
+        "lackData": "डेटा की कमी",
+        "wrongHash": "गलत कोड"
     },
     "it": {
         "email": "Posta",
@@ -53,7 +59,8 @@
         "login": "Accedere",
         "notifyLabel": "Errore",
         "wrongEmail": "e-mail non valido",
-        "lackData": "mancanza di dati"
+        "lackData": "mancanza di dati",
+        "wrongHash": "codice errato"
     },
     "ge": {
         "email": "Post",
@@ -61,6 +68,7 @@
         "login": "Willkommen",
         "notifyLabel": "Fehler",
         "wrongEmail": "ungültige E-Mail",
-        "lackData": "es fehlen Daten"
+        "lackData": "es fehlen Daten",
+        "wrongHash": "falscher Code"
     }
 }
