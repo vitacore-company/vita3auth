@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.16",
+  "version": "0.0.0-test.17",
   "main": "dist/main",
   "module": "dist/main",
   "dependencies": {
@@ -48,5 +48,8 @@
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@vitacore-company"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.2"
   }
 }
