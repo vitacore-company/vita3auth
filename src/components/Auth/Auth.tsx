@@ -2,8 +2,9 @@ import { ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { initReactI18next, useTranslation } from "react-i18next"
-import { getCryptoHash } from "../../utils/utils"
+import { downloadAsFile, getCryptoHash } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
+import { v4 as uuidv4 } from "uuid"
 import Ellipse from "../Ellipse/Ellipse"
 import translation from "../../utils/translations.json"
 import i18n from "i18next"
@@ -28,10 +29,16 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
+  const [email, setEmail] = useState<string>(
+    localStorage.getItem("email") || ""
+  )
+  const [password, setPassword] = useState<string>(
+    localStorage.getItem("password") || ""
+  )
   const [authError, setAuthError] = useState<IauthError>({ status: false })
-  const [loginHash, setLoginHash] = useState<string | null>(null)
+  const [loginHash, setLoginHash] = useState<string | null>(
+    localStorage.getItem("loginHash")
+  )
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
@@ -79,11 +86,22 @@ function Auth(props: AuthI) {
       return
     }
     if (email && password) {
-      const userPrivateKey = await getCryptoHash(`${email}_${password}`)
+      let currentLoginHash
+      if (loginHash) {
+        currentLoginHash = loginHash
+      } else {
+        currentLoginHash = uuidv4()
+        downloadAsFile(currentLoginHash)
+      }
+      localStorage.setItem("loginHash", currentLoginHash)
+      const userPrivateKey = await getCryptoHash(
+        `${email}_${password}_${currentLoginHash}`
+      )
       const newUserWallet = new ethers.Wallet(userPrivateKey)
       onEOAchange(newUserWallet)
+      localStorage.setItem("email", email)
+      localStorage.setItem("password", password)
       setEmail("")
-
       setPassword("")
       return
     }
@@ -92,7 +110,13 @@ function Auth(props: AuthI) {
 
   const writeLoginHash = async () => {
     const clipboardText = await navigator.clipboard.readText()
-    setLoginHash(clipboardText)
+    const hashRegex =
+      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+    if (hashRegex.test(clipboardText)) {
+      setLoginHash(clipboardText)
+    } else {
+      setMessage({ text: "Wrong hash" })
+    }
   }
 
   useEffect(() => {
@@ -114,11 +138,6 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
-
-  useEffect(() => {
-    const loginHashStorage = localStorage.getItem("loginHash")
-    setLoginHash(loginHashStorage)
-  }, [])
 
   useEffect(() => {
     console.log("loginHash", loginHash)
