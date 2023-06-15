@@ -159,6 +159,30 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
         border-radius: $border-radius;
       }
     }
+    &_hash {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+      color: white;
+      font-family: sans-serif;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition-duration: 1s;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
+    &_hash-empty {
+      background: #893838fa;
+    }
+    &_hash-filled {
+      background: #38894efa;
+    }
   }
 
   &_submit {

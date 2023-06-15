@@ -27,10 +27,11 @@ i18n.use(initReactI18next).init({
 function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
+  const { setMessage } = useNotifyContext()
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [authError, setAuthError] = useState<IauthError>({ status: false })
-  const { setMessage } = useNotifyContext()
+  const [loginHash, setLoginHash] = useState<string | null>(null)
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
@@ -89,6 +90,11 @@ function Auth(props: AuthI) {
     activateAuthError(t("lackData"))
   }
 
+  const writeLoginHash = async () => {
+    const clipboardText = await navigator.clipboard.readText()
+    setLoginHash(clipboardText)
+  }
+
   useEffect(() => {
     if (language) {
       i18n.changeLanguage(language)
@@ -108,6 +114,15 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
+
+  useEffect(() => {
+    const loginHashStorage = localStorage.getItem("loginHash")
+    // setLoginHash(loginHashStorage)
+  }, [])
+
+  useEffect(() => {
+    console.log("loginHash", loginHash)
+  }, [loginHash])
 
   return (
     <div className="auth" id="auth">
@@ -137,6 +152,14 @@ function Auth(props: AuthI) {
             className="auth_form_password_input"
             onChange={handlePasswordChange}
           />
+        </div>
+        <div
+          onClick={writeLoginHash}
+          className={`auth_form_hash ${
+            loginHash ? "auth_form_hash-filled" : "auth_form_hash-empty"
+          }`}
+        >
+          H
         </div>
       </div>
       <div onClick={handleAuth} className="auth_submit">

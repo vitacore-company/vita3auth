@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.13",
+  "version": "0.0.0-test.14",
   "main": "dist/main",
   "module": "dist/main",
   "dependencies": {
@@ -20,6 +20,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.59.2",
     "typescript": "^5.0.4",
+    "uuid": "^9.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
