@@ -117,7 +117,7 @@ function Auth(props: AuthI) {
 
   useEffect(() => {
     const loginHashStorage = localStorage.getItem("loginHash")
-    // setLoginHash(loginHashStorage)
+    setLoginHash(loginHashStorage)
   }, [])
 
   useEffect(() => {
