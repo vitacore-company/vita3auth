@@ -70,7 +70,7 @@ function Auth(props: AuthI) {
 
   const activateAuthError = (message: string) => {
     setAuthError({ status: true })
-    setMessage({ text: message })
+    setMessage({ text: message, type: "error" })
   }
 
   const checkEmail = () => {
@@ -115,8 +115,12 @@ function Auth(props: AuthI) {
       /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
     if (hashRegex.test(clipboardText)) {
       setLoginHash(clipboardText)
+      setMessage({
+        text: `${t("hashAdded")}: ${clipboardText.slice(0, 3)}...`,
+        type: "success",
+      })
     } else {
-      setMessage({ text: t("wrongHash") })
+      setMessage({ text: t("wrongHash"), type: "error" })
     }
   }
 

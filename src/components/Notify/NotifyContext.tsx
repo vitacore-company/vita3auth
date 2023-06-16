@@ -12,13 +12,13 @@ export const NotifyContext = createContext<INotifyContext>({
 })
 
 export const NotifyContextProvider = ({ children }: INotifyContextProvider) => {
-  const [message, setMessage] = useState<IMessage>({ text: "" })
+  const [message, setMessage] = useState<IMessage | null>(null)
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
     if (message) {
       timeout = setTimeout(() => {
-        setMessage({ text: "" })
+        setMessage(null)
       }, 3000)
     }
     return () => {
@@ -28,7 +28,7 @@ export const NotifyContextProvider = ({ children }: INotifyContextProvider) => {
 
   return (
     <NotifyContext.Provider value={{ setMessage }}>
-      {message?.text && <Notify message={message.text} />}
+      {message && <Notify message={message} />}
       {children}
     </NotifyContext.Provider>
   )

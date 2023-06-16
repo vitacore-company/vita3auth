@@ -273,7 +273,6 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
   border-radius: 25px;
   width: 300px;
   height: 100px;
-  background: rgba(225, 36, 36, 0.267);
   display: flex;
   align-items: center;
   gap: 20px;
@@ -281,7 +280,7 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
   padding-left: 20px;
   z-index: 2;
   &_icon {
-    color: rgb(115 54 54);
+    color: rgba(9, 9, 9, 0.57);
     font-size: 24px;
     display: flex;
     justify-content: center;

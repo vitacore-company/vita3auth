@@ -23,14 +23,15 @@ export interface IauthError {
 
 export interface IMessage {
   text: string
+  type: "error" | "success"
 }
 
 export interface INotify {
-  message: string
+  message: IMessage
 }
 
 export interface INotifyContext {
-  setMessage: Dispatch<SetStateAction<IMessage>>
+  setMessage: Dispatch<SetStateAction<IMessage | null>>
 }
 
 export interface INotifyContextProvider {
