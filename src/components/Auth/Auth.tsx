@@ -9,6 +9,7 @@ import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
 import translation from "../../utils/translations.json"
 import i18n from "i18next"
+import { useModalContext, withModalContext } from "../Modal/ModalContext"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -30,6 +31,7 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
+  const { setShow } = useModalContext()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
   )
@@ -86,27 +88,36 @@ function Auth(props: AuthI) {
       activateAuthError(t("wrongEmail"))
       return
     }
-    if (email && password) {
-      let currentLoginHash
-      if (loginHash) {
-        currentLoginHash = loginHash
-      } else {
-        currentLoginHash = uuidv4()
-        downloadAsFile(currentLoginHash)
-      }
-      localStorage.setItem("loginHash", currentLoginHash)
-      const userPrivateKey = await getCryptoHash(
-        `${email}_${password}_${currentLoginHash}`
-      )
-      const newUserWallet = new ethers.Wallet(userPrivateKey)
-      onEOAchange(newUserWallet)
-      localStorage.setItem("email", email)
-      localStorage.setItem("password", password)
-      setEmail("")
-      setPassword("")
+    if (!password) {
+      activateAuthError(t("lackData"))
       return
     }
-    activateAuthError(t("lackData"))
+    if (!loginHash) {
+      setShow(true)
+      return
+    } else {
+      generateWallet(loginHash)
+    }
+  }
+
+  const generateWallet = async (loginHash?: string) => {
+    let currentLoginHash
+    if (loginHash) {
+      currentLoginHash = loginHash
+    } else {
+      currentLoginHash = uuidv4()
+    }
+    localStorage.setItem("loginHash", currentLoginHash)
+    const userPrivateKey = await getCryptoHash(
+      `${email}_${password}_${currentLoginHash}`
+    )
+    const newUserWallet = new ethers.Wallet(userPrivateKey)
+    onEOAchange(newUserWallet)
+    localStorage.setItem("email", email)
+    localStorage.setItem("password", password)
+    setEmail("")
+    setPassword("")
+    return
   }
 
   const writeLoginHash = async () => {
@@ -205,4 +216,4 @@ function Auth(props: AuthI) {
   )
 }
 
-export default withNotifyContext(Auth)
+export default withModalContext(withNotifyContext(Auth))
