@@ -169,6 +169,7 @@ function Auth(props: AuthI) {
           />
         </div>
         <div
+          title="hi"
           onClick={writeLoginHash}
           className={`auth_form_hash ${
             loginHash ? "auth_form_hash-filled" : "auth_form_hash-empty"
