@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&family=Manrope:wght@200;400&display=swap");
+@import "react-tooltip/dist/react-tooltip.css";
 
 //constants
 
@@ -171,10 +172,8 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      transition-duration: 1s;
       &:hover {
         cursor: pointer;
-        transform: scale(1.1);
       }
     }
     &_hash-empty {

@@ -5,6 +5,7 @@ import { initReactI18next, useTranslation } from "react-i18next"
 import { downloadAsFile, getCryptoHash } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { v4 as uuidv4 } from "uuid"
+import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
 import translation from "../../utils/translations.json"
 import i18n from "i18next"
@@ -169,7 +170,12 @@ function Auth(props: AuthI) {
           />
         </div>
         <div
-          title="hi"
+          data-tooltip-id="hash-tooltip"
+          data-tooltip-content={
+            loginHash
+              ? t("hashAdded") || "code was added"
+              : t("noHash") || "no code"
+          }
           onClick={writeLoginHash}
           className={`auth_form_hash ${
             loginHash ? "auth_form_hash-filled" : "auth_form_hash-empty"
@@ -177,6 +183,14 @@ function Auth(props: AuthI) {
         >
           H
         </div>
+        <Tooltip
+          id="hash-tooltip"
+          style={{
+            backgroundColor: "rgba(39, 41, 39, 0.681)",
+            color: "#ffffff",
+            borderRadius: "15px",
+          }}
+        />
       </div>
       <div onClick={handleAuth} className="auth_submit">
         <div className="auth_submit_label">{t("login")}</div>
