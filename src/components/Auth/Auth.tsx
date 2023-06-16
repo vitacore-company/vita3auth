@@ -2,14 +2,14 @@ import { ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { initReactI18next, useTranslation } from "react-i18next"
-import { downloadAsFile, getCryptoHash } from "../../utils/utils"
+import { getCryptoHash } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { v4 as uuidv4 } from "uuid"
 import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
 import translation from "../../utils/translations.json"
 import i18n from "i18next"
-import { useModalContext, withModalContext } from "../Modal/ModalContext"
+import Modal from "../Modal/Modal"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -31,7 +31,8 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
-  const { setShow } = useModalContext()
+  const [modalShow, setModalShow] = useState(false)
+  const [eoaWallet, setEOAWallet] = useState<any>()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
   )
@@ -93,7 +94,7 @@ function Auth(props: AuthI) {
       return
     }
     if (!loginHash) {
-      setShow(true)
+      setModalShow(true)
       return
     } else {
       generateWallet(loginHash)
@@ -112,12 +113,13 @@ function Auth(props: AuthI) {
       `${email}_${password}_${currentLoginHash}`
     )
     const newUserWallet = new ethers.Wallet(userPrivateKey)
-    onEOAchange(newUserWallet)
+    setEOAWallet(newUserWallet)
+    if (loginHash) sendEOA(newUserWallet)
     localStorage.setItem("email", email)
     localStorage.setItem("password", password)
     setEmail("")
     setPassword("")
-    return
+    return currentLoginHash
   }
 
   const writeLoginHash = async () => {
@@ -154,6 +156,18 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
+
+  const modalCancel = () => {
+    setModalShow(false)
+  }
+
+  const sendEOA = (wallet: any) => {
+    if (wallet) {
+      onEOAchange(wallet)
+    } else {
+      onEOAchange(eoaWallet)
+    }
+  }
 
   return (
     <div className="auth" id="auth">
@@ -212,8 +226,14 @@ function Auth(props: AuthI) {
       </div>
       <Ellipse className="auth_ellipse1" />
       <Ellipse className="auth_ellipse2" />
+      <Modal
+        onOk={generateWallet}
+        show={modalShow}
+        onCancel={modalCancel}
+        onFinish={sendEOA}
+      />
     </div>
   )
 }
 
-export default withModalContext(withNotifyContext(Auth))
+export default withNotifyContext(Auth)
