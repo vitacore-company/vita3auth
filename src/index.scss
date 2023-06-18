@@ -235,8 +235,27 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
   backdrop-filter: blur(10px);
   box-shadow: $box-shadow-component;
   box-sizing: border-box;
+  overflow: hidden;
+
   &:before {
     @include gradient-border;
+  }
+
+  &_copied {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+    background-color: rgba(24, 55, 42, 0.77);
+    position: absolute;
+    width: 263px;
+    height: 58px;
+    backdrop-filter: blur(10px);
+    animation-name: copied;
+    animation-duration: 1s;
   }
   &_number {
     font-family: "Inter", sans-serif;
