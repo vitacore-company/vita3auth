@@ -421,6 +421,18 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
   }
 }
 
+@keyframes copied {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes notify {
   0% {
     transform: translateX(200px);
