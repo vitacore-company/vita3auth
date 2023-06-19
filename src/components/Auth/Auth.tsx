@@ -1,31 +1,14 @@
 import { Wallet, ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
-import { initReactI18next, useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next"
 import { getCryptoHash } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { v4 as uuidv4 } from "uuid"
 import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
-import translation from "../../utils/translations.json"
-import i18n from "i18next"
+import i18n from "../../utils/translation"
 import Modal from "../Modal/Modal"
-
-i18n.use(initReactI18next).init({
-  resources: {
-    ru: { translation: translation["ru"] },
-    en: { translation: translation["en"] },
-    ch: { translation: translation["ch"] },
-    ar: { translation: translation["ar"] },
-    sp: { translation: translation["sp"] },
-    in: { translation: translation["in"] },
-    it: { translation: translation["it"] },
-    ge: { translation: translation["ge"] },
-  },
-  lng: "en",
-  fallbackLng: "en",
-  interpolation: { escapeValue: false },
-})
 
 function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
@@ -39,10 +22,10 @@ function Auth(props: AuthI) {
   const [password, setPassword] = useState<string>(
     localStorage.getItem("password") || ""
   )
-  const [authError, setAuthError] = useState<IauthError>({ status: false })
   const [loginSalt, setLoginSalt] = useState<string | null>(
-    localStorage.getItem("loginHash")
+    localStorage.getItem("loginSalt")
   )
+  const [authError, setAuthError] = useState<IauthError>({ status: false })
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
@@ -101,32 +84,32 @@ function Auth(props: AuthI) {
     }
   }
 
-  const generateWallet = async (loginHash?: string) => {
-    let currentLoginHash
-    if (loginHash) {
-      currentLoginHash = loginHash
+  const generateWallet = async (loginSalt?: string) => {
+    let currentLoginSalt
+    if (loginSalt) {
+      currentLoginSalt = loginSalt
     } else {
-      currentLoginHash = uuidv4()
+      currentLoginSalt = uuidv4()
     }
-    localStorage.setItem("loginHash", currentLoginHash)
+    localStorage.setItem("loginSalt", currentLoginSalt)
     const userPrivateKey = await getCryptoHash(
-      `${email}_${password}_${currentLoginHash}`
+      `${email}_${password}_${currentLoginSalt}`
     )
     const newUserWallet = new ethers.Wallet(userPrivateKey)
     setEOAWallet(newUserWallet)
-    if (loginHash) sendEOA(newUserWallet)
+    if (loginSalt) sendEOA(newUserWallet)
     localStorage.setItem("email", email)
     localStorage.setItem("password", password)
     setEmail("")
     setPassword("")
-    return currentLoginHash
+    return currentLoginSalt
   }
 
-  const writeLoginHash = async () => {
+  const writeLoginSalt = async () => {
     const clipboardText = await navigator.clipboard.readText()
-    const hashRegex =
+    const saltRegex =
       /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    if (hashRegex.test(clipboardText)) {
+    if (saltRegex.test(clipboardText)) {
       setLoginSalt(clipboardText)
       setMessage({
         text: `${t("hashAdded")}: ${clipboardText.slice(0, 3)}...`,
@@ -134,6 +117,18 @@ function Auth(props: AuthI) {
       })
     } else {
       setMessage({ text: t("wrongHash"), type: "error" })
+    }
+  }
+
+  const modalCancel = () => {
+    setModalShow(false)
+  }
+
+  const sendEOA = (wallet?: Wallet) => {
+    if (wallet) {
+      onEOAchange(wallet)
+    } else {
+      onEOAchange(eoaWallet!)
     }
   }
 
@@ -156,18 +151,6 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
-
-  const modalCancel = () => {
-    setModalShow(false)
-  }
-
-  const sendEOA = (wallet?: Wallet) => {
-    if (wallet) {
-      onEOAchange(wallet)
-    } else {
-      onEOAchange(eoaWallet!)
-    }
-  }
 
   return (
     <div className="auth" id="auth">
@@ -199,13 +182,13 @@ function Auth(props: AuthI) {
           />
         </div>
         <div
-          data-tooltip-id="hash-tooltip"
+          data-tooltip-id="salt-tooltip"
           data-tooltip-content={
             loginSalt
               ? t("hashAdded") || "code was added"
               : t("noHash") || "no code"
           }
-          onClick={writeLoginHash}
+          onClick={writeLoginSalt}
           className={`auth_form_hash ${
             loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
           }`}
@@ -213,7 +196,7 @@ function Auth(props: AuthI) {
           H
         </div>
         <Tooltip
-          id="hash-tooltip"
+          id="salt-tooltip"
           style={{
             backgroundColor: "rgba(39, 41, 39, 0.681)",
             color: "#ffffff",

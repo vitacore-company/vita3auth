@@ -27,6 +27,6 @@ export function downloadAsFile(data: string) {
   let a = document.createElement("a")
   let file = new Blob([data], { type: "application/json" })
   a.href = URL.createObjectURL(file)
-  a.download = "loginHash.txt"
+  a.download = "loginCode.txt"
   a.click()
 }
