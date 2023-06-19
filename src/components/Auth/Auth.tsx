@@ -23,7 +23,7 @@ function Auth(props: AuthI) {
     localStorage.getItem("password") || ""
   )
   const [loginSalt, setLoginSalt] = useState<string | null>(
-    localStorage.getItem("loginSalt")
+    localStorage.getItem("loginSalt") || null
   )
   const [authError, setAuthError] = useState<IauthError>({ status: false })
 
@@ -192,7 +192,7 @@ function Auth(props: AuthI) {
           />
         </div>
         <div
-          data-tooltip-id="salt-tooltip-true"
+          data-tooltip-id="salt-tooltip"
           onClick={writeLoginSalt}
           className={`auth_form_hash ${
             loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
@@ -200,19 +200,22 @@ function Auth(props: AuthI) {
         >
           S
         </div>
-        <Tooltip id="salt-tooltip-true" clickable style={tooltipStyle}>
-          <div className="tooltip_label">
-            {t("hashAdded") || "code was added"}
-          </div>
-          <div className="tooltip_btn" onClick={bufferCopy}>
-            Скопировать в буффер
-          </div>
-          <div className="tooltip_btn" onClick={downloadSalt}>
-            Загрузить файлом
-          </div>
-        </Tooltip>
-        <Tooltip id="salt-tooltip-false" style={tooltipStyle}>
-          {t("noHash") || "no code"}
+        <Tooltip id="salt-tooltip" clickable style={tooltipStyle}>
+          {loginSalt ? (
+            <>
+              <div className="tooltip_label">
+                {t("hashAdded") || "code was added"}
+              </div>
+              <div className="tooltip_btn" onClick={bufferCopy}>
+                Скопировать в буффер
+              </div>
+              <div className="tooltip_btn" onClick={downloadSalt}>
+                Загрузить файлом
+              </div>
+            </>
+          ) : (
+            t("noHash") || "no code"
+          )}
         </Tooltip>
       </div>
       <div onClick={handleAuth} className="auth_submit">
