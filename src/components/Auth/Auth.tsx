@@ -193,7 +193,7 @@ function Auth(props: AuthI) {
             ref={passwordInput}
             onKeyDown={handleEnterPasswordDown}
             value={password}
-            type="text"
+            type="password"
             className="auth_form_password_input"
             onChange={handlePasswordChange}
           />
