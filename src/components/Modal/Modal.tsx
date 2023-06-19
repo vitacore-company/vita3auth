@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Tooltip } from "react-tooltip"
 import {
+  checkLoginSalt,
   downloadAsFile,
   readFromBuffer,
   writeToBuffer,
@@ -49,19 +50,21 @@ const Modal = ({
     } else {
       switch (type) {
         case "file":
-          downloadAsFile(loginSalt)
+          // uploadAsFile(loginSalt)
           onFinish()
           onCancel()
           break
         case "buffer":
           const clipboardText = await readFromBuffer()
-          if (clipboardText) {
+          const checkedSalt = checkLoginSalt(clipboardText)
+          if (checkedSalt) {
             setLoginSalt(clipboardText)
+            onFinish()
+            onCancel()
           } else {
             setMessage({ text: t("wrongHash"), type: "error" })
           }
-          onFinish()
-          onCancel()
+
           break
         default:
           break

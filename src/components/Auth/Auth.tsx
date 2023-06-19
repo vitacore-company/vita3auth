@@ -1,12 +1,14 @@
 import { Wallet, ethers } from "ethers"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, ChangeEvent } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { useTranslation } from "react-i18next"
 import {
+  checkLoginSalt,
   downloadAsFile,
   getCryptoHash,
   readFromBuffer,
   tooltipStyle,
+  uploadFile,
   writeToBuffer,
 } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
@@ -20,7 +22,7 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
-  const [modalShow, setModalShow] = useState(true)
+  const [modalShow, setModalShow] = useState(false)
   const [eoaWallet, setEOAWallet] = useState<Wallet>()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
@@ -111,15 +113,6 @@ function Auth(props: AuthI) {
     return currentLoginSalt
   }
 
-  const writeLoginSalt = async () => {
-    const clipboardText = await readFromBuffer()
-    if (clipboardText) {
-      setLoginSalt(clipboardText)
-    } else {
-      setMessage({ text: t("wrongHash"), type: "error" })
-    }
-  }
-
   const modalCancel = () => {
     setModalShow(false)
   }
@@ -161,7 +154,7 @@ function Auth(props: AuthI) {
     }
   }, [loginSalt, setMessage, t])
 
-  const bufferCopy = async () => {
+  const copyToBuffer = async () => {
     writeToBuffer(loginSalt!)
     setMessage({ text: "copied", type: "success" })
   }
@@ -169,6 +162,25 @@ function Auth(props: AuthI) {
   const downloadSalt = () => {
     downloadAsFile(loginSalt!)
     setMessage({ text: "downloaded", type: "success" })
+  }
+
+  const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file: any = await uploadFile(e.target.files && e.target.files[0])
+    if (file) {
+      setLoginSalt(file)
+    } else {
+      setMessage({ text: "failed upload", type: "error" })
+    }
+  }
+
+  const writeLoginSalt = async () => {
+    const clipboardText = await readFromBuffer()
+    const checkedSalt = checkLoginSalt(clipboardText)
+    if (checkedSalt) {
+      setLoginSalt(checkedSalt)
+    } else {
+      setMessage({ text: t("wrongHash"), type: "error" })
+    }
   }
 
   return (
@@ -215,7 +227,7 @@ function Auth(props: AuthI) {
               <div className="tooltip_label">
                 {t("hashAdded") || "code was added"}
               </div>
-              <div className="tooltip_btn" onClick={bufferCopy}>
+              <div className="tooltip_btn" onClick={copyToBuffer}>
                 Скопировать в буффер
               </div>
               <div className="tooltip_btn" onClick={downloadSalt}>
@@ -223,7 +235,17 @@ function Auth(props: AuthI) {
               </div>
             </>
           ) : (
-            t("noHash") || "no code"
+            <>
+              <div className="tooltip_label">{t("noHash") || "no code"}</div>
+              <div className="tooltip_btn" onClick={writeLoginSalt}>
+                Скопировать из буффера
+              </div>
+              <input
+                type="file"
+                onChange={getSaltFromFile}
+                className="tooltip_btn"
+              />
+            </>
           )}
         </Tooltip>
       </div>

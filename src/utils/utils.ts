@@ -37,10 +37,31 @@ export const writeToBuffer = async (text: string) => {
 
 export const readFromBuffer = async () => {
   const clipboardText = await navigator.clipboard.readText()
+  return clipboardText
+}
+
+export const uploadFile = (file: any) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const checkedLoginSalt = checkLoginSalt(event.target?.result as string)
+      if (checkedLoginSalt) {
+        resolve(checkedLoginSalt)
+      } else {
+        resolve(null)
+      }
+    }
+    if (file) {
+      reader.readAsText(file)
+    }
+  })
+}
+
+export const checkLoginSalt = (loginSalt: string) => {
   const saltRegex =
     /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-  if (saltRegex.test(clipboardText)) {
-    return clipboardText
+  if (saltRegex.test(loginSalt)) {
+    return loginSalt
   } else {
     return null
   }
