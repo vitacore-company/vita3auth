@@ -1,4 +1,4 @@
-import { ethers } from "ethers"
+import { Wallet, ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { initReactI18next, useTranslation } from "react-i18next"
@@ -32,7 +32,7 @@ function Auth(props: AuthI) {
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
   const [modalShow, setModalShow] = useState(false)
-  const [eoaWallet, setEOAWallet] = useState<any>()
+  const [eoaWallet, setEOAWallet] = useState<Wallet>()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
   )
@@ -161,11 +161,11 @@ function Auth(props: AuthI) {
     setModalShow(false)
   }
 
-  const sendEOA = (wallet: any) => {
+  const sendEOA = (wallet?: Wallet) => {
     if (wallet) {
       onEOAchange(wallet)
     } else {
-      onEOAchange(eoaWallet)
+      onEOAchange(eoaWallet!)
     }
   }
 

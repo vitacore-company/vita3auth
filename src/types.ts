@@ -1,4 +1,4 @@
-import { ethers } from "ethers"
+import { Wallet, ethers } from "ethers"
 import { Dispatch, SetStateAction } from "react"
 
 export interface AuthI {
@@ -36,4 +36,11 @@ export interface INotifyContext {
 
 export interface INotifyContextProvider {
   children: React.ReactNode
+}
+
+export interface IModal {
+  show: boolean
+  onOk: (loginHash?: string) => Promise<string>
+  onCancel: () => void
+  onFinish: (wallet?: Wallet) => void
 }
