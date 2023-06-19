@@ -40,7 +40,7 @@ function Auth(props: AuthI) {
     localStorage.getItem("password") || ""
   )
   const [authError, setAuthError] = useState<IauthError>({ status: false })
-  const [loginHash, setLoginHash] = useState<string | null>(
+  const [loginSalt, setLoginSalt] = useState<string | null>(
     localStorage.getItem("loginHash")
   )
 
@@ -93,11 +93,11 @@ function Auth(props: AuthI) {
       activateAuthError(t("lackData"))
       return
     }
-    if (!loginHash) {
+    if (!loginSalt) {
       setModalShow(true)
       return
     } else {
-      generateWallet(loginHash)
+      generateWallet(loginSalt)
     }
   }
 
@@ -127,7 +127,7 @@ function Auth(props: AuthI) {
     const hashRegex =
       /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
     if (hashRegex.test(clipboardText)) {
-      setLoginHash(clipboardText)
+      setLoginSalt(clipboardText)
       setMessage({
         text: `${t("hashAdded")}: ${clipboardText.slice(0, 3)}...`,
         type: "success",
@@ -201,13 +201,13 @@ function Auth(props: AuthI) {
         <div
           data-tooltip-id="hash-tooltip"
           data-tooltip-content={
-            loginHash
+            loginSalt
               ? t("hashAdded") || "code was added"
               : t("noHash") || "no code"
           }
           onClick={writeLoginHash}
           className={`auth_form_hash ${
-            loginHash ? "auth_form_hash-filled" : "auth_form_hash-empty"
+            loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
           }`}
         >
           H
