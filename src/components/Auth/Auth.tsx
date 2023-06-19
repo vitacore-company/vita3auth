@@ -198,7 +198,7 @@ function Auth(props: AuthI) {
             loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
           }`}
         >
-          H
+          S
         </div>
         <Tooltip id="salt-tooltip-true" clickable style={tooltipStyle}>
           <div className="tooltip_label">
@@ -208,7 +208,7 @@ function Auth(props: AuthI) {
             Скопировать в буффер
           </div>
           <div className="tooltip_btn" onClick={downloadSalt}>
-            Загрузить
+            Загрузить файлом
           </div>
         </Tooltip>
         <Tooltip id="salt-tooltip-false" style={tooltipStyle}>
