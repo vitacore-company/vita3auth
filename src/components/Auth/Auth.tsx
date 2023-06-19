@@ -2,7 +2,7 @@ import { Wallet, ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { useTranslation } from "react-i18next"
-import { getCryptoHash } from "../../utils/utils"
+import { downloadAsFile, getCryptoHash, tooltipStyle } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { v4 as uuidv4 } from "uuid"
 import { Tooltip } from "react-tooltip"
@@ -152,6 +152,16 @@ function Auth(props: AuthI) {
     }
   }, [authError])
 
+  const bufferCopy = async () => {
+    await navigator.clipboard.writeText(loginSalt!)
+    setMessage({ text: "copied", type: "success" })
+  }
+
+  const downloadSalt = () => {
+    downloadAsFile(loginSalt!)
+    setMessage({ text: "downloaded", type: "success" })
+  }
+
   return (
     <div className="auth" id="auth">
       <div className="auth_label">{label}</div>
@@ -182,12 +192,7 @@ function Auth(props: AuthI) {
           />
         </div>
         <div
-          data-tooltip-id="salt-tooltip"
-          data-tooltip-content={
-            loginSalt
-              ? t("hashAdded") || "code was added"
-              : t("noHash") || "no code"
-          }
+          data-tooltip-id="salt-tooltip-true"
           onClick={writeLoginSalt}
           className={`auth_form_hash ${
             loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
@@ -195,14 +200,20 @@ function Auth(props: AuthI) {
         >
           H
         </div>
-        <Tooltip
-          id="salt-tooltip"
-          style={{
-            backgroundColor: "rgba(39, 41, 39, 0.681)",
-            color: "#ffffff",
-            borderRadius: "15px",
-          }}
-        />
+        <Tooltip id="salt-tooltip-true" clickable style={tooltipStyle}>
+          <div className="tooltip_label">
+            {t("hashAdded") || "code was added"}
+          </div>
+          <div className="tooltip_btn" onClick={bufferCopy}>
+            Скопировать в буффер
+          </div>
+          <div className="tooltip_btn" onClick={downloadSalt}>
+            Загрузить
+          </div>
+        </Tooltip>
+        <Tooltip id="salt-tooltip-false" style={tooltipStyle}>
+          {t("noHash") || "no code"}
+        </Tooltip>
       </div>
       <div onClick={handleAuth} className="auth_submit">
         <div className="auth_submit_label">{t("login")}</div>

@@ -130,6 +130,21 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
       @include gradient-border;
     }
 
+    .tooltip {
+      font-family: sans-serif;
+      &_label {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      &_btn {
+        &:hover {
+          cursor: pointer;
+          color: rgb(189, 189, 189);
+        }
+      }
+    }
+
     &_email {
       &_label {
         @include input_label-style;

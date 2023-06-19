@@ -30,3 +30,9 @@ export function downloadAsFile(data: string) {
   a.download = "loginCode.txt"
   a.click()
 }
+
+export const tooltipStyle = {
+  backgroundColor: "rgba(39, 41, 39, 0.681)",
+  color: "#ffffff",
+  borderRadius: "15px",
+}
