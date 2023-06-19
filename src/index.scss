@@ -66,6 +66,17 @@
   letter-spacing: 0.5px;
 }
 
+@mixin modal-btn {
+  color: white;
+  border-radius: 15px;
+  transition-duration: 1s;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 $border-radius: 19px;
 $linear-gradient-light: linear-gradient(
     93.2deg,
@@ -373,20 +384,26 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
       color: rgb(202, 202, 202);
       text-align: center;
     }
-    &_btn {
-      margin-top: 100px;
-      width: 300px;
-      height: 60px;
+    &_btns {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(38, 155, 85, 0.832);
-      color: white;
-      border-radius: 15px;
-      transition-duration: 1s;
-      &:hover {
-        cursor: pointer;
-        background-color: rgba(15, 221, 97, 0.713);
+      gap: 10px;
+      margin-top: 100px;
+
+      &_new {
+        background-color: rgba(38, 155, 85, 0.832);
+        @include modal-btn;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(15, 221, 97, 0.713);
+        }
+      }
+      &_code {
+        background-color: rgba(38, 126, 155, 0.832);
+        @include modal-btn;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(70, 173, 207, 0.832);
+        }
       }
     }
     &_save {

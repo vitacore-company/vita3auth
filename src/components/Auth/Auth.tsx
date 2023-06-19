@@ -2,7 +2,13 @@ import { Wallet, ethers } from "ethers"
 import { useEffect, useState, useRef } from "react"
 import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
 import { useTranslation } from "react-i18next"
-import { downloadAsFile, getCryptoHash, tooltipStyle } from "../../utils/utils"
+import {
+  downloadAsFile,
+  getCryptoHash,
+  readFromBuffer,
+  tooltipStyle,
+  writeToBuffer,
+} from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { v4 as uuidv4 } from "uuid"
 import { Tooltip } from "react-tooltip"
@@ -14,7 +20,7 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
-  const [modalShow, setModalShow] = useState(false)
+  const [modalShow, setModalShow] = useState(true)
   const [eoaWallet, setEOAWallet] = useState<Wallet>()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
@@ -106,15 +112,9 @@ function Auth(props: AuthI) {
   }
 
   const writeLoginSalt = async () => {
-    const clipboardText = await navigator.clipboard.readText()
-    const saltRegex =
-      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    if (saltRegex.test(clipboardText)) {
+    const clipboardText = await readFromBuffer()
+    if (clipboardText) {
       setLoginSalt(clipboardText)
-      setMessage({
-        text: `${t("hashAdded")}: ${clipboardText.slice(0, 3)}...`,
-        type: "success",
-      })
     } else {
       setMessage({ text: t("wrongHash"), type: "error" })
     }
@@ -152,8 +152,17 @@ function Auth(props: AuthI) {
     }
   }, [authError])
 
+  useEffect(() => {
+    if (loginSalt) {
+      setMessage({
+        text: `${t("hashAdded")}: ${loginSalt.slice(0, 3)}...`,
+        type: "success",
+      })
+    }
+  }, [loginSalt, setMessage, t])
+
   const bufferCopy = async () => {
-    await navigator.clipboard.writeText(loginSalt!)
+    writeToBuffer(loginSalt!)
     setMessage({ text: "copied", type: "success" })
   }
 
@@ -228,6 +237,8 @@ function Auth(props: AuthI) {
         show={modalShow}
         onCancel={modalCancel}
         onFinish={sendEOA}
+        setLoginSalt={setLoginSalt}
+        loginSalt={loginSalt || ""}
       />
     </div>
   )

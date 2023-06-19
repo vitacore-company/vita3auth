@@ -31,6 +31,21 @@ export function downloadAsFile(data: string) {
   a.click()
 }
 
+export const writeToBuffer = async (text: string) => {
+  await navigator.clipboard.writeText(text!)
+}
+
+export const readFromBuffer = async () => {
+  const clipboardText = await navigator.clipboard.readText()
+  const saltRegex =
+    /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+  if (saltRegex.test(clipboardText)) {
+    return clipboardText
+  } else {
+    return null
+  }
+}
+
 export const tooltipStyle = {
   backgroundColor: "rgba(39, 41, 39, 0.681)",
   color: "#ffffff",

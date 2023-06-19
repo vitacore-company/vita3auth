@@ -1,54 +1,105 @@
 import { useState } from "react"
 import { Tooltip } from "react-tooltip"
-import { downloadAsFile } from "../../utils/utils"
+import {
+  downloadAsFile,
+  readFromBuffer,
+  writeToBuffer,
+} from "../../utils/utils"
 import { IModal } from "../../types"
+import { t } from "i18next"
+import { useNotifyContext } from "../Notify/NotifyContext"
 
-const Modal = ({ show, onOk, onCancel, onFinish }: IModal) => {
-  const [loginHash, setLoginHash] = useState("")
+const Modal = ({
+  show,
+  onOk,
+  onCancel,
+  onFinish,
+  setLoginSalt,
+  loginSalt,
+}: IModal) => {
+  const [step2, setStep2] = useState<string | null>(null)
+  const { setMessage } = useNotifyContext()
 
   const createWallet = async () => {
     const uuid = await onOk()
-    setLoginHash(uuid)
+    setLoginSalt(uuid)
+    setStep2("save")
   }
 
-  const saveCode = async (type: string) => {
-    switch (type) {
-      case "file":
-        downloadAsFile(loginHash)
-        onFinish()
-        onCancel()
-        break
-      case "buffer":
-        await navigator.clipboard.writeText(loginHash)
-        onFinish()
-        onCancel()
-        break
-      default:
-        break
+  const addCode = () => {
+    setStep2("add")
+  }
+
+  const actCode = async (type: string) => {
+    if (step2 === "save") {
+      switch (type) {
+        case "file":
+          downloadAsFile(loginSalt)
+          onFinish()
+          onCancel()
+          break
+        case "buffer":
+          await writeToBuffer(loginSalt)
+          onFinish()
+          onCancel()
+          break
+        default:
+          break
+      }
+    } else {
+      switch (type) {
+        case "file":
+          downloadAsFile(loginSalt)
+          onFinish()
+          onCancel()
+          break
+        case "buffer":
+          const clipboardText = await readFromBuffer()
+          if (clipboardText) {
+            setLoginSalt(clipboardText)
+          } else {
+            setMessage({ text: t("wrongHash"), type: "error" })
+          }
+          onFinish()
+          onCancel()
+          break
+        default:
+          break
+      }
     }
   }
 
   return show ? (
     <div className="modal">
       <div className="modal_content">
-        {loginHash ? (
+        {step2 ? (
           <>
             <div className="modal_content_label">
-              Сохраните номер уникального кода
+              {step2 === "save"
+                ? "Сохраните номер уникального кода"
+                : "Добавьте номер уникального кода"}
             </div>
             <div className="modal_content_save">
               <div
-                onClick={() => saveCode("file")}
+                onClick={() => actCode("file")}
                 data-tooltip-id="download-tooltip"
-                data-tooltip-content="Скачайте код файлом"
+                data-tooltip-content={
+                  step2 === "save"
+                    ? "Скачайте код файлом"
+                    : "Добавьте код файлом"
+                }
                 className="modal_content_save_btn"
               >
                 &#x2193;
               </div>
               <div
-                onClick={() => saveCode("buffer")}
+                onClick={() => actCode("buffer")}
                 data-tooltip-id="download-tooltip"
-                data-tooltip-content="Сохраните код в буффер"
+                data-tooltip-content={
+                  step2 === "save"
+                    ? " Сохраните код в буффер"
+                    : "Добавьте код из буффера"
+                }
                 className="modal_content_save_btn"
               >
                 B
@@ -72,8 +123,13 @@ const Modal = ({ show, onOk, onCancel, onFinish }: IModal) => {
               Вы входите без указания уникального кода, будет создан новый
               кошелек. Хотите продолжить?
             </div>
-            <div onClick={createWallet} className="modal_content_btn">
-              Создать новый кошелек
+            <div className="modal_content_btns">
+              <div onClick={createWallet} className="modal_content_btns_new">
+                Создать новый кошелек
+              </div>
+              <div onClick={addCode} className="modal_content_btns_code">
+                Вставить код
+              </div>
             </div>
             <div onClick={onCancel} className="modal_content_close">
               <div className="modal_content_close_icon">

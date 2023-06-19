@@ -43,4 +43,6 @@ export interface IModal {
   onOk: (loginHash?: string) => Promise<string>
   onCancel: () => void
   onFinish: (wallet?: Wallet) => void
+  setLoginSalt: Dispatch<SetStateAction<string | null>>
+  loginSalt: string
 }
