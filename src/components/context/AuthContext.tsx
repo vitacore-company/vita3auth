@@ -1,17 +1,17 @@
 import { useState, createContext, useContext, useEffect } from "react"
-import Notify from "./Notify"
+import Notify from "../Notify/Notify"
 import {
   AuthI,
   IMessage,
-  INotifyContext,
-  INotifyContextProvider,
+  IAuthContext,
+  IAuthContextProvider,
 } from "../../types"
 
-export const NotifyContext = createContext<INotifyContext>({
+export const AuthContext = createContext<IAuthContext>({
   setMessage: () => undefined,
 })
 
-export const NotifyContextProvider = ({ children }: INotifyContextProvider) => {
+export const NotifyContextProvider = ({ children }: IAuthContextProvider) => {
   const [message, setMessage] = useState<IMessage | null>(null)
 
   useEffect(() => {
@@ -27,14 +27,14 @@ export const NotifyContextProvider = ({ children }: INotifyContextProvider) => {
   }, [message])
 
   return (
-    <NotifyContext.Provider value={{ setMessage }}>
+    <AuthContext.Provider value={{ setMessage }}>
       {message && <Notify message={message} />}
       {children}
-    </NotifyContext.Provider>
+    </AuthContext.Provider>
   )
 }
 
-export const withNotifyContext = (Component: (props: AuthI) => JSX.Element) => {
+export const withAuthContext = (Component: (props: AuthI) => JSX.Element) => {
   const EnhancedComponent = (props: AuthI) => {
     return (
       <NotifyContextProvider>
@@ -45,4 +45,4 @@ export const withNotifyContext = (Component: (props: AuthI) => JSX.Element) => {
   return EnhancedComponent
 }
 
-export const useNotifyContext = () => useContext(NotifyContext)
+export const useAuthContext = () => useContext(AuthContext)

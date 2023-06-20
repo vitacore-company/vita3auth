@@ -30,11 +30,11 @@ export interface INotify {
   message: IMessage
 }
 
-export interface INotifyContext {
+export interface IAuthContext {
   setMessage: Dispatch<SetStateAction<IMessage | null>>
 }
 
-export interface INotifyContextProvider {
+export interface IAuthContextProvider {
   children: React.ReactNode
 }
 

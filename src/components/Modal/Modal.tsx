@@ -9,7 +9,7 @@ import {
 } from "../../utils/utils"
 import { IModal } from "../../types"
 import { t } from "i18next"
-import { useNotifyContext } from "../Notify/NotifyContext"
+import { useAuthContext } from "../context/AuthContext"
 
 const Modal = ({
   show,
@@ -22,7 +22,7 @@ const Modal = ({
   const fileInputRef: any = useRef(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { setMessage } = useNotifyContext()
+  const { setMessage } = useAuthContext()
 
   const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file: any = await uploadFile(e.target.files && e.target.files[0])

@@ -67,6 +67,14 @@ export const checkLoginSalt = (loginSalt: string) => {
   }
 }
 
+export const checkEmail = (email: string) => {
+  const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/
+  if (emailRegex.test(email)) {
+    return true
+  }
+  return false
+}
+
 export const tooltipStyle = {
   backgroundColor: "rgba(39, 41, 39, 0.681)",
   color: "#ffffff",

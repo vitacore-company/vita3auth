@@ -1,8 +1,9 @@
 import { Wallet, ethers } from "ethers"
 import { useEffect, useState, useRef, ChangeEvent } from "react"
-import { useNotifyContext, withNotifyContext } from "../Notify/NotifyContext"
+import { useAuthContext, withAuthContext } from "../context/AuthContext"
 import { useTranslation } from "react-i18next"
 import {
+  checkEmail,
   checkLoginSalt,
   downloadAsFile,
   getCryptoHash,
@@ -21,7 +22,7 @@ import Modal from "../Modal/Modal"
 function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
-  const { setMessage } = useNotifyContext()
+  const { setMessage } = useAuthContext()
   const fileInputRef: any = useRef(null)
   const [modalShow, setModalShow] = useState(false)
   const [eoaWallet, setEOAWallet] = useState<Wallet>()
@@ -47,7 +48,7 @@ function Auth(props: AuthI) {
 
   const handleEnterEmailDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (checkEmail()) {
+      if (checkEmail(email)) {
         passwordInput.current?.focus()
         return
       }
@@ -68,16 +69,8 @@ function Auth(props: AuthI) {
     setMessage({ text: message, type: "error" })
   }
 
-  const checkEmail = () => {
-    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/
-    if (emailRegex.test(email)) {
-      return true
-    }
-    return false
-  }
-
   const handleAuth = async () => {
-    if (!checkEmail()) {
+    if (!checkEmail(email)) {
       activateAuthError(t("wrongEmail"))
       return
     }
@@ -278,4 +271,4 @@ function Auth(props: AuthI) {
   )
 }
 
-export default withNotifyContext(Auth)
+export default withAuthContext(Auth)
