@@ -11,27 +11,19 @@ import { IModal } from "../../types"
 import { t } from "i18next"
 import { useAuthContext } from "../context/AuthContext"
 
-const Modal = ({
-  show,
-  onOk,
-  onCancel,
-  onFinish,
-  setLoginSalt,
-  loginSalt,
-}: IModal) => {
+const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
   const fileInputRef: any = useRef(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { setMessage } = useAuthContext()
+  const { setMessage, loginSalt, setLoginSalt } = useAuthContext()
 
   const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file: any = await uploadFile(e.target.files && e.target.files[0])
-    console.log(file)
 
     if (file) {
       setLoginSalt(file)
       onFinish()
-      onCancel()
+      closeModal()
     } else {
       setMessage({ text: "failed upload", type: "error" })
     }
@@ -55,14 +47,14 @@ const Modal = ({
     if (step2 === "save") {
       switch (type) {
         case "file":
-          downloadAsFile(loginSalt)
+          downloadAsFile(loginSalt!)
           onFinish()
-          onCancel()
+          closeModal()
           break
         case "buffer":
-          await writeToBuffer(loginSalt)
+          await writeToBuffer(loginSalt!)
           onFinish()
-          onCancel()
+          closeModal()
           break
         default:
           break
@@ -79,7 +71,7 @@ const Modal = ({
           if (checkedSalt) {
             setLoginSalt(clipboardText)
             onFinish()
-            onCancel()
+            closeModal()
           } else {
             setMessage({ text: t("wrongHash"), type: "error" })
           }
@@ -91,7 +83,7 @@ const Modal = ({
     }
   }
 
-  return show ? (
+  return (
     <div className="modal">
       <div className="modal_content">
         {step2 ? (
@@ -159,7 +151,7 @@ const Modal = ({
                 Вставить код
               </div>
             </div>
-            <div onClick={onCancel} className="modal_content_close">
+            <div onClick={closeModal} className="modal_content_close">
               <div className="modal_content_close_icon">
                 <>&#x2715;</>
               </div>
@@ -168,8 +160,6 @@ const Modal = ({
         )}
       </div>
     </div>
-  ) : (
-    <div />
   )
 }
 

@@ -1,6 +1,9 @@
 import { Wallet, ethers } from "ethers"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, ReactNode, SetStateAction } from "react"
 
+export interface IAuthContextProvider extends AuthI {
+  children: ReactNode
+}
 export interface AuthI {
   onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
   label: string
@@ -32,6 +35,14 @@ export interface INotify {
 
 export interface IAuthContext {
   setMessage: Dispatch<SetStateAction<IMessage | null>>
+  setModalShow: Dispatch<SetStateAction<boolean>>
+  setLoginSalt: Dispatch<SetStateAction<string | null>>
+  generateWallet: any
+  copyToBuffer: any
+  downloadSalt: any
+  writeLoginSalt: any
+  getSaltFromFile: any
+  loginSalt: string | null
 }
 
 export interface IAuthContextProvider {
@@ -39,9 +50,8 @@ export interface IAuthContextProvider {
 }
 
 export interface IModal {
-  show: boolean
-  onOk: (loginHash?: string) => Promise<string>
-  onCancel: () => void
+  onOk: any
+  closeModal: () => void
   onFinish: (wallet?: Wallet) => void
   setLoginSalt: Dispatch<SetStateAction<string | null>>
   loginSalt: string

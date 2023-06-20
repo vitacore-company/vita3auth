@@ -1,40 +1,33 @@
-import { Wallet, ethers } from "ethers"
-import { useEffect, useState, useRef, ChangeEvent } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useAuthContext, withAuthContext } from "../context/AuthContext"
 import { useTranslation } from "react-i18next"
-import {
-  checkEmail,
-  checkLoginSalt,
-  downloadAsFile,
-  getCryptoHash,
-  readFromBuffer,
-  tooltipStyle,
-  uploadFile,
-  writeToBuffer,
-} from "../../utils/utils"
+import { checkEmail, tooltipStyle } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
-import { v4 as uuidv4 } from "uuid"
 import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
-import i18n from "../../utils/translation"
-import Modal from "../Modal/Modal"
 
 function Auth(props: AuthI) {
-  const { onEOAchange, label, language } = props
+  const { label } = props
   const { t } = useTranslation()
-  const { setMessage } = useAuthContext()
+  const {
+    setMessage,
+    setModalShow,
+    loginSalt,
+    setLoginSalt,
+    generateWallet,
+    copyToBuffer,
+    downloadSalt,
+    writeLoginSalt,
+    getSaltFromFile,
+  } = useAuthContext()
   const fileInputRef: any = useRef(null)
-  const [modalShow, setModalShow] = useState(false)
-  const [eoaWallet, setEOAWallet] = useState<Wallet>()
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
   )
   const [password, setPassword] = useState<string>(
     localStorage.getItem("password") || ""
   )
-  const [loginSalt, setLoginSalt] = useState<string | null>(
-    localStorage.getItem("loginSalt") || null
-  )
+
   const [authError, setAuthError] = useState<IauthError>({ status: false })
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
@@ -82,48 +75,11 @@ function Auth(props: AuthI) {
       setModalShow(true)
       return
     } else {
-      generateWallet(loginSalt)
+      generateWallet(email, password, loginSalt)
+      setEmail("")
+      setPassword("")
     }
   }
-
-  const generateWallet = async (loginSalt?: string) => {
-    let currentLoginSalt
-    if (loginSalt) {
-      currentLoginSalt = loginSalt
-    } else {
-      currentLoginSalt = uuidv4()
-    }
-    localStorage.setItem("loginSalt", currentLoginSalt)
-    const userPrivateKey = await getCryptoHash(
-      `${email}_${password}_${currentLoginSalt}`
-    )
-    const newUserWallet = new ethers.Wallet(userPrivateKey)
-    setEOAWallet(newUserWallet)
-    if (loginSalt) sendEOA(newUserWallet)
-    localStorage.setItem("email", email)
-    localStorage.setItem("password", password)
-    setEmail("")
-    setPassword("")
-    return currentLoginSalt
-  }
-
-  const modalCancel = () => {
-    setModalShow(false)
-  }
-
-  const sendEOA = (wallet?: Wallet) => {
-    if (wallet) {
-      onEOAchange(wallet)
-    } else {
-      onEOAchange(eoaWallet!)
-    }
-  }
-
-  useEffect(() => {
-    if (language) {
-      i18n.changeLanguage(language)
-    }
-  }, [language])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
@@ -138,44 +94,6 @@ function Auth(props: AuthI) {
       clearTimeout(timeout)
     }
   }, [authError])
-
-  useEffect(() => {
-    if (loginSalt) {
-      setMessage({
-        text: `${t("hashAdded")}: ${loginSalt.slice(0, 3)}...`,
-        type: "success",
-      })
-    }
-  }, [loginSalt, setMessage, t])
-
-  const copyToBuffer = async () => {
-    writeToBuffer(loginSalt!)
-    setMessage({ text: "copied", type: "success" })
-  }
-
-  const downloadSalt = () => {
-    downloadAsFile(loginSalt!)
-    setMessage({ text: "downloaded", type: "success" })
-  }
-
-  const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file: any = await uploadFile(e.target.files && e.target.files[0])
-    if (file) {
-      setLoginSalt(file)
-    } else {
-      setMessage({ text: "failed upload", type: "error" })
-    }
-  }
-
-  const writeLoginSalt = async () => {
-    const clipboardText = await readFromBuffer()
-    const checkedSalt = checkLoginSalt(clipboardText)
-    if (checkedSalt) {
-      setLoginSalt(checkedSalt)
-    } else {
-      setMessage({ text: t("wrongHash"), type: "error" })
-    }
-  }
 
   const fileUploadClick = () => {
     fileInputRef.current?.click()
@@ -259,14 +177,6 @@ function Auth(props: AuthI) {
       </div>
       <Ellipse className="auth_ellipse1" />
       <Ellipse className="auth_ellipse2" />
-      <Modal
-        onOk={generateWallet}
-        show={modalShow}
-        onCancel={modalCancel}
-        onFinish={sendEOA}
-        setLoginSalt={setLoginSalt}
-        loginSalt={loginSalt || ""}
-      />
     </div>
   )
 }
