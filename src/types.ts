@@ -1,5 +1,11 @@
 import { Wallet, ethers } from "ethers"
-import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react"
+import {
+  ChangeEvent,
+  Dispatch,
+  ReactNode,
+  RefObject,
+  SetStateAction,
+} from "react"
 
 export interface IAuthContextProvider extends AuthI {
   children: ReactNode
@@ -60,6 +66,6 @@ export interface IModal {
 }
 
 export interface IUpload {
-  uploadRef: any
+  uploadRef: RefObject<HTMLInputElement>
   onFinish?: () => void
 }

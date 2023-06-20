@@ -20,7 +20,7 @@ function Auth(props: AuthI) {
     downloadSalt,
     writeLoginSalt,
   } = useAuthContext()
-  const fileInputRef: any = useRef(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
   )
