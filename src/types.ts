@@ -1,5 +1,5 @@
 import { Wallet, ethers } from "ethers"
-import { Dispatch, ReactNode, SetStateAction } from "react"
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react"
 
 export interface IAuthContextProvider extends AuthI {
   children: ReactNode
@@ -37,11 +37,15 @@ export interface IAuthContext {
   setMessage: Dispatch<SetStateAction<IMessage | null>>
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
-  generateWallet: any
-  copyToBuffer: any
-  downloadSalt: any
-  writeLoginSalt: any
-  getSaltFromFile: any
+  generateWallet: (
+    email: string,
+    password: string,
+    loginSalt?: string
+  ) => Promise<string>
+  copyToBuffer: () => Promise<void>
+  downloadSalt: () => void
+  writeLoginSalt: () => Promise<string | null>
+  getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<any>
   loginSalt: string | null
 }
 

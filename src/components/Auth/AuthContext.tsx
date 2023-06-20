@@ -32,11 +32,11 @@ export const AuthContext = createContext<IAuthContext>({
   setMessage: () => undefined,
   setModalShow: () => undefined,
   setLoginSalt: () => undefined,
-  generateWallet: () => undefined,
-  copyToBuffer: () => undefined,
+  generateWallet: () => new Promise(() => ""),
+  copyToBuffer: () => new Promise(() => {}),
   downloadSalt: () => undefined,
-  writeLoginSalt: () => undefined,
-  getSaltFromFile: () => undefined,
+  writeLoginSalt: () => new Promise(() => null),
+  getSaltFromFile: () => new Promise(() => null),
   loginSalt: null,
 })
 
