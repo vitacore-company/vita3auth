@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { ChangeEvent, useRef, useState } from "react"
 import { Tooltip } from "react-tooltip"
 import {
   checkLoginSalt,
   downloadAsFile,
   readFromBuffer,
+  uploadFile,
   writeToBuffer,
 } from "../../utils/utils"
 import { IModal } from "../../types"
@@ -18,8 +19,27 @@ const Modal = ({
   setLoginSalt,
   loginSalt,
 }: IModal) => {
+  const fileInputRef: any = useRef(null)
+
   const [step2, setStep2] = useState<string | null>(null)
   const { setMessage } = useNotifyContext()
+
+  const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file: any = await uploadFile(e.target.files && e.target.files[0])
+    console.log(file)
+
+    if (file) {
+      setLoginSalt(file)
+      onFinish()
+      onCancel()
+    } else {
+      setMessage({ text: "failed upload", type: "error" })
+    }
+  }
+
+  const fileUploadClick = () => {
+    fileInputRef.current?.click()
+  }
 
   const createWallet = async () => {
     const uuid = await onOk()
@@ -50,9 +70,8 @@ const Modal = ({
     } else {
       switch (type) {
         case "file":
-          // uploadAsFile(loginSalt)
-          onFinish()
-          onCancel()
+          fileUploadClick()
+
           break
         case "buffer":
           const clipboardText = await readFromBuffer()
@@ -95,6 +114,12 @@ const Modal = ({
               >
                 &#x2193;
               </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={getSaltFromFile}
+                className="modal_content_save_input"
+              />
               <div
                 onClick={() => actCode("buffer")}
                 data-tooltip-id="download-tooltip"

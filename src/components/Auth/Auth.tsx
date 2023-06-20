@@ -22,6 +22,7 @@ function Auth(props: AuthI) {
   const { onEOAchange, label, language } = props
   const { t } = useTranslation()
   const { setMessage } = useNotifyContext()
+  const fileInputRef: any = useRef(null)
   const [modalShow, setModalShow] = useState(false)
   const [eoaWallet, setEOAWallet] = useState<Wallet>()
   const [email, setEmail] = useState<string>(
@@ -183,6 +184,10 @@ function Auth(props: AuthI) {
     }
   }
 
+  const fileUploadClick = () => {
+    fileInputRef.current?.click()
+  }
+
   return (
     <div className="auth" id="auth">
       <div className="auth_label">{label}</div>
@@ -214,7 +219,6 @@ function Auth(props: AuthI) {
         </div>
         <div
           data-tooltip-id="salt-tooltip"
-          onClick={writeLoginSalt}
           className={`auth_form_hash ${
             loginSalt ? "auth_form_hash-filled" : "auth_form_hash-empty"
           }`}
@@ -233,6 +237,9 @@ function Auth(props: AuthI) {
               <div className="tooltip_btn" onClick={downloadSalt}>
                 Загрузить файлом
               </div>
+              <div className="tooltip_btn" onClick={() => setLoginSalt(null)}>
+                Изменить код
+              </div>
             </>
           ) : (
             <>
@@ -240,10 +247,14 @@ function Auth(props: AuthI) {
               <div className="tooltip_btn" onClick={writeLoginSalt}>
                 Скопировать из буффера
               </div>
+              <div className="tooltip_btn" onClick={fileUploadClick}>
+                Загрузить из файла
+              </div>
               <input
                 type="file"
+                ref={fileInputRef}
                 onChange={getSaltFromFile}
-                className="tooltip_btn"
+                className="tooltip_btn_file"
               />
             </>
           )}
