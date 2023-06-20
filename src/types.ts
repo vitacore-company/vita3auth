@@ -54,3 +54,8 @@ export interface IModal {
   closeModal: () => void
   sendEOA: (wallet?: Wallet) => void
 }
+
+export interface IUpload {
+  uploadRef: any
+  onFinish?: () => void
+}

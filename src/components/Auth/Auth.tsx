@@ -5,6 +5,7 @@ import { checkEmail, tooltipStyle } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
 import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
+import Upload from "../Upload/Upload"
 
 function Auth(props: AuthI) {
   const { label } = props
@@ -18,7 +19,6 @@ function Auth(props: AuthI) {
     copyToBuffer,
     downloadSalt,
     writeLoginSalt,
-    getSaltFromFile,
   } = useAuthContext()
   const fileInputRef: any = useRef(null)
   const [email, setEmail] = useState<string>(
@@ -160,12 +160,7 @@ function Auth(props: AuthI) {
               <div className="tooltip_btn" onClick={fileUploadClick}>
                 Загрузить из файла
               </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={getSaltFromFile}
-                className="tooltip_btn_file"
-              />
+              <Upload uploadRef={fileInputRef} />
             </>
           )}
         </Tooltip>

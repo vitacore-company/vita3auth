@@ -3,21 +3,17 @@ import { Tooltip } from "react-tooltip"
 import { downloadAsFile, tooltipStyle, writeToBuffer } from "../../utils/utils"
 import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
+import Upload from "../Upload/Upload"
 
 const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
   const fileInputRef: any = useRef(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { loginSalt, setLoginSalt, getSaltFromFile, writeLoginSalt } =
-    useAuthContext()
+  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
 
   const endModal = () => {
     sendEOA()
     closeModal()
-  }
-
-  const getCode = async (e: any) => {
-    if (await getSaltFromFile(e)) endModal()
   }
 
   const fileUploadClick = () => {
@@ -85,12 +81,7 @@ const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
               >
                 &#x2193;
               </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={(e) => getCode(e)}
-                className="modal_content_save_input"
-              />
+              <Upload uploadRef={fileInputRef} onFinish={endModal} />
               <div
                 onClick={() => actCode("buffer")}
                 data-tooltip-id="download-tooltip"
