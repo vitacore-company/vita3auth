@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import { Tooltip } from "react-tooltip"
 import { downloadAsFile, tooltipStyle, writeToBuffer } from "../../utils/utils"
 import { IModal } from "../../types"
-import { useAuthContext } from "../context/AuthContext"
+import { useAuthContext } from "../Auth/AuthContext"
 
 const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
   const fileInputRef: any = useRef(null)

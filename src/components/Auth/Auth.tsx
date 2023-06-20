@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { useAuthContext, withAuthContext } from "../context/AuthContext"
+import { useAuthContext, withAuthContext } from "./AuthContext"
 import { useTranslation } from "react-i18next"
 import { checkEmail, tooltipStyle } from "../../utils/utils"
 import { AuthI, IauthError } from "../../types"
