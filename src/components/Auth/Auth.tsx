@@ -210,6 +210,7 @@ function Auth(props: AuthI) {
           <div className="auth_form_password_label">{t("password")}</div>
           <input
             ref={passwordInput}
+            autoComplete="new-password"
             onKeyDown={handleEnterPasswordDown}
             value={password}
             type="password"
