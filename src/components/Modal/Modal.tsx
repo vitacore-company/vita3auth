@@ -1,32 +1,23 @@
-import { ChangeEvent, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { Tooltip } from "react-tooltip"
-import {
-  checkLoginSalt,
-  downloadAsFile,
-  readFromBuffer,
-  uploadFile,
-  writeToBuffer,
-} from "../../utils/utils"
+import { downloadAsFile, tooltipStyle, writeToBuffer } from "../../utils/utils"
 import { IModal } from "../../types"
-import { t } from "i18next"
 import { useAuthContext } from "../context/AuthContext"
 
-const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
+const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
   const fileInputRef: any = useRef(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { setMessage, loginSalt, setLoginSalt } = useAuthContext()
+  const { loginSalt, setLoginSalt, getSaltFromFile, writeLoginSalt } =
+    useAuthContext()
 
-  const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file: any = await uploadFile(e.target.files && e.target.files[0])
+  const endModal = () => {
+    sendEOA()
+    closeModal()
+  }
 
-    if (file) {
-      setLoginSalt(file)
-      onFinish()
-      closeModal()
-    } else {
-      setMessage({ text: "failed upload", type: "error" })
-    }
+  const getCode = async (e: any) => {
+    if (await getSaltFromFile(e)) endModal()
   }
 
   const fileUploadClick = () => {
@@ -48,13 +39,11 @@ const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
       switch (type) {
         case "file":
           downloadAsFile(loginSalt!)
-          onFinish()
-          closeModal()
+          endModal()
           break
         case "buffer":
           await writeToBuffer(loginSalt!)
-          onFinish()
-          closeModal()
+          endModal()
           break
         default:
           break
@@ -63,19 +52,9 @@ const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
       switch (type) {
         case "file":
           fileUploadClick()
-
           break
         case "buffer":
-          const clipboardText = await readFromBuffer()
-          const checkedSalt = checkLoginSalt(clipboardText)
-          if (checkedSalt) {
-            setLoginSalt(clipboardText)
-            onFinish()
-            closeModal()
-          } else {
-            setMessage({ text: t("wrongHash"), type: "error" })
-          }
-
+          if (await writeLoginSalt()) endModal()
           break
         default:
           break
@@ -109,7 +88,7 @@ const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
               <input
                 type="file"
                 ref={fileInputRef}
-                onChange={getSaltFromFile}
+                onChange={(e) => getCode(e)}
                 className="modal_content_save_input"
               />
               <div
@@ -124,14 +103,7 @@ const Modal = ({ onOk, closeModal, onFinish }: IModal) => {
               >
                 B
               </div>
-              <Tooltip
-                id="download-tooltip"
-                style={{
-                  backgroundColor: "rgba(39, 41, 39, 0.681)",
-                  color: "#ffffff",
-                  borderRadius: "15px",
-                }}
-              />
+              <Tooltip id="download-tooltip" style={tooltipStyle} />
             </div>
           </>
         ) : (

@@ -52,7 +52,5 @@ export interface IAuthContextProvider {
 export interface IModal {
   onOk: any
   closeModal: () => void
-  onFinish: (wallet?: Wallet) => void
-  setLoginSalt: Dispatch<SetStateAction<string | null>>
-  loginSalt: string
+  sendEOA: (wallet?: Wallet) => void
 }

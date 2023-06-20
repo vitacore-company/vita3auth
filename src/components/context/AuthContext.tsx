@@ -129,8 +129,10 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     const checkedSalt = checkLoginSalt(clipboardText)
     if (checkedSalt) {
       setLoginSalt(checkedSalt)
+      return checkedSalt
     } else {
       setMessage({ text: t("wrongHash"), type: "error" })
+      return null
     }
   }
 
@@ -138,8 +140,10 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     const file: any = await uploadFile(e.target.files && e.target.files[0])
     if (file) {
       setLoginSalt(file)
+      return file
     } else {
       setMessage({ text: "failed upload", type: "error" })
+      return null
     }
   }
 
@@ -161,9 +165,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         <Modal
           onOk={generateWallet}
           closeModal={closeModal}
-          onFinish={sendEOA}
-          setLoginSalt={setLoginSalt}
-          loginSalt={loginSalt || ""}
+          sendEOA={sendEOA}
         />
       )}
       {message && <Notify message={message} />}

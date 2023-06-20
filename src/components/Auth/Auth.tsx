@@ -76,8 +76,6 @@ function Auth(props: AuthI) {
       return
     } else {
       generateWallet(email, password, loginSalt)
-      setEmail("")
-      setPassword("")
     }
   }
 
