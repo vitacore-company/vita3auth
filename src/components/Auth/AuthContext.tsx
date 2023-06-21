@@ -60,31 +60,25 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     localStorage.getItem("password") || ""
   )
 
-  const saveCodeExternalMethods = useMemo(
-    () =>
-      saveCodeExternal.map(({ label, fn, icon }) => ({
-        label,
-        icon,
-        fn: () => fn(loginSalt!),
-      })),
-    [loginSalt, saveCodeExternal]
-  )
-
   const saveCodeMethods: Imethod[] = useMemo(
     () => [
       {
         label: "Скопировать в буффер",
         fn: () => writeCodeToBuffer(loginSalt!),
-        icon: () => <div>save</div>,
+        icon: () => <div>B</div>,
       },
       {
         label: "Загрузить файл",
         fn: () => downloadCodeAsFile(loginSalt!),
-        icon: () => <div>save</div>,
+        icon: () => <div>F</div>,
       },
-      ...saveCodeExternalMethods,
+      ...saveCodeExternal.map(({ label, fn, icon }) => ({
+        label,
+        icon,
+        fn: () => fn(loginSalt!),
+      })),
     ],
-    [loginSalt, saveCodeExternalMethods]
+    [loginSalt, saveCodeExternal]
   )
 
   useEffect(() => {
