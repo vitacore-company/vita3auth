@@ -19,14 +19,12 @@ function Auth(props: AuthI) {
     copyToBuffer,
     downloadSalt,
     writeLoginSalt,
+    email,
+    setEmail,
+    password,
+    setPassword,
   } = useAuthContext()
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [email, setEmail] = useState<string>(
-    localStorage.getItem("email") || ""
-  )
-  const [password, setPassword] = useState<string>(
-    localStorage.getItem("password") || ""
-  )
 
   const [authError, setAuthError] = useState<IauthError>({ status: false })
 
@@ -75,7 +73,7 @@ function Auth(props: AuthI) {
       setModalShow(true)
       return
     } else {
-      generateWallet(email, password, loginSalt)
+      generateWallet()
     }
   }
 

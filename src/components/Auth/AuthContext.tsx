@@ -36,6 +36,10 @@ export const AuthContext = createContext<IAuthContext>({
   writeLoginSalt: () => new Promise(() => null),
   getSaltFromFile: () => new Promise(() => null),
   loginSalt: null,
+  email: "",
+  setEmail: () => undefined,
+  password: "",
+  setPassword: () => undefined,
 })
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
@@ -47,6 +51,12 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
 
   const [loginSalt, setLoginSalt] = useState<string | null>(
     localStorage.getItem("loginSalt") || null
+  )
+  const [email, setEmail] = useState<string>(
+    localStorage.getItem("email") || ""
+  )
+  const [password, setPassword] = useState<string>(
+    localStorage.getItem("password") || ""
   )
 
   useEffect(() => {
@@ -80,19 +90,19 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     setModalShow(false)
   }
 
-  const generateWallet = async (
-    email: string,
-    password: string,
-    loginSalt: string
-  ) => {
-    localStorage.setItem("loginSalt", loginSalt)
-    const userPrivateKey = await getCryptoHash(
-      `${email}_${password}_${loginSalt}`
-    )
-    const newUserWallet = new ethers.Wallet(userPrivateKey)
-    localStorage.setItem("email", email)
-    localStorage.setItem("password", password)
-    onEOAchange(newUserWallet)
+  const generateWallet = async () => {
+    if (email && password && loginSalt) {
+      const userPrivateKey = await getCryptoHash(
+        `${email}_${password}_${loginSalt}`
+      )
+      const newUserWallet = new ethers.Wallet(userPrivateKey)
+      localStorage.setItem("loginSalt", loginSalt)
+      localStorage.setItem("email", email)
+      localStorage.setItem("password", password)
+      onEOAchange(newUserWallet)
+    } else {
+      setMessage({ text: "generating wallet error", type: "error" })
+    }
   }
 
   const copyToBuffer = async () => {
@@ -140,6 +150,10 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         downloadSalt,
         writeLoginSalt,
         getSaltFromFile,
+        email,
+        setEmail,
+        password,
+        setPassword,
       }}
     >
       {modalShow && <Modal closeModal={closeModal} />}

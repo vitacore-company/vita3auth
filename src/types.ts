@@ -43,12 +43,16 @@ export interface IAuthContext {
   setMessage: Dispatch<SetStateAction<IMessage | null>>
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
-  generateWallet: (email: string, password: string, loginSalt: string) => void
+  generateWallet: () => void
   copyToBuffer: () => Promise<void>
   downloadSalt: () => void
   writeLoginSalt: () => Promise<string | null>
   getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<any>
   loginSalt: string | null
+  email: string
+  setEmail: Dispatch<SetStateAction<string>>
+  password: string
+  setPassword: Dispatch<SetStateAction<string>>
 }
 
 export interface IAuthContextProvider {

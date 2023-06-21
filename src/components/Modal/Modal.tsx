@@ -10,7 +10,8 @@ const Modal = ({ closeModal }: IModal) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
+  const { loginSalt, setLoginSalt, writeLoginSalt, generateWallet } =
+    useAuthContext()
 
   const fileUploadClick = () => {
     fileInputRef.current?.click()
@@ -31,15 +32,18 @@ const Modal = ({ closeModal }: IModal) => {
         case "file":
           downloadAsFile(loginSalt!)
           closeModal()
+          generateWallet()
           break
         case "buffer":
           await writeToBuffer(loginSalt!)
           closeModal()
+          generateWallet()
           break
         default:
           break
       }
-    } else {
+    }
+    if (step2 === "add") {
       switch (type) {
         case "file":
           fileUploadClick()
