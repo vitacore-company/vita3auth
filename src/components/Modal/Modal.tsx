@@ -4,26 +4,20 @@ import { downloadAsFile, tooltipStyle, writeToBuffer } from "../../utils/utils"
 import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import Upload from "../Upload/Upload"
+import { v4 as uuidv4 } from "uuid"
 
-const Modal = ({ closeModal, sendEOA }: IModal) => {
+const Modal = ({ closeModal }: IModal) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { loginSalt, setLoginSalt, writeLoginSalt, generateWallet } =
-    useAuthContext()
-
-  const endModal = () => {
-    sendEOA()
-    closeModal()
-  }
+  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
 
   const fileUploadClick = () => {
     fileInputRef.current?.click()
   }
 
   const createWallet = async () => {
-    // const uuid = await generateWallet()
-    // setLoginSalt(uuid)
+    setLoginSalt(uuidv4())
     setStep2("save")
   }
 
@@ -36,11 +30,11 @@ const Modal = ({ closeModal, sendEOA }: IModal) => {
       switch (type) {
         case "file":
           downloadAsFile(loginSalt!)
-          endModal()
+          closeModal()
           break
         case "buffer":
           await writeToBuffer(loginSalt!)
-          endModal()
+          closeModal()
           break
         default:
           break
@@ -51,7 +45,7 @@ const Modal = ({ closeModal, sendEOA }: IModal) => {
           fileUploadClick()
           break
         case "buffer":
-          if (await writeLoginSalt()) endModal()
+          if (await writeLoginSalt()) closeModal()
           break
         default:
           break
@@ -82,7 +76,7 @@ const Modal = ({ closeModal, sendEOA }: IModal) => {
               >
                 &#x2193;
               </div>
-              <Upload uploadRef={fileInputRef} onFinish={endModal} />
+              <Upload uploadRef={fileInputRef} onFinish={closeModal} />
               <div
                 onClick={() => actCode("buffer")}
                 data-tooltip-id="download-tooltip"

@@ -1,4 +1,4 @@
-import { Wallet, ethers } from "ethers"
+import { ethers } from "ethers"
 import {
   ChangeEvent,
   Dispatch,
@@ -43,11 +43,7 @@ export interface IAuthContext {
   setMessage: Dispatch<SetStateAction<IMessage | null>>
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
-  generateWallet: (
-    email: string,
-    password: string,
-    loginSalt?: string
-  ) => Promise<string>
+  generateWallet: (email: string, password: string, loginSalt: string) => void
   copyToBuffer: () => Promise<void>
   downloadSalt: () => void
   writeLoginSalt: () => Promise<string | null>
@@ -61,7 +57,6 @@ export interface IAuthContextProvider {
 
 export interface IModal {
   closeModal: () => void
-  sendEOA: (wallet?: Wallet) => void
 }
 
 export interface IUpload {

@@ -6,7 +6,6 @@ import {
   ChangeEvent,
 } from "react"
 import { ethers } from "ethers"
-import { v4 as uuidv4 } from "uuid"
 
 import Notify from "../Notify/Notify"
 import {
@@ -16,7 +15,6 @@ import {
   IAuthContextProvider,
 } from "../../types"
 import Modal from "../Modal/Modal"
-import { Wallet } from "ethers"
 import {
   checkLoginSalt,
   downloadAsFile,
@@ -46,7 +44,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
 
   const [message, setMessage] = useState<IMessage | null>(null)
   const [modalShow, setModalShow] = useState(false)
-  const [eoaWallet, setEOAWallet] = useState<Wallet>()
 
   const [loginSalt, setLoginSalt] = useState<string | null>(
     localStorage.getItem("loginSalt") || null
@@ -83,35 +80,19 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     setModalShow(false)
   }
 
-  const sendEOA = (wallet?: Wallet) => {
-    if (wallet) {
-      onEOAchange(wallet)
-    } else {
-      onEOAchange(eoaWallet!)
-    }
-  }
-
   const generateWallet = async (
     email: string,
     password: string,
-    loginSalt?: string
+    loginSalt: string
   ) => {
-    let currentLoginSalt
-    if (loginSalt) {
-      currentLoginSalt = loginSalt
-    } else {
-      currentLoginSalt = uuidv4()
-    }
-    localStorage.setItem("loginSalt", currentLoginSalt)
+    localStorage.setItem("loginSalt", loginSalt)
     const userPrivateKey = await getCryptoHash(
-      `${email}_${password}_${currentLoginSalt}`
+      `${email}_${password}_${loginSalt}`
     )
     const newUserWallet = new ethers.Wallet(userPrivateKey)
-    setEOAWallet(newUserWallet)
-    if (loginSalt) sendEOA(newUserWallet)
     localStorage.setItem("email", email)
     localStorage.setItem("password", password)
-    return currentLoginSalt
+    onEOAchange(newUserWallet)
   }
 
   const copyToBuffer = async () => {
@@ -161,7 +142,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         getSaltFromFile,
       }}
     >
-      {modalShow && <Modal closeModal={closeModal} sendEOA={sendEOA} />}
+      {modalShow && <Modal closeModal={closeModal} />}
       {message && <Notify message={message} />}
       {children}
     </AuthContext.Provider>
