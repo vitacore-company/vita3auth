@@ -1,106 +1,86 @@
 import { useRef, useState } from "react"
 import { Tooltip } from "react-tooltip"
-import {
-  downloadCodeAsFile,
-  tooltipStyle,
-  writeCodeToBuffer,
-} from "../../utils/utils"
+import { tooltipStyle } from "../../utils/utils"
 import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
-import Upload from "../Upload/Upload"
 import { v4 as uuidv4 } from "uuid"
+import Upload from "../Upload/Upload"
 
 const Modal = ({ closeModal }: IModal) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { loginSalt, setLoginSalt, writeLoginSalt, generateWallet } =
+  const { setLoginSalt, generateWallet, saveCodeMethods, writeLoginSalt } =
     useAuthContext()
 
-  const fileUploadClick = () => {
-    fileInputRef.current?.click()
-  }
+  const addCodeMethods = [
+    { label: "Подгрузить файлом", fn: () => fileInputRef.current?.click() },
+    {
+      label: "Добавить код из буффера",
+      fn: () => {
+        writeLoginSalt()
+        closeModal()
+      },
+    },
+  ]
 
-  const createWallet = async () => {
+  const generateLoginSalt = async () => {
     setLoginSalt(uuidv4())
     setStep2("save")
   }
 
-  const addCode = () => {
-    setStep2("add")
-  }
-
-  const actCode = async (type: string) => {
-    if (step2 === "save") {
-      switch (type) {
-        case "file":
-          downloadCodeAsFile(loginSalt!)
-          closeModal()
-          generateWallet()
-          break
-        case "buffer":
-          await writeCodeToBuffer(loginSalt!)
-          closeModal()
-          generateWallet()
-          break
-        default:
-          break
-      }
-    }
-    if (step2 === "add") {
-      switch (type) {
-        case "file":
-          fileUploadClick()
-          break
-        case "buffer":
-          if (await writeLoginSalt()) closeModal()
-          break
-        default:
-          break
-      }
-    }
+  const saveCode = (fn: any) => {
+    fn()
+    closeModal()
+    generateWallet()
   }
 
   return (
     <div className="modal">
       <div className="modal_content">
         {step2 ? (
-          <>
-            <div className="modal_content_label">
-              {step2 === "save"
-                ? "Сохраните номер уникального кода"
-                : "Добавьте номер уникального кода"}
-            </div>
-            <div className="modal_content_save">
-              <div
-                onClick={() => actCode("file")}
-                data-tooltip-id="download-tooltip"
-                data-tooltip-content={
-                  step2 === "save"
-                    ? "Скачайте код файлом"
-                    : "Добавьте код файлом"
-                }
-                className="modal_content_save_btn"
-              >
-                &#x2193;
+          step2 === "save" ? (
+            <>
+              <div className="modal_content_label">
+                Сохраните номер уникального кода
               </div>
-              <div
-                onClick={() => actCode("buffer")}
-                data-tooltip-id="download-tooltip"
-                data-tooltip-content={
-                  step2 === "save"
-                    ? " Сохраните код в буффер"
-                    : "Добавьте код из буффера"
-                }
-                className="modal_content_save_btn"
-              >
-                B
+              <div className="modal_content_save">
+                {saveCodeMethods.map((method: any, i: number) => (
+                  <div
+                    key={i}
+                    onClick={() => saveCode(method.fn)}
+                    data-tooltip-id="save-tooltip"
+                    data-tooltip-content={method.label}
+                    className="modal_content_save_btn"
+                  >
+                    copy
+                  </div>
+                ))}
+                <Tooltip id="save-tooltip" style={tooltipStyle} />
               </div>
-
+            </>
+          ) : (
+            <>
+              <div className="modal_content_label">
+                Добавьте номер уникального кода
+              </div>
+              <div className="modal_content_save">
+                {addCodeMethods.map((method: any, i: number) => (
+                  <div
+                    key={i}
+                    onClick={method.fn}
+                    data-tooltip-id="add-tooltip"
+                    data-tooltip-content={method.label}
+                    className="modal_content_save_btn"
+                  >
+                    add
+                  </div>
+                ))}
+                <Tooltip id="add-tooltip" style={tooltipStyle} />
+              </div>
               <Upload uploadRef={fileInputRef} onFinish={closeModal} />
-              <Tooltip id="download-tooltip" style={tooltipStyle} />
-            </div>
-          </>
+            </>
+          )
         ) : (
           <>
             <div className="modal_content_label">
@@ -111,10 +91,16 @@ const Modal = ({ closeModal }: IModal) => {
               кошелек. Хотите продолжить?
             </div>
             <div className="modal_content_btns">
-              <div onClick={createWallet} className="modal_content_btns_new">
+              <div
+                onClick={generateLoginSalt}
+                className="modal_content_btns_new"
+              >
                 Создать новый кошелек
               </div>
-              <div onClick={addCode} className="modal_content_btns_code">
+              <div
+                onClick={() => setStep2("add")}
+                className="modal_content_btns_code"
+              >
                 Вставить код
               </div>
             </div>
