@@ -40,7 +40,9 @@ export const readFromBuffer = async () => {
   return clipboardText
 }
 
-export const uploadFile = (file: any) => {
+export const uploadFile = (
+  file: FileList[0] | null
+): Promise<string | null> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.onload = (event) => {
@@ -53,6 +55,8 @@ export const uploadFile = (file: any) => {
     }
     if (file) {
       reader.readAsText(file)
+    } else {
+      resolve(null)
     }
   })
 }

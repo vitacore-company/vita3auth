@@ -60,7 +60,6 @@ export interface IAuthContextProvider {
 }
 
 export interface IModal {
-  onOk: any
   closeModal: () => void
   sendEOA: (wallet?: Wallet) => void
 }

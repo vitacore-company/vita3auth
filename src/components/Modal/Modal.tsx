@@ -5,11 +5,12 @@ import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import Upload from "../Upload/Upload"
 
-const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
-  const fileInputRef: any = useRef(null)
+const Modal = ({ closeModal, sendEOA }: IModal) => {
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [step2, setStep2] = useState<string | null>(null)
-  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
+  const { loginSalt, setLoginSalt, writeLoginSalt, generateWallet } =
+    useAuthContext()
 
   const endModal = () => {
     sendEOA()
@@ -21,8 +22,8 @@ const Modal = ({ onOk, closeModal, sendEOA }: IModal) => {
   }
 
   const createWallet = async () => {
-    const uuid = await onOk()
-    setLoginSalt(uuid)
+    // const uuid = await generateWallet()
+    // setLoginSalt(uuid)
     setStep2("save")
   }
 

@@ -137,7 +137,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   }
 
   const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file: any = await uploadFile(e.target.files && e.target.files[0])
+    const file = await uploadFile(e.target.files && e.target.files[0])
     if (file) {
       setLoginSalt(file)
       return file
@@ -161,13 +161,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         getSaltFromFile,
       }}
     >
-      {modalShow && (
-        <Modal
-          onOk={generateWallet}
-          closeModal={closeModal}
-          sendEOA={sendEOA}
-        />
-      )}
+      {modalShow && <Modal closeModal={closeModal} sendEOA={sendEOA} />}
       {message && <Notify message={message} />}
       {children}
     </AuthContext.Provider>
