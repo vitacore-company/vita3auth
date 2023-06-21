@@ -77,6 +77,12 @@
   align-items: center;
 }
 
+@mixin code-btn {
+  padding: 10px;
+  border-radius: 15px;
+  transition-duration: 0.2s;
+}
+
 $border-radius: 19px;
 $linear-gradient-light: linear-gradient(
     93.2deg,
@@ -141,22 +147,6 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
       @include gradient-border;
     }
 
-    .tooltip {
-      font-family: sans-serif;
-
-      &_label {
-        font-size: 18px;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-      &_btn {
-        &:hover {
-          cursor: pointer;
-          color: rgb(189, 189, 189);
-        }
-      }
-    }
-
     &_email {
       &_label {
         @include input_label-style;
@@ -186,28 +176,6 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
         bottom: 0;
         border-radius: $border-radius;
       }
-    }
-    &_hash {
-      position: absolute;
-      right: 15px;
-      top: 12px;
-      color: white;
-      font-family: sans-serif;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    &_hash-empty {
-      background: #893838fa;
-    }
-    &_hash-filled {
-      background: #38894efa;
     }
   }
 
@@ -455,9 +423,65 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
 }
 
 //Upload
-
 .upload {
   display: none;
+}
+
+//Code
+
+.code {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 15px;
+  bottom: 12px;
+  width: 200px;
+  height: 25px;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  padding: 10px;
+  z-index: 3;
+  transition-duration: 1s;
+  overflow: hidden;
+  &:hover {
+    height: 300px;
+  }
+  &_label {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  &_content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    &_btn {
+      background-color: rgba(255, 255, 255, 0.217);
+      @include code-btn;
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.364);
+      }
+    }
+    &_btn-change {
+      background-color: rgba(174, 41, 41, 0.312);
+      @include code-btn;
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(174, 41, 41, 0.525);
+      }
+    }
+  }
+
+  &-empty {
+    background: #89383845;
+  }
+  &-filled {
+    background: #2cd85a38;
+  }
 }
 
 @keyframes copied {

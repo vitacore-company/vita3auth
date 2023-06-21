@@ -9,7 +9,7 @@
         "lackData": "Нехватает данных",
         "wrongHash": "Неверный код",
         "hashAdded": "Код добавлен",
-        "noHash": "Код отсутствует, добавьте из буффера"
+        "noHash": "Код отсутствует"
     },
     "en": {
         "email": "Email",
@@ -21,7 +21,7 @@
         "lackData": "Lack data",
         "wrongHash": "Wrong code",
         "hashAdded": "Code has been added, click for adding new one",
-        "noHash": "Add code from buffer"
+        "noHash": "No code"
     },
     "ch": {
         "email": "電子郵件",
