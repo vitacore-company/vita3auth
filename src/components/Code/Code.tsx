@@ -1,7 +1,5 @@
 import { useRef } from "react"
-import { tooltipStyle } from "../../utils/utils"
 import { useAuthContext } from "../Auth/AuthContext"
-import { Tooltip } from "react-tooltip"
 import { useTranslation } from "react-i18next"
 import Upload from "../Upload/Upload"
 
