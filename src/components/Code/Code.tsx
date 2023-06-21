@@ -4,13 +4,7 @@ import { useTranslation } from "react-i18next"
 import Upload from "../Upload/Upload"
 
 const Code = () => {
-  const {
-    loginSalt,
-    setLoginSalt,
-    writeLoginSalt,
-    saveCodeMethods,
-    setMessage,
-  } = useAuthContext()
+  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
 
   const { t } = useTranslation()
 
@@ -18,11 +12,6 @@ const Code = () => {
 
   const fileUploadClick = () => {
     fileInputRef.current?.click()
-  }
-
-  const saveCode = (fn: () => void) => {
-    fn()
-    setMessage({ text: "saved", type: "success" })
   }
 
   return (
@@ -33,35 +22,21 @@ const Code = () => {
           : t("noHash") || "no code"}
       </div>
       <div className="code_content">
-        {loginSalt ? (
-          <>
-            {saveCodeMethods.map((method, i: number) => (
-              <div
-                key={i}
-                className="code_content_btn"
-                onClick={() => saveCode(method.fn)}
-              >
-                {method.label}
-              </div>
-            ))}
-            <div
-              className="code_content_btn code_content_btn-change"
-              onClick={() => setLoginSalt(null)}
-            >
-              Изменить код
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="code_content_btn" onClick={writeLoginSalt}>
-              Скопировать из буффера
-            </div>
-            <div className="code_content_btn" onClick={fileUploadClick}>
-              Загрузить из файла
-            </div>
-            <Upload uploadRef={fileInputRef} />
-          </>
+        <div className="code_content_btn" onClick={writeLoginSalt}>
+          Скопировать из буффера
+        </div>
+        <div className="code_content_btn" onClick={fileUploadClick}>
+          Загрузить из файла
+        </div>
+        {loginSalt && (
+          <div
+            className="code_content_btn code_content_btn-change"
+            onClick={() => setLoginSalt(null)}
+          >
+            Удалить код
+          </div>
         )}
+        <Upload uploadRef={fileInputRef} />
       </div>
     </div>
   )
