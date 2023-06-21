@@ -1,10 +1,9 @@
 import { useRef, useState } from "react"
-import { Tooltip } from "react-tooltip"
-import { tooltipStyle } from "../../utils/utils"
-import { IModal } from "../../types"
+import { IModal, Imethod } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import { v4 as uuidv4 } from "uuid"
 import Upload from "../Upload/Upload"
+import ModalBtn from "./ModalBtn"
 
 const Modal = ({ closeModal }: IModal) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -13,14 +12,21 @@ const Modal = ({ closeModal }: IModal) => {
   const { setLoginSalt, generateWallet, saveCodeMethods, writeLoginSalt } =
     useAuthContext()
 
-  const addCodeMethods = [
-    { label: "Подгрузить файлом", fn: () => fileInputRef.current?.click() },
+  const addCodeMethods: Imethod[] = [
+    {
+      label: "Добавить из файла",
+      fn: () => {
+        fileInputRef.current?.click()
+      },
+      icon: () => <div>&darr;</div>,
+    },
     {
       label: "Добавить код из буффера",
       fn: () => {
         writeLoginSalt()
         closeModal()
       },
+      icon: () => <div>B</div>,
     },
   ]
 
@@ -29,7 +35,7 @@ const Modal = ({ closeModal }: IModal) => {
     setStep2("save")
   }
 
-  const saveCode = (fn: any) => {
+  const saveCode = (fn: () => void) => {
     fn()
     closeModal()
     generateWallet()
@@ -45,18 +51,14 @@ const Modal = ({ closeModal }: IModal) => {
                 Сохраните номер уникального кода
               </div>
               <div className="modal_content_save">
-                {saveCodeMethods.map((method: any, i: number) => (
-                  <div
+                {saveCodeMethods.map(({ fn, label, icon }, i: number) => (
+                  <ModalBtn
                     key={i}
-                    onClick={() => saveCode(method.fn)}
-                    data-tooltip-id="save-tooltip"
-                    data-tooltip-content={method.label}
-                    className="modal_content_save_btn"
-                  >
-                    copy
-                  </div>
+                    fn={() => saveCode(fn)}
+                    label={label}
+                    icon={icon}
+                  />
                 ))}
-                <Tooltip id="save-tooltip" style={tooltipStyle} />
               </div>
             </>
           ) : (
@@ -65,18 +67,9 @@ const Modal = ({ closeModal }: IModal) => {
                 Добавьте номер уникального кода
               </div>
               <div className="modal_content_save">
-                {addCodeMethods.map((method: any, i: number) => (
-                  <div
-                    key={i}
-                    onClick={method.fn}
-                    data-tooltip-id="add-tooltip"
-                    data-tooltip-content={method.label}
-                    className="modal_content_save_btn"
-                  >
-                    add
-                  </div>
+                {addCodeMethods.map(({ fn, label, icon }, i: number) => (
+                  <ModalBtn key={i} fn={fn} label={label} icon={icon} />
                 ))}
-                <Tooltip id="add-tooltip" style={tooltipStyle} />
               </div>
               <Upload uploadRef={fileInputRef} onFinish={closeModal} />
             </>

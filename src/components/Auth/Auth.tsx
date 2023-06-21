@@ -2,12 +2,12 @@ import { useEffect, useState, useRef } from "react"
 import { useAuthContext, withAuthContext } from "./AuthContext"
 import { useTranslation } from "react-i18next"
 import { checkEmail, tooltipStyle } from "../../utils/utils"
-import { AuthI, IauthError } from "../../types"
+import { IAuth, IauthError } from "../../types"
 import { Tooltip } from "react-tooltip"
 import Ellipse from "../Ellipse/Ellipse"
 import Upload from "../Upload/Upload"
 
-function Auth(props: AuthI) {
+function Auth(props: IAuth) {
   const { label } = props
   const { t } = useTranslation()
   const {
@@ -94,7 +94,7 @@ function Auth(props: AuthI) {
     fileInputRef.current?.click()
   }
 
-  const saveCode = (fn: any) => {
+  const saveCode = (fn: () => void) => {
     fn()
     setMessage({ text: "saved", type: "success" })
   }
@@ -143,7 +143,7 @@ function Auth(props: AuthI) {
               <div className="tooltip_label">
                 {t("hashAdded") || "code was added"}
               </div>
-              {saveCodeMethods.map((method: any, i: number) => (
+              {saveCodeMethods.map((method, i: number) => (
                 <div
                   key={i}
                   className="tooltip_btn"

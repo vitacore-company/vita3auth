@@ -7,13 +7,14 @@ import {
   SetStateAction,
 } from "react"
 
-export interface IAuthContextProvider extends AuthI {
+export interface IAuthContextProvider extends IAuth {
   children: ReactNode
 }
-export interface AuthI {
+export interface IAuth {
   onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
   label: string
   language?: "en" | "ru" | "ch" | "ar" | "sp" | "in" | "it" | "ge"
+  saveCodeExternal: IExternalMethod[]
 }
 
 export type walletEOAState = ethers.Wallet | null
@@ -45,13 +46,13 @@ export interface IAuthContext {
   setLoginSalt: Dispatch<SetStateAction<string | null>>
   generateWallet: () => void
   writeLoginSalt: () => Promise<string | null>
-  getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<any>
+  getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<string | null>
   loginSalt: string | null
   email: string
   setEmail: Dispatch<SetStateAction<string>>
   password: string
   setPassword: Dispatch<SetStateAction<string>>
-  saveCodeMethods: any
+  saveCodeMethods: Imethod[]
 }
 
 export interface IAuthContextProvider {
@@ -62,7 +63,20 @@ export interface IModal {
   closeModal: () => void
 }
 
+export interface IModalBtn extends Imethod {}
+
 export interface IUpload {
   uploadRef: RefObject<HTMLInputElement>
   onFinish?: () => void
+}
+
+export interface Imethod {
+  label: string
+  fn: () => void
+  icon: () => JSX.Element
+}
+export interface IExternalMethod {
+  label: string
+  fn: (salt: string) => void
+  icon: () => JSX.Element
 }

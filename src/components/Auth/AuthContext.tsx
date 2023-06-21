@@ -10,10 +10,11 @@ import { ethers } from "ethers"
 
 import Notify from "../Notify/Notify"
 import {
-  AuthI,
+  IAuth,
   IMessage,
   IAuthContext,
   IAuthContextProvider,
+  Imethod,
 } from "../../types"
 import Modal from "../Modal/Modal"
 import {
@@ -43,7 +44,7 @@ export const AuthContext = createContext<IAuthContext>({
 })
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
-  const { onEOAchange, children, language } = props
+  const { onEOAchange, children, language, saveCodeExternal } = props
   const { t } = useTranslation()
 
   const [message, setMessage] = useState<IMessage | null>(null)
@@ -59,15 +60,31 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     localStorage.getItem("password") || ""
   )
 
-  const saveCodeMethods = useMemo(
+  const saveCodeExternalMethods = useMemo(
+    () =>
+      saveCodeExternal.map(({ label, fn, icon }) => ({
+        label,
+        icon,
+        fn: () => fn(loginSalt!),
+      })),
+    [loginSalt, saveCodeExternal]
+  )
+
+  const saveCodeMethods: Imethod[] = useMemo(
     () => [
       {
         label: "Скопировать в буффер",
         fn: () => writeCodeToBuffer(loginSalt!),
+        icon: () => <div>save</div>,
       },
-      { label: "Загрузить файлом", fn: () => downloadCodeAsFile(loginSalt!) },
+      {
+        label: "Загрузить файл",
+        fn: () => downloadCodeAsFile(loginSalt!),
+        icon: () => <div>save</div>,
+      },
+      ...saveCodeExternalMethods,
     ],
-    [loginSalt]
+    [loginSalt, saveCodeExternalMethods]
   )
 
   useEffect(() => {
@@ -163,8 +180,8 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   )
 }
 
-export const withAuthContext = (Component: (props: AuthI) => JSX.Element) => {
-  const EnhancedComponent = (props: AuthI) => {
+export const withAuthContext = (Component: (props: IAuth) => JSX.Element) => {
+  const EnhancedComponent = (props: IAuth) => {
     return (
       <AuthContextProvider {...props}>
         <Component {...props} />
