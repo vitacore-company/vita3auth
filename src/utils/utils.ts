@@ -23,7 +23,7 @@ export const parseAccount = (account: string) => {
   return combined.join("")
 }
 
-export function downloadAsFile(data: string) {
+export function downloadCodeAsFile(data: string) {
   let a = document.createElement("a")
   let file = new Blob([data], { type: "application/json" })
   a.href = URL.createObjectURL(file)
@@ -31,7 +31,7 @@ export function downloadAsFile(data: string) {
   a.click()
 }
 
-export const writeToBuffer = async (text: string) => {
+export const writeCodeToBuffer = async (text: string) => {
   await navigator.clipboard.writeText(text!)
 }
 

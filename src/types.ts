@@ -44,8 +44,6 @@ export interface IAuthContext {
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
   generateWallet: () => void
-  copyToBuffer: () => Promise<void>
-  downloadSalt: () => void
   writeLoginSalt: () => Promise<string | null>
   getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<any>
   loginSalt: string | null
@@ -53,6 +51,7 @@ export interface IAuthContext {
   setEmail: Dispatch<SetStateAction<string>>
   password: string
   setPassword: Dispatch<SetStateAction<string>>
+  saveCodeMethods: any
 }
 
 export interface IAuthContextProvider {

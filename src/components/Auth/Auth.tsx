@@ -16,13 +16,12 @@ function Auth(props: AuthI) {
     loginSalt,
     setLoginSalt,
     generateWallet,
-    copyToBuffer,
-    downloadSalt,
     writeLoginSalt,
     email,
     setEmail,
     password,
     setPassword,
+    saveCodeMethods,
   } = useAuthContext()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -95,6 +94,11 @@ function Auth(props: AuthI) {
     fileInputRef.current?.click()
   }
 
+  const saveCode = (fn: any) => {
+    fn()
+    setMessage({ text: "saved", type: "success" })
+  }
+
   return (
     <div className="auth" id="auth">
       <div className="auth_label">{label}</div>
@@ -139,12 +143,15 @@ function Auth(props: AuthI) {
               <div className="tooltip_label">
                 {t("hashAdded") || "code was added"}
               </div>
-              <div className="tooltip_btn" onClick={copyToBuffer}>
-                Скопировать в буффер
-              </div>
-              <div className="tooltip_btn" onClick={downloadSalt}>
-                Загрузить файлом
-              </div>
+              {saveCodeMethods.map((method: any, i: number) => (
+                <div
+                  key={i}
+                  className="tooltip_btn"
+                  onClick={() => saveCode(method.fn)}
+                >
+                  {method.label}
+                </div>
+              ))}
               <div className="tooltip_btn" onClick={() => setLoginSalt(null)}>
                 Изменить код
               </div>

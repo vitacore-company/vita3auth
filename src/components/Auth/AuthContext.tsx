@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   ChangeEvent,
+  useMemo,
 } from "react"
 import { ethers } from "ethers"
 
@@ -17,11 +18,11 @@ import {
 import Modal from "../Modal/Modal"
 import {
   checkLoginSalt,
-  downloadAsFile,
+  downloadCodeAsFile,
   getCryptoHash,
   readFromBuffer,
   uploadFile,
-  writeToBuffer,
+  writeCodeToBuffer,
 } from "../../utils/utils"
 import i18n from "../../utils/translation"
 import { useTranslation } from "react-i18next"
@@ -31,8 +32,6 @@ export const AuthContext = createContext<IAuthContext>({
   setModalShow: () => undefined,
   setLoginSalt: () => undefined,
   generateWallet: () => new Promise(() => ""),
-  copyToBuffer: () => new Promise(() => {}),
-  downloadSalt: () => undefined,
   writeLoginSalt: () => new Promise(() => null),
   getSaltFromFile: () => new Promise(() => null),
   loginSalt: null,
@@ -40,6 +39,7 @@ export const AuthContext = createContext<IAuthContext>({
   setEmail: () => undefined,
   password: "",
   setPassword: () => undefined,
+  saveCodeMethods: [],
 })
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
@@ -57,6 +57,17 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   )
   const [password, setPassword] = useState<string>(
     localStorage.getItem("password") || ""
+  )
+
+  const saveCodeMethods = useMemo(
+    () => [
+      {
+        label: "Скопировать в буффер",
+        fn: () => writeCodeToBuffer(loginSalt!),
+      },
+      { label: "Загрузить файлом", fn: () => downloadCodeAsFile(loginSalt!) },
+    ],
+    [loginSalt]
   )
 
   useEffect(() => {
@@ -105,16 +116,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }
 
-  const copyToBuffer = async () => {
-    writeToBuffer(loginSalt!)
-    setMessage({ text: "copied", type: "success" })
-  }
-
-  const downloadSalt = () => {
-    downloadAsFile(loginSalt!)
-    setMessage({ text: "downloaded", type: "success" })
-  }
-
   const writeLoginSalt = async () => {
     const clipboardText = await readFromBuffer()
     const checkedSalt = checkLoginSalt(clipboardText)
@@ -146,14 +147,13 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         loginSalt,
         setLoginSalt,
         generateWallet,
-        copyToBuffer,
-        downloadSalt,
         writeLoginSalt,
         getSaltFromFile,
         email,
         setEmail,
         password,
         setPassword,
+        saveCodeMethods,
       }}
     >
       {modalShow && <Modal closeModal={closeModal} />}

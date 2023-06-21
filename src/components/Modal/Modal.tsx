@@ -1,6 +1,10 @@
 import { useRef, useState } from "react"
 import { Tooltip } from "react-tooltip"
-import { downloadAsFile, tooltipStyle, writeToBuffer } from "../../utils/utils"
+import {
+  downloadCodeAsFile,
+  tooltipStyle,
+  writeCodeToBuffer,
+} from "../../utils/utils"
 import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import Upload from "../Upload/Upload"
@@ -30,12 +34,12 @@ const Modal = ({ closeModal }: IModal) => {
     if (step2 === "save") {
       switch (type) {
         case "file":
-          downloadAsFile(loginSalt!)
+          downloadCodeAsFile(loginSalt!)
           closeModal()
           generateWallet()
           break
         case "buffer":
-          await writeToBuffer(loginSalt!)
+          await writeCodeToBuffer(loginSalt!)
           closeModal()
           generateWallet()
           break
@@ -80,7 +84,6 @@ const Modal = ({ closeModal }: IModal) => {
               >
                 &#x2193;
               </div>
-              <Upload uploadRef={fileInputRef} onFinish={closeModal} />
               <div
                 onClick={() => actCode("buffer")}
                 data-tooltip-id="download-tooltip"
@@ -93,6 +96,8 @@ const Modal = ({ closeModal }: IModal) => {
               >
                 B
               </div>
+
+              <Upload uploadRef={fileInputRef} onFinish={closeModal} />
               <Tooltip id="download-tooltip" style={tooltipStyle} />
             </div>
           </>
