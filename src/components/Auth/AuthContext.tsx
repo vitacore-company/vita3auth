@@ -1,7 +1,11 @@
-import { useState, createContext, useContext, useEffect, useMemo } from "react"
-import { ethers } from "ethers"
-
-import Notify from "../Notify/Notify"
+import {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react"
 import {
   IAuth,
   IMessage,
@@ -9,7 +13,6 @@ import {
   IAuthContextProvider,
   Imethod,
 } from "../../types"
-import Modal from "../Modal/Modal"
 import {
   checkLoginSalt,
   downloadCodeAsFile,
@@ -19,22 +22,14 @@ import {
   uploadFile,
   writeCodeToBuffer,
 } from "../../utils/utils"
-import i18n from "../../utils/translation"
+import { ethers } from "ethers"
 import { useTranslation } from "react-i18next"
+import { AuthContextDefault } from "./AuthContextDefault"
+import i18n from "../../utils/translation"
+import Notify from "../Notify/Notify"
+import Modal from "../Modal/Modal"
 
-export const AuthContext = createContext<IAuthContext>({
-  setMessage: () => undefined,
-  setModalShow: () => undefined,
-  setLoginSalt: () => undefined,
-  generateWallet: () => new Promise(() => ""),
-  loginSalt: null,
-  email: "",
-  setEmail: () => undefined,
-  password: "",
-  setPassword: () => undefined,
-  saveCodeMethods: [],
-  addCodeMethods: [],
-})
+export const AuthContext = createContext<IAuthContext>(AuthContextDefault)
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
   const { onEOAchange, children, language, saveCodeExternal, addCodeExternal } =
@@ -54,26 +49,49 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     localStorage.getItem("password") || ""
   )
 
-  const saveCodeMethods: Imethod[] = useMemo(
-    () => [
-      {
-        label: "Скопировать в буффер",
-        fn: () => writeCodeToBuffer(loginSalt!),
-        icon: () => <div>B</div>,
-      },
-      {
-        label: "Загрузить файл",
-        fn: () => downloadCodeAsFile(loginSalt!),
-        icon: () => <div>F</div>,
-      },
-      ...saveCodeExternal.map(({ label, fn, icon }) => ({
-        label,
-        icon,
-        fn: () => fn(loginSalt!),
-      })),
-    ],
-    [loginSalt, saveCodeExternal]
-  )
+  const closeModal = () => {
+    setModalShow(false)
+  }
+
+  const generateWallet = async () => {
+    if (email && password && loginSalt) {
+      const userPrivateKey = await getCryptoHash(
+        `${email}_${password}_${loginSalt}`
+      )
+      const newUserWallet = new ethers.Wallet(userPrivateKey)
+      localStorage.setItem("loginSalt", loginSalt)
+      localStorage.setItem("email", email)
+      localStorage.setItem("password", password)
+      onEOAchange(newUserWallet)
+    } else {
+      setMessage({ text: "generating wallet error", type: "error" })
+    }
+  }
+
+  const getSaltFromBuffer = useCallback(async () => {
+    const clipboardText = await readFromBuffer()
+    const checkedSalt = checkLoginSalt(clipboardText)
+    if (checkedSalt) {
+      setLoginSalt(checkedSalt)
+      return checkedSalt
+    } else {
+      setMessage({ text: t("wrongHash"), type: "error" })
+      return null
+    }
+  }, [t])
+
+  const getSaltFromFile = async () => {
+    const file = await uploadFile()
+    if (file) {
+      const salt = await readFile(file)
+      if (salt) {
+        setLoginSalt(salt)
+        return salt
+      }
+    }
+    setMessage({ text: "failed upload", type: "error" })
+    return null
+  }
 
   useEffect(() => {
     if (language) {
@@ -102,70 +120,50 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }, [message])
 
-  const closeModal = () => {
-    setModalShow(false)
-  }
-
-  const generateWallet = async () => {
-    if (email && password && loginSalt) {
-      const userPrivateKey = await getCryptoHash(
-        `${email}_${password}_${loginSalt}`
-      )
-      const newUserWallet = new ethers.Wallet(userPrivateKey)
-      localStorage.setItem("loginSalt", loginSalt)
-      localStorage.setItem("email", email)
-      localStorage.setItem("password", password)
-      onEOAchange(newUserWallet)
-    } else {
-      setMessage({ text: "generating wallet error", type: "error" })
-    }
-  }
-
-  const writeSaltFromBuffer = async () => {
-    const clipboardText = await readFromBuffer()
-    const checkedSalt = checkLoginSalt(clipboardText)
-    if (checkedSalt) {
-      setLoginSalt(checkedSalt)
-      return checkedSalt
-    } else {
-      setMessage({ text: t("wrongHash"), type: "error" })
-      return null
-    }
-  }
-
-  const getSaltFromFile = async () => {
-    const file = await uploadFile()
-    if (file) {
-      const salt = await readFile(file)
-      if (salt) {
-        setLoginSalt(salt)
-        return salt
-      }
-    }
-    setMessage({ text: "failed upload", type: "error" })
-    return null
-  }
-
-  const addCodeMethods: Imethod[] = [
-    {
-      label: "Добавить из файла",
-      fn: getSaltFromFile,
-      icon: () => <div>&darr;</div>,
-    },
-    {
-      label: "Добавить код из буффера",
-      fn: writeSaltFromBuffer,
-      icon: () => <div>B</div>,
-    },
-    ...addCodeExternal.map(({ label, fn, icon }) => ({
-      label,
-      icon,
-      fn: async () => {
-        const salt = await fn()
-        setLoginSalt(salt)
+  const addCodeMethods: Imethod[] = useMemo(
+    () => [
+      {
+        label: "Добавить из файла",
+        fn: getSaltFromFile,
+        icon: () => <div>&darr;</div>,
       },
-    })),
-  ]
+      {
+        label: "Добавить код из буффера",
+        fn: getSaltFromBuffer,
+        icon: () => <div>B</div>,
+      },
+      ...addCodeExternal.map(({ label, fn, icon }) => ({
+        label,
+        icon,
+        fn: async () => {
+          const salt = await fn()
+          setLoginSalt(salt)
+        },
+      })),
+    ],
+    [addCodeExternal, getSaltFromBuffer]
+  )
+
+  const saveCodeMethods: Imethod[] = useMemo(
+    () => [
+      {
+        label: "Скопировать в буффер",
+        fn: () => writeCodeToBuffer(loginSalt!),
+        icon: () => <div>B</div>,
+      },
+      {
+        label: "Загрузить файл",
+        fn: () => downloadCodeAsFile(loginSalt!),
+        icon: () => <div>F</div>,
+      },
+      ...saveCodeExternal.map(({ label, fn, icon }) => ({
+        label,
+        icon,
+        fn: () => fn(loginSalt!),
+      })),
+    ],
+    [loginSalt, saveCodeExternal]
+  )
 
   return (
     <AuthContext.Provider
