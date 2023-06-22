@@ -9,7 +9,13 @@
         "lackData": "Нехватает данных",
         "wrongHash": "Неверный код",
         "hashAdded": "Код добавлен",
-        "noHash": "Код отсутствует"
+        "noHash": "Код отсутствует",
+        "generatingWalletError": "Ошибка создания кошелька",
+        "failedUpload": "Ошибка загрузки",
+        "addCodeFromFile": "Добавить код из файла",
+        "addCodeFromBuffer": "Добавить код из буфера",
+        "addCodeToBuffer": "Добавить код в буфер",
+        "addCodeToFile": "Скачать код файлом"
     },
     "en": {
         "email": "Email",
@@ -21,7 +27,13 @@
         "lackData": "Lack data",
         "wrongHash": "Wrong code",
         "hashAdded": "Code has been added, click for adding new one",
-        "noHash": "No code"
+        "noHash": "No code",
+        "generatingWalletError": "Wallet creation error",
+        "failedUpload": "Loading error",
+        "addCodeFromFile": "Add code from file",
+        "addCodeFromBuffer": "Add code from clipboard",
+        "addCodeToBuffer": "Add Code to clipboard",
+        "addCodeToFile": "Download code file"
     },
     "ch": {
         "email": "電子郵件",
@@ -33,7 +45,13 @@
         "lackData": "缺乏數據",
         "wrongHash": "錯誤代碼",
         "hashAdded": "添加代碼",
-        "noHash": "從緩衝區添加代碼"
+        "noHash": "從緩衝區添加代碼",
+        "generatingWalletError": "錢包創建錯誤",
+        "failedUpload": "加載錯誤",
+        "addCodeFromFile": "從文件添加代碼",
+        "addCodeFromBuffer": "從剪貼板添加代碼",
+        "addCodeToBuffer": "將代碼添加到緩衝區",
+        "addCodeToFile": "下載代碼文件"
     },
     "ar": {
         "email": "تسجيل الدخول",
@@ -45,7 +63,13 @@
         "lackData": "نقص البيانات",
         "wrongHash": "رمز خاطئ",
         "hashAdded": "تمت إضافة الرمز",
-        "noHash": "إضافة رمز من المخزن المؤقت"
+        "noHash": "إضافة رمز من المخزن المؤقت",
+        "generatingWalletError": "خطأ في إنشاء المحفظة",
+        "failedUpload": "خطأ في التحميل",
+        "addCodeFromFile": "أضف الكود من ملف",
+        "addCodeFromBuffer": "إضافة رمز من الحافظة",
+        "addCodeToBuffer": "أضف رمزًا إلى المخزن المؤقت",
+        "addCodeToFile": "قم بتنزيل ملف التعليمات البرمجية"
     },
     "sp": {
         "email": "Correo electrónico",
@@ -53,11 +77,17 @@
         "login": "Acceso",
         "notifyLabelError": "Error",
         "notifyLabelSuccess": "Éxito",
-        "wrongEmail": "email inválido",
-        "lackData": "carecen de datos",
-        "wrongHash": "codigo erroneo",
+        "wrongEmail": "Email inválido",
+        "lackData": "Carecen de datos",
+        "wrongHash": "Codigo erroneo",
         "hashAdded": "Código añadido",
-        "noHash": "Agregar código desde el búfer"
+        "noHash": "Agregar código desde el búfer",
+        "generatingWalletError": "Error de creación de billetera",
+        "failedUpload": "Error de carga",
+        "addCodeFromFile": "Agregar código desde archivo",
+        "addCodeFromBuffer": "Agregar código desde el portapapeles",
+        "addCodeToBuffer": "Agregar código al búfer",
+        "addCodeToFile": "Descargar archivo de código"
     },
     "in": {
         "email": "ईमेल",
@@ -69,7 +99,13 @@
         "lackData": "डेटा की कमी",
         "wrongHash": "गलत कोड",
         "hashAdded": "कोड जोड़ा गया",
-        "noHash": "बफर से कोड जोड़ें"
+        "noHash": "बफर से कोड जोड़ें",
+        "generatingWalletError": "बटुआ निर्माण त्रुटि",
+        "failedUpload": "लोड करने में त्रुटि",
+        "addCodeFromFile": "फ़ाइल से कोड जोड़ें",
+        "addCodeFromBuffer": "क्लिपबोर्ड से कोड जोड़ें",
+        "addCodeToBuffer": "बफ़र में कोड जोड़ें",
+        "addCodeToFile": "कोड फ़ाइल डाउनलोड करें"
     },
     "it": {
         "email": "Posta",
@@ -77,11 +113,17 @@
         "login": "Accedere",
         "notifyLabelError": "Errore",
         "notifyLabelSuccess": "Successo",
-        "wrongEmail": "e-mail non valido",
-        "lackData": "mancanza di dati",
-        "wrongHash": "codice errato",
+        "wrongEmail": "E-mail non valido",
+        "lackData": "Mancanza di dati",
+        "wrongHash": "Codice errato",
         "hashAdded": "Codice aggiunto",
-        "noHash": "Aggiungi codice dal buffer"
+        "noHash": "Aggiungi codice dal buffer",
+        "generatingWalletError": "Errore di creazione del portafoglio",
+        "failedUpload": "Errore di caricamento",
+        "addCodeFromFile": "Aggiungi codice dal file",
+        "addCodeFromBuffer": "Aggiungi codice dagli appunti",
+        "addCodeToBuffer": "Aggiungi codice al buffer",
+        "addCodeToFile": "Scarica il file del codice"
     },
     "ge": {
         "email": "Post",
@@ -89,10 +131,16 @@
         "login": "Willkommen",
         "notifyLabelError": "Fehler",
         "notifyLabelSuccess": "Erfolg",
-        "wrongEmail": "ungültige E-Mail",
-        "lackData": "es fehlen Daten",
-        "wrongHash": "falscher Code",
+        "wrongEmail": "Ungültige E-Mail",
+        "lackData": "Es fehlen Daten",
+        "wrongHash": "Falscher Code",
         "hashAdded": "Code hinzugefügt",
-        "noHash": "Code aus Puffer hinzufügen"
+        "noHash": "Code aus Puffer hinzufügen",
+        "generatingWalletError": "Fehler bei der Wallet-Erstellung",
+        "failedUpload": "Ladefehler",
+        "addCodeFromFile": "Code aus Datei hinzufügen",
+        "addCodeFromBuffer": "Code aus der Zwischenablage hinzufügen",
+        "addCodeToBuffer": "Code zum Puffer hinzufügen",
+        "addCodeToFile": "Codedatei herunterladen"
     }
 }

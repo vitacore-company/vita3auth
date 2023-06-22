@@ -64,7 +64,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
       localStorage.setItem("password", password)
       onEOAchange(newUserWallet)
     } else {
-      setMessage({ text: "generating wallet error", type: "error" })
+      setMessage({ text: t("generatingWalletError"), type: "error" })
     }
   }
 
@@ -80,7 +80,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }, [t])
 
-  const getSaltFromFile = async () => {
+  const getSaltFromFile = useCallback(async () => {
     const file = await uploadFile()
     if (file) {
       const salt = await readFile(file)
@@ -89,9 +89,9 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         return salt
       }
     }
-    setMessage({ text: "failed upload", type: "error" })
+    setMessage({ text: t("failedUpload"), type: "error" })
     return null
-  }
+  }, [t])
 
   useEffect(() => {
     if (language) {
@@ -124,12 +124,12 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   const addCodeMethods: Imethod[] = useMemo(
     () => [
       {
-        label: "Добавить из файла",
+        label: t("addCodeFromFile"),
         fn: getSaltFromFile,
         icon: () => <div>&darr;</div>,
       },
       {
-        label: "Добавить код из буффера",
+        label: t("addCodeFromBuffer"),
         fn: getSaltFromBuffer,
         icon: () => <div>B</div>,
       },
@@ -142,18 +142,18 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         },
       })),
     ],
-    [addCodeExternal, getSaltFromBuffer]
+    [addCodeExternal, getSaltFromBuffer, getSaltFromFile, t]
   )
 
   const saveCodeMethods: Imethod[] = useMemo(
     () => [
       {
-        label: "Скопировать в буффер",
+        label: t("addCodeToBuffer"),
         fn: () => writeCodeToBuffer(loginSalt!),
         icon: () => <div>B</div>,
       },
       {
-        label: "Загрузить файл",
+        label: t("addCodeToFile"),
         fn: () => downloadCodeAsFile(loginSalt!),
         icon: () => <div>F</div>,
       },
@@ -163,7 +163,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         fn: () => fn(loginSalt!),
       })),
     ],
-    [loginSalt, saveCodeExternal]
+    [loginSalt, saveCodeExternal, t]
   )
 
   return (
