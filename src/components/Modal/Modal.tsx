@@ -54,13 +54,13 @@ const Modal = ({ closeModal }: IModal) => {
                 onClick={generateLoginSalt}
                 className="modal_content_btns_new"
               >
-                Создать новый кошелек
+                {t("newWallet")}
               </div>
               <div
                 onClick={() => setStep2("add")}
                 className="modal_content_btns_code"
               >
-                Вставить код
+                {t("enterCode")}
               </div>
             </div>
             <div onClick={closeModal} className="modal_content_close">
