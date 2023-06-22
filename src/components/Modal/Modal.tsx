@@ -3,9 +3,12 @@ import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import { v4 as uuidv4 } from "uuid"
 import Step2 from "./Step2"
+import { useTranslation } from "react-i18next"
 
 const Modal = ({ closeModal }: IModal) => {
   const [step2, setStep2] = useState<string | null>(null)
+  const { t } = useTranslation()
+
   const { setLoginSalt, generateWallet, saveCodeMethods, addCodeMethods } =
     useAuthContext()
 
@@ -31,26 +34,21 @@ const Modal = ({ closeModal }: IModal) => {
         {step2 ? (
           step2 === "save" ? (
             <Step2
-              title="Сохраните номер уникального кода"
+              title={t("saveCode")}
               methodList={saveCodeMethods}
               callback={saveCode}
             />
           ) : (
             <Step2
-              title=" Добавьте номер уникального кода"
+              title={t("addCode")}
               methodList={addCodeMethods}
               callback={addCode}
             />
           )
         ) : (
           <>
-            <div className="modal_content_label">
-              Регистрация нового кошелька
-            </div>
-            <div className="modal_content_desc">
-              Вы входите без указания уникального кода, будет создан новый
-              кошелек. Хотите продолжить?
-            </div>
+            <div className="modal_content_label">{t("newWallet")}</div>
+            <div className="modal_content_desc">{t("goToStep2")}</div>
             <div className="modal_content_btns">
               <div
                 onClick={generateLoginSalt}

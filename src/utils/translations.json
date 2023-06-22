@@ -16,7 +16,11 @@
         "addCodeFromBuffer": "Добавить код из буфера",
         "addCodeToBuffer": "Добавить код в буфер",
         "addCodeToFile": "Скачать код файлом",
-        "removeCode": "Удалить код"
+        "removeCode": "Удалить код",
+        "saveCode": "Сохраните номер уникального кода",
+        "addCode": "Добавьте номер уникального кода",
+        "newWallet": "Регистрация нового кошелька",
+        "goToStep2": "Вы входите без указания уникального кода, будет создан новыйкошелек. Хотите продолжить?"
     },
     "en": {
         "email": "Email",
@@ -35,7 +39,11 @@
         "addCodeFromBuffer": "Add code from clipboard",
         "addCodeToBuffer": "Add Code to clipboard",
         "addCodeToFile": "Download code file",
-        "removeCode": "Delete code"
+        "removeCode": "Delete code",
+        "saveCode": "Save the unique code number",
+        "addCode": "Add a unique code number",
+        "newWallet": "Registering a new wallet",
+        "goToStep2": "You enter without specifying a unique code, a new one will be generated wallet. Do you want to continue?"
     },
     "ch": {
         "email": "電子郵件",
@@ -54,7 +62,11 @@
         "addCodeFromBuffer": "從剪貼板添加代碼",
         "addCodeToBuffer": "將代碼添加到緩衝區",
         "addCodeToFile": "下載代碼文件",
-        "removeCode": "刪除代碼"
+        "removeCode": "刪除代碼",
+        "saveCode": "保存唯一的代碼號",
+        "addCode": "添加唯一的代碼",
+        "newWallet": "註冊新錢包",
+        "goToStep2": "您輸入時未指定唯一代碼，將生成一個新代碼 錢包。你想繼續嗎？"
     },
     "ar": {
         "email": "تسجيل الدخول",
@@ -73,7 +85,11 @@
         "addCodeFromBuffer": "إضافة رمز من الحافظة",
         "addCodeToBuffer": "أضف رمزًا إلى المخزن المؤقت",
         "addCodeToFile": "قم بتنزيل ملف التعليمات البرمجية",
-        "removeCode": "حذف الرمز"
+        "removeCode": "حذف الرمز",
+        "saveCode": "احفظ رقم الكود الفريد",
+        "addCode": "أضف رقم كود فريد",
+        "newWallet": "تسجيل محفظة جديدة",
+        "goToStep2": "قمت بإدخال دون تحديد رمز فريد ، سيتم إنشاء رمز جديد محفظة. هل تريد الاستمرار؟"
     },
     "sp": {
         "email": "Correo electrónico",
@@ -92,7 +108,11 @@
         "addCodeFromBuffer": "Agregar código desde el portapapeles",
         "addCodeToBuffer": "Agregar código al búfer",
         "addCodeToFile": "Descargar archivo de código",
-        "removeCode": "Eliminar código"
+        "removeCode": "Eliminar código",
+        "saveCode": "Guarde el número de código único",
+        "addCode": "Agregar un número de código único",
+        "newWallet": "Registro de una nueva billetera",
+        "goToStep2": "Entras sin especificar un código único, se generará uno nuevo billetera. ¿Quieres continuar?"
     },
     "in": {
         "email": "ईमेल",
@@ -111,7 +131,11 @@
         "addCodeFromBuffer": "क्लिपबोर्ड से कोड जोड़ें",
         "addCodeToBuffer": "बफ़र में कोड जोड़ें",
         "addCodeToFile": "कोड फ़ाइल डाउनलोड करें",
-        "removeCode": "कोड हटाएं"
+        "removeCode": "कोड हटाएं",
+        "saveCode": "यूनिक कोड नंबर सेव करें",
+        "addCode": "एक अद्वितीय कोड संख्या जोड़ें",
+        "newWallet": "एक नया बटुआ पंजीकृत करना",
+        "goToStep2": "आप एक अद्वितीय कोड निर्दिष्ट किए बिना दर्ज करते हैं, एक नया उत्पन्न हो जाएगा बटुआ। क्या आप जारी रखना चाहते हैं?"
     },
     "it": {
         "email": "Posta",
@@ -130,7 +154,11 @@
         "addCodeFromBuffer": "Aggiungi codice dagli appunti",
         "addCodeToBuffer": "Aggiungi codice al buffer",
         "addCodeToFile": "Scarica il file del codice",
-        "removeCode": "Elimina codice"
+        "removeCode": "Elimina codice",
+        "saveCode": "Salva il numero di codice univoco",
+        "addCode": "Aggiungi un numero di codice univoco",
+        "newWallet": "Registrazione di un nuovo portafoglio",
+        "goToStep2": "Si entra senza specificare un codice univoco, ne verrà generato uno nuovo portafoglio. Vuoi continuare?"
     },
     "ge": {
         "email": "Post",
@@ -149,6 +177,10 @@
         "addCodeFromBuffer": "Code aus der Zwischenablage hinzufügen",
         "addCodeToBuffer": "Code zum Puffer hinzufügen",
         "addCodeToFile": "Codedatei herunterladen",
-        "removeCode": "Code löschen"
+        "removeCode": "Code löschen",
+        "saveCode": "Speichern Sie die eindeutige Codenummer",
+        "addCode": "Fügen Sie eine eindeutige Codenummer hinzu",
+        "newWallet": "Registrieren einer neuen Wallet",
+        "goToStep2": "Geben Sie ein, ohne einen eindeutigen Code anzugeben, es wird ein neuer Code generiert Geldbörse. Möchtest du fortfahren?"
     }
 }
