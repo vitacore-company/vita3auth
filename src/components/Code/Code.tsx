@@ -1,18 +1,10 @@
-import { useRef } from "react"
 import { useAuthContext } from "../Auth/AuthContext"
 import { useTranslation } from "react-i18next"
-import Upload from "../Upload/Upload"
 
 const Code = () => {
-  const { loginSalt, setLoginSalt, writeLoginSalt } = useAuthContext()
+  const { loginSalt, setLoginSalt, addCodeMethods } = useAuthContext()
 
   const { t } = useTranslation()
-
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const fileUploadClick = () => {
-    fileInputRef.current?.click()
-  }
 
   return (
     <div className={`code ${loginSalt ? "code-filled" : "code-empty"}`}>
@@ -22,12 +14,14 @@ const Code = () => {
           : t("noHash") || "no code"}
       </div>
       <div className="code_content">
-        <div className="code_content_btn" onClick={writeLoginSalt}>
-          Скопировать из буффера
-        </div>
-        <div className="code_content_btn" onClick={fileUploadClick}>
-          Загрузить из файла
-        </div>
+        {addCodeMethods.map(({ label, fn }, i: number) => {
+          return (
+            <div key={i} className="code_content_btn" onClick={fn}>
+              {label}
+            </div>
+          )
+        })}
+
         {loginSalt && (
           <div
             className="code_content_btn code_content_btn-change"
@@ -36,7 +30,6 @@ const Code = () => {
             Удалить код
           </div>
         )}
-        <Upload uploadRef={fileInputRef} />
       </div>
     </div>
   )

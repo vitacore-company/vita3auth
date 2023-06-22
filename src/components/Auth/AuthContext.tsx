@@ -5,6 +5,7 @@ import {
   useEffect,
   ChangeEvent,
   useMemo,
+  useRef,
 } from "react"
 import { ethers } from "ethers"
 
@@ -27,6 +28,7 @@ import {
 } from "../../utils/utils"
 import i18n from "../../utils/translation"
 import { useTranslation } from "react-i18next"
+import Upload from "../Upload/Upload"
 
 export const AuthContext = createContext<IAuthContext>({
   setMessage: () => undefined,
@@ -41,11 +43,13 @@ export const AuthContext = createContext<IAuthContext>({
   password: "",
   setPassword: () => undefined,
   saveCodeMethods: [],
+  addCodeMethods: [],
 })
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
   const { onEOAchange, children, language, saveCodeExternal } = props
   const { t } = useTranslation()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [message, setMessage] = useState<IMessage | null>(null)
   const [modalShow, setModalShow] = useState(false)
@@ -80,6 +84,24 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     ],
     [loginSalt, saveCodeExternal]
   )
+
+  const addCodeMethods: Imethod[] = [
+    {
+      label: "Добавить из файла",
+      fn: () => {
+        fileInputRef.current?.click()
+      },
+      icon: () => <div>&darr;</div>,
+    },
+    {
+      label: "Добавить код из буффера",
+      fn: () => {
+        writeLoginSalt()
+        closeModal()
+      },
+      icon: () => <div>B</div>,
+    },
+  ]
 
   useEffect(() => {
     if (language) {
@@ -165,8 +187,11 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         password,
         setPassword,
         saveCodeMethods,
+        addCodeMethods,
       }}
     >
+      <Upload uploadRef={fileInputRef} onFinish={closeModal} />
+
       {modalShow && <Modal closeModal={closeModal} />}
       {message && <Notify message={message} />}
       {children}

@@ -1,34 +1,13 @@
-import { useRef, useState } from "react"
-import { IModal, Imethod } from "../../types"
+import { useState } from "react"
+import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import { v4 as uuidv4 } from "uuid"
-import Upload from "../Upload/Upload"
 import ModalBtn from "./ModalBtn"
 
 const Modal = ({ closeModal }: IModal) => {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
   const [step2, setStep2] = useState<string | null>(null)
-  const { setLoginSalt, generateWallet, saveCodeMethods, writeLoginSalt } =
+  const { setLoginSalt, generateWallet, saveCodeMethods, addCodeMethods } =
     useAuthContext()
-
-  const addCodeMethods: Imethod[] = [
-    {
-      label: "Добавить из файла",
-      fn: () => {
-        fileInputRef.current?.click()
-      },
-      icon: () => <div>&darr;</div>,
-    },
-    {
-      label: "Добавить код из буффера",
-      fn: () => {
-        writeLoginSalt()
-        closeModal()
-      },
-      icon: () => <div>B</div>,
-    },
-  ]
 
   const generateLoginSalt = async () => {
     setLoginSalt(uuidv4())
@@ -71,7 +50,6 @@ const Modal = ({ closeModal }: IModal) => {
                   <ModalBtn key={i} fn={fn} label={label} icon={icon} />
                 ))}
               </div>
-              <Upload uploadRef={fileInputRef} onFinish={closeModal} />
             </>
           )
         ) : (

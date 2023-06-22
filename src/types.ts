@@ -53,6 +53,7 @@ export interface IAuthContext {
   password: string
   setPassword: Dispatch<SetStateAction<string>>
   saveCodeMethods: Imethod[]
+  addCodeMethods: Imethod[]
 }
 
 export interface IAuthContextProvider {
