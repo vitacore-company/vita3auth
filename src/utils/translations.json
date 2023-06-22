@@ -32,7 +32,7 @@
         "wrongEmail": "Invalid email",
         "lackData": "Lack data",
         "wrongHash": "Wrong code",
-        "hashAdded": "Code has been added, click for adding new one",
+        "hashAdded": "Сode added",
         "noHash": "No code",
         "generatingWalletError": "Wallet creation error",
         "failedUpload": "Loading error",
