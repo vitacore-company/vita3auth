@@ -121,7 +121,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }
 
-  const writeLoginSaltFromBuffer = async () => {
+  const writeSaltFromBuffer = async () => {
     const clipboardText = await readFromBuffer()
     const checkedSalt = checkLoginSalt(clipboardText)
     if (checkedSalt) {
@@ -154,9 +154,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     },
     {
       label: "Добавить код из буффера",
-      fn: async () => {
-        await writeLoginSaltFromBuffer()
-      },
+      fn: writeSaltFromBuffer,
       icon: () => <div>B</div>,
     },
     ...addCodeExternal.map(({ label, fn, icon }) => ({
