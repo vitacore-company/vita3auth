@@ -279,7 +279,7 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
 
 .notify {
   animation-name: notify;
-  animation-duration: 0.5s;
+  animation-duration: 3s;
   position: absolute;
   top: 50px;
   right: 50px;
@@ -493,10 +493,17 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
 
 @keyframes notify {
   0% {
-    transform: translateX(200px);
+    transform: translateX(400px);
   }
-  100% {
+  20% {
     transform: translateX(0);
+  }
+  80% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(400px);
   }
 }
 

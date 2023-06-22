@@ -6,13 +6,7 @@ import {
   useMemo,
   useCallback,
 } from "react"
-import {
-  IAuth,
-  IMessage,
-  IAuthContext,
-  IAuthContextProvider,
-  Imethod,
-} from "../../types"
+import { IAuth, IAuthContext, IAuthContextProvider, Imethod } from "../../types"
 import {
   checkLoginSalt,
   downloadCodeAsFile,
@@ -36,7 +30,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     props
   const { t } = useTranslation()
 
-  const [message, setMessage] = useState<IMessage | null>(null)
+  const [message, setMessage] = useState<any>(null)
   const [modalShow, setModalShow] = useState(false)
 
   const [loginSalt, setLoginSalt] = useState<string | null>(
@@ -110,6 +104,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
+
     if (message) {
       timeout = setTimeout(() => {
         setMessage(null)
@@ -182,7 +177,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
       }}
     >
       {modalShow && <Modal closeModal={closeModal} />}
-      {message && <Notify message={message} />}
+      <Notify message={message} />
       {children}
     </AuthContext.Provider>
   )
