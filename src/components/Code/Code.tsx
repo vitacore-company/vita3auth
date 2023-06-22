@@ -27,7 +27,7 @@ const Code = () => {
             className="code_content_btn code_content_btn-change"
             onClick={() => setLoginSalt(null)}
           >
-            Удалить код
+            {t("removeCode")}
           </div>
         )}
       </div>

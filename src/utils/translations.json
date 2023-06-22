@@ -15,7 +15,8 @@
         "addCodeFromFile": "Добавить код из файла",
         "addCodeFromBuffer": "Добавить код из буфера",
         "addCodeToBuffer": "Добавить код в буфер",
-        "addCodeToFile": "Скачать код файлом"
+        "addCodeToFile": "Скачать код файлом",
+        "removeCode": "Удалить код"
     },
     "en": {
         "email": "Email",
@@ -33,7 +34,8 @@
         "addCodeFromFile": "Add code from file",
         "addCodeFromBuffer": "Add code from clipboard",
         "addCodeToBuffer": "Add Code to clipboard",
-        "addCodeToFile": "Download code file"
+        "addCodeToFile": "Download code file",
+        "removeCode": "Delete code"
     },
     "ch": {
         "email": "電子郵件",
@@ -51,7 +53,8 @@
         "addCodeFromFile": "從文件添加代碼",
         "addCodeFromBuffer": "從剪貼板添加代碼",
         "addCodeToBuffer": "將代碼添加到緩衝區",
-        "addCodeToFile": "下載代碼文件"
+        "addCodeToFile": "下載代碼文件",
+        "removeCode": "刪除代碼"
     },
     "ar": {
         "email": "تسجيل الدخول",
@@ -69,7 +72,8 @@
         "addCodeFromFile": "أضف الكود من ملف",
         "addCodeFromBuffer": "إضافة رمز من الحافظة",
         "addCodeToBuffer": "أضف رمزًا إلى المخزن المؤقت",
-        "addCodeToFile": "قم بتنزيل ملف التعليمات البرمجية"
+        "addCodeToFile": "قم بتنزيل ملف التعليمات البرمجية",
+        "removeCode": "حذف الرمز"
     },
     "sp": {
         "email": "Correo electrónico",
@@ -87,7 +91,8 @@
         "addCodeFromFile": "Agregar código desde archivo",
         "addCodeFromBuffer": "Agregar código desde el portapapeles",
         "addCodeToBuffer": "Agregar código al búfer",
-        "addCodeToFile": "Descargar archivo de código"
+        "addCodeToFile": "Descargar archivo de código",
+        "removeCode": "Eliminar código"
     },
     "in": {
         "email": "ईमेल",
@@ -105,7 +110,8 @@
         "addCodeFromFile": "फ़ाइल से कोड जोड़ें",
         "addCodeFromBuffer": "क्लिपबोर्ड से कोड जोड़ें",
         "addCodeToBuffer": "बफ़र में कोड जोड़ें",
-        "addCodeToFile": "कोड फ़ाइल डाउनलोड करें"
+        "addCodeToFile": "कोड फ़ाइल डाउनलोड करें",
+        "removeCode": "कोड हटाएं"
     },
     "it": {
         "email": "Posta",
@@ -123,7 +129,8 @@
         "addCodeFromFile": "Aggiungi codice dal file",
         "addCodeFromBuffer": "Aggiungi codice dagli appunti",
         "addCodeToBuffer": "Aggiungi codice al buffer",
-        "addCodeToFile": "Scarica il file del codice"
+        "addCodeToFile": "Scarica il file del codice",
+        "removeCode": "Elimina codice"
     },
     "ge": {
         "email": "Post",
@@ -141,6 +148,7 @@
         "addCodeFromFile": "Code aus Datei hinzufügen",
         "addCodeFromBuffer": "Code aus der Zwischenablage hinzufügen",
         "addCodeToBuffer": "Code zum Puffer hinzufügen",
-        "addCodeToFile": "Codedatei herunterladen"
+        "addCodeToFile": "Codedatei herunterladen",
+        "removeCode": "Code löschen"
     }
 }
