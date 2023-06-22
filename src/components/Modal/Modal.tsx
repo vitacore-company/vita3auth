@@ -14,10 +14,15 @@ const Modal = ({ closeModal }: IModal) => {
     setStep2("save")
   }
 
-  const saveCode = (fn: () => void) => {
-    fn()
+  const saveCode = async (fn: () => void) => {
+    await fn()
     closeModal()
     generateWallet()
+  }
+
+  const addCode = async (fn: () => void) => {
+    await fn()
+    closeModal()
   }
 
   return (
@@ -47,7 +52,12 @@ const Modal = ({ closeModal }: IModal) => {
               </div>
               <div className="modal_content_save">
                 {addCodeMethods.map(({ fn, label, icon }, i: number) => (
-                  <ModalBtn key={i} fn={fn} label={label} icon={icon} />
+                  <ModalBtn
+                    key={i}
+                    fn={() => addCode(fn)}
+                    label={label}
+                    icon={icon}
+                  />
                 ))}
               </div>
             </>

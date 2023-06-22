@@ -14,7 +14,8 @@ export interface IAuth {
   onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
   label: string
   language?: "en" | "ru" | "ch" | "ar" | "sp" | "in" | "it" | "ge"
-  saveCodeExternal: IExternalMethod[]
+  saveCodeExternal: ISaveExternalMethod[]
+  addCodeExternal: IAddExternalMethod[]
 }
 
 export type walletEOAState = ethers.Wallet | null
@@ -45,7 +46,7 @@ export interface IAuthContext {
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
   generateWallet: () => void
-  writeLoginSalt: () => Promise<string | null>
+  writeLoginSaltFromBuffer: () => Promise<string | null>
   getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<string | null>
   loginSalt: string | null
   email: string
@@ -76,8 +77,13 @@ export interface Imethod {
   fn: () => void
   icon: () => JSX.Element
 }
-export interface IExternalMethod {
+export interface ISaveExternalMethod {
   label: string
   fn: (salt: string) => void
+  icon: () => JSX.Element
+}
+export interface IAddExternalMethod {
+  label: string
+  fn: () => string
   icon: () => JSX.Element
 }

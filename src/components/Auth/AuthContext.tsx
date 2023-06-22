@@ -35,7 +35,7 @@ export const AuthContext = createContext<IAuthContext>({
   setModalShow: () => undefined,
   setLoginSalt: () => undefined,
   generateWallet: () => new Promise(() => ""),
-  writeLoginSalt: () => new Promise(() => null),
+  writeLoginSaltFromBuffer: () => new Promise(() => null),
   getSaltFromFile: () => new Promise(() => null),
   loginSalt: null,
   email: "",
@@ -47,7 +47,8 @@ export const AuthContext = createContext<IAuthContext>({
 })
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
-  const { onEOAchange, children, language, saveCodeExternal } = props
+  const { onEOAchange, children, language, saveCodeExternal, addCodeExternal } =
+    props
   const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -95,12 +96,19 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     },
     {
       label: "Добавить код из буффера",
-      fn: () => {
-        writeLoginSalt()
-        closeModal()
+      fn: async () => {
+        await writeLoginSaltFromBuffer()
       },
       icon: () => <div>B</div>,
     },
+    ...addCodeExternal.map(({ label, fn, icon }) => ({
+      label,
+      icon,
+      fn: async () => {
+        const salt = await fn()
+        setLoginSalt(salt)
+      },
+    })),
   ]
 
   useEffect(() => {
@@ -149,7 +157,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }
 
-  const writeLoginSalt = async () => {
+  const writeLoginSaltFromBuffer = async () => {
     const clipboardText = await readFromBuffer()
     const checkedSalt = checkLoginSalt(clipboardText)
     if (checkedSalt) {
@@ -180,7 +188,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         loginSalt,
         setLoginSalt,
         generateWallet,
-        writeLoginSalt,
+        writeLoginSaltFromBuffer,
         getSaltFromFile,
         email,
         setEmail,
@@ -190,7 +198,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         addCodeMethods,
       }}
     >
-      <Upload uploadRef={fileInputRef} onFinish={closeModal} />
+      <Upload uploadRef={fileInputRef} />
 
       {modalShow && <Modal closeModal={closeModal} />}
       {message && <Notify message={message} />}
