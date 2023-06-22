@@ -40,11 +40,18 @@ export const readFromBuffer = async () => {
   return clipboardText
 }
 
-export const uploadFile = () => {
+export const uploadFile = (): Promise<File | null> => {
   return new Promise((resolve) => {
     let input = document.createElement("input")
     input.type = "file"
-    input.onchange = (e: any) => resolve(e.target.files[0])
+    input.onchange = (e: Event) => {
+      const files = (e.target as HTMLInputElement).files
+      if (files) {
+        resolve(files[0])
+      } else {
+        resolve(null)
+      }
+    }
     input.click()
   })
 }

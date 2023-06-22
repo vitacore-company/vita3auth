@@ -134,15 +134,16 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   }
 
   const getSaltFromFile = async () => {
-    const file: any = await uploadFile()
-    const salt = await readFile(file)
-    if (salt) {
-      setLoginSalt(salt)
-      return salt
-    } else {
-      setMessage({ text: "failed upload", type: "error" })
-      return null
+    const file = await uploadFile()
+    if (file) {
+      const salt = await readFile(file)
+      if (salt) {
+        setLoginSalt(salt)
+        return salt
+      }
     }
+    setMessage({ text: "failed upload", type: "error" })
+    return null
   }
 
   const addCodeMethods: Imethod[] = [
