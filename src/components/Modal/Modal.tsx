@@ -2,7 +2,7 @@ import { useState } from "react"
 import { IModal } from "../../types"
 import { useAuthContext } from "../Auth/AuthContext"
 import { v4 as uuidv4 } from "uuid"
-import ModalBtn from "./ModalBtn"
+import Step2 from "./Step2"
 
 const Modal = ({ closeModal }: IModal) => {
   const [step2, setStep2] = useState<string | null>(null)
@@ -30,37 +30,17 @@ const Modal = ({ closeModal }: IModal) => {
       <div className="modal_content">
         {step2 ? (
           step2 === "save" ? (
-            <>
-              <div className="modal_content_label">
-                Сохраните номер уникального кода
-              </div>
-              <div className="modal_content_save">
-                {saveCodeMethods.map(({ fn, label, icon }, i: number) => (
-                  <ModalBtn
-                    key={i}
-                    fn={() => saveCode(fn)}
-                    label={label}
-                    icon={icon}
-                  />
-                ))}
-              </div>
-            </>
+            <Step2
+              title="Сохраните номер уникального кода"
+              methodList={saveCodeMethods}
+              callback={saveCode}
+            />
           ) : (
-            <>
-              <div className="modal_content_label">
-                Добавьте номер уникального кода
-              </div>
-              <div className="modal_content_save">
-                {addCodeMethods.map(({ fn, label, icon }, i: number) => (
-                  <ModalBtn
-                    key={i}
-                    fn={() => addCode(fn)}
-                    label={label}
-                    icon={icon}
-                  />
-                ))}
-              </div>
-            </>
+            <Step2
+              title=" Добавьте номер уникального кода"
+              methodList={addCodeMethods}
+              callback={addCode}
+            />
           )
         ) : (
           <>

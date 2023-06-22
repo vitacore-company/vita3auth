@@ -59,6 +59,12 @@ export interface IModal {
 
 export interface IModalBtn extends Imethod {}
 
+export interface IStep2 {
+  title: string
+  methodList: IExternalMethod[]
+  callback: (fn: () => void) => Promise<void>
+}
+
 export interface IUpload {
   uploadRef: RefObject<HTMLInputElement>
   onFinish?: () => void
@@ -69,13 +75,18 @@ export interface Imethod {
   fn: () => void
   icon: () => JSX.Element
 }
-export interface ISaveExternalMethod {
+export interface IExternalMethod {
   label: string
-  fn: (salt: string) => void
+  fn: () => void
   icon: () => JSX.Element
 }
 export interface IAddExternalMethod {
   label: string
   fn: () => string
+  icon: () => JSX.Element
+}
+export interface ISaveExternalMethod {
+  label: string
+  fn: (salt: string) => void
   icon: () => JSX.Element
 }
