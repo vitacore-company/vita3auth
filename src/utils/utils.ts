@@ -24,7 +24,6 @@ export const parseAccount = (account: string) => {
 }
 
 export function downloadCodeAsFile(data: string) {
-  console.log("here")
   let a = document.createElement("a")
   let file = new Blob([data], { type: "application/json" })
   a.href = URL.createObjectURL(file)
@@ -41,9 +40,16 @@ export const readFromBuffer = async () => {
   return clipboardText
 }
 
-export const uploadFile = (
-  file: FileList[0] | null
-): Promise<string | null> => {
+export const uploadFile = () => {
+  return new Promise((resolve) => {
+    let input = document.createElement("input")
+    input.type = "file"
+    input.onchange = (e: any) => resolve(e.target.files[0])
+    input.click()
+  })
+}
+
+export const readFile = (file: FileList[0] | null): Promise<string | null> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.onload = (event) => {

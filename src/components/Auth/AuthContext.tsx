@@ -1,12 +1,4 @@
-import {
-  useState,
-  createContext,
-  useContext,
-  useEffect,
-  ChangeEvent,
-  useMemo,
-  useRef,
-} from "react"
+import { useState, createContext, useContext, useEffect, useMemo } from "react"
 import { ethers } from "ethers"
 
 import Notify from "../Notify/Notify"
@@ -22,13 +14,13 @@ import {
   checkLoginSalt,
   downloadCodeAsFile,
   getCryptoHash,
+  readFile,
   readFromBuffer,
   uploadFile,
   writeCodeToBuffer,
 } from "../../utils/utils"
 import i18n from "../../utils/translation"
 import { useTranslation } from "react-i18next"
-import Upload from "../Upload/Upload"
 
 export const AuthContext = createContext<IAuthContext>({
   setMessage: () => undefined,
@@ -50,7 +42,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   const { onEOAchange, children, language, saveCodeExternal, addCodeExternal } =
     props
   const { t } = useTranslation()
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [message, setMessage] = useState<IMessage | null>(null)
   const [modalShow, setModalShow] = useState(false)
@@ -85,31 +76,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     ],
     [loginSalt, saveCodeExternal]
   )
-
-  const addCodeMethods: Imethod[] = [
-    {
-      label: "Добавить из файла",
-      fn: () => {
-        fileInputRef.current?.click()
-      },
-      icon: () => <div>&darr;</div>,
-    },
-    {
-      label: "Добавить код из буффера",
-      fn: async () => {
-        await writeLoginSaltFromBuffer()
-      },
-      icon: () => <div>B</div>,
-    },
-    ...addCodeExternal.map(({ label, fn, icon }) => ({
-      label,
-      icon,
-      fn: async () => {
-        const salt = await fn()
-        setLoginSalt(salt)
-      },
-    })),
-  ]
 
   useEffect(() => {
     if (language) {
@@ -169,16 +135,40 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     }
   }
 
-  const getSaltFromFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = await uploadFile(e.target.files && e.target.files[0])
-    if (file) {
-      setLoginSalt(file)
-      return file
+  const getSaltFromFile = async () => {
+    const file: any = await uploadFile()
+    const salt = await readFile(file)
+    if (salt) {
+      setLoginSalt(salt)
+      return salt
     } else {
       setMessage({ text: "failed upload", type: "error" })
       return null
     }
   }
+
+  const addCodeMethods: Imethod[] = [
+    {
+      label: "Добавить из файла",
+      fn: getSaltFromFile,
+      icon: () => <div>&darr;</div>,
+    },
+    {
+      label: "Добавить код из буффера",
+      fn: async () => {
+        await writeLoginSaltFromBuffer()
+      },
+      icon: () => <div>B</div>,
+    },
+    ...addCodeExternal.map(({ label, fn, icon }) => ({
+      label,
+      icon,
+      fn: async () => {
+        const salt = await fn()
+        setLoginSalt(salt)
+      },
+    })),
+  ]
 
   return (
     <AuthContext.Provider
@@ -198,8 +188,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         addCodeMethods,
       }}
     >
-      {/* <Upload uploadRef={fileInputRef} /> */}
-
       {modalShow && <Modal closeModal={closeModal} />}
       {message && <Notify message={message} />}
       {children}
