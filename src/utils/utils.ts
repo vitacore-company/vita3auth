@@ -24,6 +24,7 @@ export const parseAccount = (account: string) => {
 }
 
 export function downloadCodeAsFile(data: string) {
+  console.log("here")
   let a = document.createElement("a")
   let file = new Blob([data], { type: "application/json" })
   a.href = URL.createObjectURL(file)

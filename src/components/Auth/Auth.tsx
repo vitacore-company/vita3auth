@@ -119,6 +119,7 @@ function Auth(props: IAuth) {
       <div onClick={handleAuth} className="auth_submit">
         <div className="auth_submit_label">{t("login")}</div>
       </div>
+
       <Code />
 
       <Ellipse className="auth_ellipse1" />

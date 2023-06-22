@@ -198,7 +198,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
         addCodeMethods,
       }}
     >
-      <Upload uploadRef={fileInputRef} />
+      {/* <Upload uploadRef={fileInputRef} /> */}
 
       {modalShow && <Modal closeModal={closeModal} />}
       {message && <Notify message={message} />}
