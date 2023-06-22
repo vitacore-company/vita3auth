@@ -46,8 +46,6 @@ export interface IAuthContext {
   setModalShow: Dispatch<SetStateAction<boolean>>
   setLoginSalt: Dispatch<SetStateAction<string | null>>
   generateWallet: () => void
-  writeLoginSaltFromBuffer: () => Promise<string | null>
-  getSaltFromFile: (e: ChangeEvent<HTMLInputElement>) => Promise<string | null>
   loginSalt: string | null
   email: string
   setEmail: Dispatch<SetStateAction<string>>
