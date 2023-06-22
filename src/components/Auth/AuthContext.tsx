@@ -6,7 +6,13 @@ import {
   useMemo,
   useCallback,
 } from "react"
-import { IAuth, IAuthContext, IAuthContextProvider, Imethod } from "../../types"
+import {
+  IAuth,
+  IAuthContext,
+  IAuthContextProvider,
+  IMessage,
+  Imethod,
+} from "../../types"
 import {
   checkLoginSalt,
   downloadCodeAsFile,
@@ -30,7 +36,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     props
   const { t } = useTranslation()
 
-  const [message, setMessage] = useState<any>(null)
+  const [message, setMessage] = useState<IMessage | null>(null)
   const [modalShow, setModalShow] = useState(false)
 
   const [loginSalt, setLoginSalt] = useState<string | null>(

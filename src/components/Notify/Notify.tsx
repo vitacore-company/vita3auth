@@ -1,13 +1,9 @@
 import { useTranslation } from "react-i18next"
 import { INotify } from "../../types"
-import { memo, useEffect } from "react"
+import { memo } from "react"
 
 const Notify = ({ message }: INotify) => {
   const { t } = useTranslation()
-
-  useEffect(() => {
-    console.log("message", message)
-  }, [message])
 
   return (
     message && (

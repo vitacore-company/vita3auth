@@ -32,7 +32,7 @@ export interface IMessage {
 }
 
 export interface INotify {
-  message: IMessage
+  message: IMessage | null
 }
 
 export interface IAuthContext {
