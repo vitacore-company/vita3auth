@@ -1,11 +1,5 @@
 import { ethers } from "ethers"
-import {
-  ChangeEvent,
-  Dispatch,
-  ReactNode,
-  RefObject,
-  SetStateAction,
-} from "react"
+import { Dispatch, ReactNode, RefObject, SetStateAction } from "react"
 
 export interface IAuthContextProvider extends IAuth {
   children: ReactNode
