@@ -1,9 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react"
-
 import Auth from "../components/Auth/Auth"
 
 describe("main test", () => {
-  test("Auth", async () => {
+  test("Auth", () => {
     const log = (eoa: any) => console.log(eoa.privateKey)
     render(
       <Auth
@@ -21,6 +20,6 @@ describe("main test", () => {
     const password: HTMLInputElement = screen.getByTestId("password")
     fireEvent.change(email, { target: { value: "test@gmail.com" } })
     fireEvent.change(password, { target: { value: "test" } })
-    await fireEvent.click(loginBtn)
+    fireEvent.click(loginBtn)
   })
 })

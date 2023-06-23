@@ -17,6 +17,7 @@ jobs:
           scope: "@vitacore-company"
       - run: npm install
       - run: npm run compile
+      - run: npm test
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
