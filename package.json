@@ -1,9 +1,8 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.72",
+  "version": "0.0.0-test.73",
   "main": "dist/main",
   "module": "dist/main",
-  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
