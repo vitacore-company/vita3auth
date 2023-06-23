@@ -10,6 +10,7 @@ export interface IAuth {
   language?: "en" | "ru" | "ch" | "ar" | "sp" | "in" | "it" | "ge"
   saveCodeExternal: ISaveExternalMethod[]
   addCodeExternal: IAddExternalMethod[]
+  test?: boolean
 }
 
 export type walletEOAState = ethers.Wallet | null

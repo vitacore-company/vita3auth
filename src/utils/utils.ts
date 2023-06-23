@@ -1,6 +1,6 @@
 import { ethers } from "ethers"
-import { sha256 } from "crypto-hash"
 import { PROVIDER_URL } from "./constants"
+import { sha256 } from "js-sha256"
 
 export const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
 

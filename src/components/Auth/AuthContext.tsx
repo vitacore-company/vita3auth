@@ -23,6 +23,7 @@ import {
   writeCodeToBuffer,
 } from "../../utils/utils"
 import { ethers } from "ethers"
+
 import { useTranslation } from "react-i18next"
 import { AuthContextDefault } from "./AuthContextDefault"
 import i18n from "../../utils/translation"
@@ -32,15 +33,23 @@ import Modal from "../Modal/Modal"
 export const AuthContext = createContext<IAuthContext>(AuthContextDefault)
 
 export const AuthContextProvider = (props: IAuthContextProvider) => {
-  const { onEOAchange, children, language, saveCodeExternal, addCodeExternal } =
-    props
+  const {
+    onEOAchange,
+    children,
+    language,
+    saveCodeExternal,
+    addCodeExternal,
+    test,
+  } = props
   const { t } = useTranslation()
 
   const [message, setMessage] = useState<IMessage | null>(null)
   const [modalShow, setModalShow] = useState(false)
 
   const [loginSalt, setLoginSalt] = useState<string | null>(
-    localStorage.getItem("loginSalt") || null
+    test
+      ? "741c78e8-1c56-425e-aace-35122bdc09a3"
+      : localStorage.getItem("loginSalt") || null
   )
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
