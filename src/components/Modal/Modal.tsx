@@ -51,6 +51,7 @@ const Modal = ({ closeModal }: IModal) => {
             <div className="modal_content_desc">{t("goToStep2")}</div>
             <div className="modal_content_btns">
               <div
+                data-testid="generateWallet"
                 onClick={generateLoginSalt}
                 className="modal_content_btns_new"
               >

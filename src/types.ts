@@ -1,16 +1,16 @@
-import { ethers } from "ethers"
+import { Wallet, ethers } from "ethers"
 import { Dispatch, ReactNode, RefObject, SetStateAction } from "react"
 
 export interface IAuthContextProvider extends IAuth {
   children: ReactNode
 }
 export interface IAuth {
-  onEOAchange: React.Dispatch<React.SetStateAction<walletEOAState>>
+  onEOAchange: (wallet: Wallet) => void
   label: string
   language?: "en" | "ru" | "ch" | "ar" | "sp" | "in" | "it" | "ge"
   saveCodeExternal: ISaveExternalMethod[]
   addCodeExternal: IAddExternalMethod[]
-  test?: boolean
+  test?: { loginSalt: string | null }
 }
 
 export type walletEOAState = ethers.Wallet | null

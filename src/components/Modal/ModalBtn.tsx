@@ -12,6 +12,7 @@ const ModalBtn = (props: IModalBtn) => {
     <>
       <div
         onClick={fn}
+        data-testid={label}
         data-tooltip-id={tooltipId}
         data-tooltip-content={label}
         className="modal_content_save_btn"

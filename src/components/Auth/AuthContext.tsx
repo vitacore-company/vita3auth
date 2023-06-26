@@ -47,9 +47,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
   const [modalShow, setModalShow] = useState(false)
 
   const [loginSalt, setLoginSalt] = useState<string | null>(
-    test
-      ? "741c78e8-1c56-425e-aace-35122bdc09a3"
-      : localStorage.getItem("loginSalt") || null
+    test ? test.loginSalt : localStorage.getItem("loginSalt") || null
   )
   const [email, setEmail] = useState<string>(
     localStorage.getItem("email") || ""
