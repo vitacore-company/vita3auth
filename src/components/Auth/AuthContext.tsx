@@ -15,6 +15,7 @@ import {
 } from "../../types"
 import {
   checkLoginSalt,
+  createWallet,
   downloadCodeAsFile,
   getCryptoHash,
   readFile,
@@ -22,7 +23,6 @@ import {
   uploadFile,
   writeCodeToBuffer,
 } from "../../utils/utils"
-import { ethers } from "ethers"
 
 import { useTranslation } from "react-i18next"
 import { AuthContextDefault } from "./AuthContextDefault"
@@ -65,7 +65,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
       const userPrivateKey = await getCryptoHash(
         `${email}_${password}_${loginSalt}`
       )
-      const newUserWallet = new ethers.Wallet(userPrivateKey)
+      const newUserWallet = createWallet(userPrivateKey)
       localStorage.setItem("loginSalt", loginSalt)
       localStorage.setItem("email", email)
       localStorage.setItem("password", password)
