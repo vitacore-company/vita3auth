@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.82",
+  "version": "0.0.0-beta.1",
   "main": "dist/main",
   "module": "dist/main",
   "dependencies": {
@@ -28,7 +28,7 @@
     "compile-ts": "tsc -p tsconfig.json",
     "compile-sass": "sass src/index.scss dist/index.css && cp src/index.scss dist/",
     "copy-assets": "mkdirp dist/ && cp -r src/assets dist/assets",
-    "version-up": "npm version --no-git-tag-version prerelease --preid=test",
+    "version-up": "npm version --no-git-tag-version prerelease --preid=beta",
     "start": "react-scripts start ",
     "update": "npm run version-up && git add . && git commit -am 'version up' && git push",
     "compile": "npm run compile-ts && npm run compile-sass && npm run copy-assets",
@@ -47,9 +47,6 @@
     "not dead",
     "not op_mini all"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@vitacore-company"
-  },
   "devDependencies": {
     "@types/uuid": "^9.0.2"
   }
