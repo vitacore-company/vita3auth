@@ -15,7 +15,6 @@ import {
 } from "../../types"
 import {
   checkLoginSalt,
-  createWallet,
   downloadCodeAsFile,
   getCryptoHash,
   readFile,
@@ -29,6 +28,7 @@ import { AuthContextDefault } from "./AuthContextDefault"
 import i18n from "../../utils/translation"
 import Notify from "../Notify/Notify"
 import Modal from "../Modal/Modal"
+import { ethers } from "ethers"
 
 export const AuthContext = createContext<IAuthContext>(AuthContextDefault)
 
@@ -40,6 +40,7 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
     saveCodeExternal,
     addCodeExternal,
     test,
+    providerURL,
   } = props
   const { t } = useTranslation()
 
@@ -65,11 +66,16 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
       const userPrivateKey = await getCryptoHash(
         `${email}_${password}_${loginSalt}`
       )
-      const newUserWallet = createWallet(userPrivateKey)
+      let userWallet = new ethers.Wallet(userPrivateKey)
+      if (providerURL) {
+        console.log(providerURL)
+        const provider = new ethers.providers.JsonRpcProvider(providerURL)
+        userWallet = userWallet.connect(provider)
+      }
       localStorage.setItem("loginSalt", loginSalt)
       localStorage.setItem("email", email)
       localStorage.setItem("password", password)
-      onEOAchange(newUserWallet)
+      onEOAchange(userWallet)
     } else {
       setMessage({ text: t("generatingWalletError"), type: "error" })
     }

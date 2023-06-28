@@ -1,14 +1,4 @@
-import { ethers } from "ethers"
-import { PROVIDER_URL } from "./constants"
 import { sha256 } from "js-sha256"
-
-export const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
-
-export function createWallet(privateKey: string) {
-  const userWallet = new ethers.Wallet(privateKey)
-  const connectedWallet = userWallet.connect(provider)
-  return connectedWallet
-}
 
 export const getCryptoHash = async (email: string) => {
   const cryptoHash = await sha256(email)

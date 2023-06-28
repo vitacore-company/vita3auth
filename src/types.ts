@@ -11,6 +11,7 @@ export interface IAuth {
   saveCodeExternal: ISaveExternalMethod[]
   addCodeExternal: IAddExternalMethod[]
   test?: { loginSalt: string | null }
+  providerURL?: string
 }
 
 export type walletEOAState = ethers.Wallet | null
