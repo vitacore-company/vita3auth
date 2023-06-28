@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  publish-gpr:
+  publish-github:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,3 +19,5 @@ jobs:
       - run: npm run compile
       - run: npm test
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
