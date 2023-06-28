@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Web3auth Package
 
 on:
   push:
@@ -19,3 +19,5 @@ jobs:
       - run: npm run compile
       - run: npm test
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
