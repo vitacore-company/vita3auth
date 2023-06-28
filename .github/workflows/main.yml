@@ -14,7 +14,6 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org
-          scope: "@vitacore-company"
       - run: npm install
       - run: npm run compile
       - run: npm test
