@@ -18,6 +18,7 @@ jobs:
       - run: npm install
       - run: npm run compile
       - run: npm test
+      - run: npm run version-up
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
