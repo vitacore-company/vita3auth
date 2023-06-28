@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Web3auth Package
 
 on:
   push:
