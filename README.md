@@ -17,6 +17,7 @@ React component based on ethers.js library for easy authorization in web3 applic
 | `language?`        | `string`                   | **en,ru,ch,ar,sp,in,it,ge**                          |
 | `saveCodeExternal` | `obj`                      | **Required**. Check type inside the project          |
 | `addCodeExternal`  | `obj`                      | **Required**. Check type inside the project          |
+| `providerURL?`     | `string`                   |                                                      |
 
 #### AddressEOA
 
