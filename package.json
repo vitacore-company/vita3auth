@@ -1,6 +1,6 @@
 {
   "name": "@vitacore-company/vita3auth",
-  "version": "0.0.0-test.77",
+  "version": "0.0.0-test.79",
   "main": "dist/main",
   "module": "dist/main",
   "dependencies": {
@@ -30,6 +30,7 @@
     "copy-assets": "mkdirp dist/ && cp -r src/assets dist/assets",
     "version-up": "npm version --no-git-tag-version prerelease --preid=test",
     "start": "react-scripts start ",
+    "update": "npm run version-up && git add . && git commit -am 'version up' && git push",
     "compile": "npm run compile-ts && npm run compile-sass && npm run copy-assets",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -2,7 +2,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import Auth from "../components/Auth/Auth"
 import { Wallet } from "ethers"
-//test
 
 describe("main test", () => {
   const enterClick = () => {
