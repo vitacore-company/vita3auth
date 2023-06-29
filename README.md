@@ -6,6 +6,10 @@ React component based on ethers.js library for easy authorization in web3 applic
 
 - [ethers.js documentation](https://docs.ethers.org/v5/)
 
+## Styles
+
+add **@vitacore-company/vita3auth/dist/index.[css/scss]**
+
 ## API
 
 #### Auth
