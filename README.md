@@ -32,4 +32,4 @@ React component based on ethers.js library for easy authorization in web3 applic
 
 ## 🔗 Links
 
-[![github](https://img.shields.io/badge/github-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vitacore-company)
+[![github](https://img.shields.io/badge/github-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vitacore-company/vita3auth)
