@@ -68,7 +68,6 @@ export const AuthContextProvider = (props: IAuthContextProvider) => {
       )
       let userWallet = new ethers.Wallet(userPrivateKey)
       if (providerURL) {
-        console.log(providerURL)
         const provider = new ethers.providers.JsonRpcProvider(providerURL)
         userWallet = userWallet.connect(provider)
       }

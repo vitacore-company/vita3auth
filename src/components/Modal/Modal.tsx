@@ -28,8 +28,15 @@ const Modal = ({ closeModal }: IModal) => {
     closeModal()
   }
 
+  const modalClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as Element
+    if (target.classList.contains("modal") && step2 !== "save") {
+      closeModal()
+    }
+  }
+
   return (
-    <div className="modal">
+    <div className="modal" onClick={modalClick}>
       <div className="modal_content">
         {step2 ? (
           step2 === "save" ? (
