@@ -71,12 +71,14 @@ const Modal = ({ closeModal }: IModal) => {
                 {t("enterCode")}
               </div>
             </div>
-            <div onClick={closeModal} className="modal_content_close">
-              <div className="modal_content_close_icon">
-                <>&#x2715;</>
-              </div>
-            </div>
           </>
+        )}
+        {step2 !== "save" && (
+          <div onClick={closeModal} className="modal_content_close">
+            <div className="modal_content_close_icon">
+              <>&#x2715;</>
+            </div>
+          </div>
         )}
       </div>
     </div>
