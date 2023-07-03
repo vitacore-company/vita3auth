@@ -3,6 +3,8 @@ import { useAuthContext, withAuthContext } from "./AuthContext"
 import { useTranslation } from "react-i18next"
 import { checkEmail } from "../../utils/utils"
 import { IAuth, IauthError } from "../../types"
+import { ReactComponent as Eyelogo } from "../../assets/eye.svg"
+import { ReactComponent as CloseEyelogo } from "../../assets/closeeye.svg"
 import Ellipse from "../Ellipse/Ellipse"
 import Code from "../Code/Code"
 
@@ -21,6 +23,7 @@ function Auth(props: IAuth) {
   } = useAuthContext()
 
   const [authError, setAuthError] = useState<IauthError>({ status: false })
+  const [showPassword, setShowPassword] = useState(false)
 
   const passwordInput = useRef<HTMLInputElement | null>(null)
 
@@ -85,6 +88,20 @@ function Auth(props: IAuth) {
     }
   }, [authError])
 
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev)
+  }
+
+  useEffect(() => {
+    if (passwordInput.current) {
+      if (showPassword) {
+        passwordInput.current.type = "text"
+      } else {
+        passwordInput.current.type = "password"
+      }
+    }
+  }, [showPassword])
+
   return (
     <div className="auth" data-testid="auth">
       <div className="auth_label">{label}</div>
@@ -103,16 +120,25 @@ function Auth(props: IAuth) {
         </div>
         <div className="auth_form_password">
           <div className="auth_form_password_label">{t("password")}</div>
-          <input
-            data-testid="password"
-            ref={passwordInput}
-            autoComplete="new-password"
-            onKeyDown={handleEnterPasswordDown}
-            value={password}
-            type="password"
-            className="auth_form_password_input"
-            onChange={handlePasswordChange}
-          />
+          <div className="auth_form_password_input">
+            <input
+              data-testid="password"
+              ref={passwordInput}
+              autoComplete="new-password"
+              onKeyDown={handleEnterPasswordDown}
+              value={password}
+              type="password"
+              className="auth_form_password_input_field"
+              onChange={handlePasswordChange}
+            />
+            <div
+              className="auth_form_password_input_btn"
+              onClick={toggleShowPassword}
+              style={{ cursor: "pointer" }}
+            >
+              {showPassword ? <CloseEyelogo /> : <Eyelogo />}
+            </div>
+          </div>
         </div>
       </div>
       <div onClick={handleAuth} className="auth_submit" data-testid="enter">

@@ -160,7 +160,16 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
         @include input_label-style;
       }
       &_input {
-        @include input-style;
+        position: relative;
+        display: flex;
+        &_field {
+          @include input-style;
+        }
+        &_btn {
+          position: absolute;
+          right: 15px;
+          top: 5px;
+        }
       }
     }
     &-error {
