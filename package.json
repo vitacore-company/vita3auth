@@ -49,5 +49,13 @@
   ],
   "devDependencies": {
     "@types/uuid": "^9.0.2"
-  }
+  },
+  "keywords": [
+    "web3",
+    "web3auth",
+    "ethers",
+    "auth",
+    "react",
+    "vitacore"
+  ]
 }
