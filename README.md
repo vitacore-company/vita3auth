@@ -2,6 +2,40 @@
 
 React component based on ethers.js library for easy authorization in web3 applications. Login requires mail, password and a unique guid for more security. Save the generated guid for your next login. After creating the wallet, the component gives the Wallet object.
 
+## Installation
+
+```shell-script
+npm install @vitacore-company/vita3auth --save
+```
+
+## Usage
+
+```jsx
+import { Auth } from "@vitacore-company/vita3auth"
+import "@vitacore-company/vita3auth/dist/index.css"
+
+;<Auth
+  onEOAchange={setEOAwallet}
+  label="Authorization"
+  language="en"
+  saveCodeExternal={[
+    {
+      label: "Console code",
+      fn: (code) => console.log(code),
+      icon: () => <div>Console</div>,
+    },
+  ]}
+  addCodeExternal={[
+    {
+      label: "Add code external",
+      fn: () => "cf0a4220-50c1-4539-89b4-9155195b5e9e",
+      icon: () => <div>External</div>,
+    },
+  ]}
+  providerURL="https://rpc.chiadochain.net"
+/>
+```
+
 ## Acknowledgements
 
 - [ethers.js documentation](https://docs.ethers.org/v5/)
