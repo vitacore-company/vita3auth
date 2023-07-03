@@ -108,15 +108,17 @@ function Auth(props: IAuth) {
       <div className={`auth_form ${authError.status && "auth_form-error"}`}>
         <div className="auth_form_email">
           <div className="auth_form_email_label">{t("email")}</div>
-          <input
-            data-testid="email"
-            type="email"
-            autoFocus
-            onKeyDown={handleEnterEmailDown}
-            value={email}
-            className="auth_form_email_input"
-            onChange={handleEmailChange}
-          />
+          <div className="auth_form_email_input">
+            <input
+              data-testid="email"
+              type="email"
+              autoFocus
+              onKeyDown={handleEnterEmailDown}
+              value={email}
+              className="auth_form_email_input_field"
+              onChange={handleEmailChange}
+            />
+          </div>
         </div>
         <div className="auth_form_password">
           <div className="auth_form_password_label">{t("password")}</div>
@@ -124,7 +126,6 @@ function Auth(props: IAuth) {
             <input
               data-testid="password"
               ref={passwordInput}
-              autoComplete="new-password"
               onKeyDown={handleEnterPasswordDown}
               value={password}
               type="password"

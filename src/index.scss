@@ -8,7 +8,7 @@
   height: 38px;
   border: 1px solid #ffffff;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.12);
+  background: $input-bg;
   color: white;
   font-size: 18px;
   padding: 10px;
@@ -83,6 +83,7 @@
   transition-duration: 0.2s;
 }
 
+$input-bg: rgba(255, 255, 255, 0.12);
 $border-radius: 19px;
 $linear-gradient-light: linear-gradient(
     93.2deg,
@@ -101,6 +102,16 @@ $linear-gradient-dark: linear-gradient(
 );
 
 $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px $input-bg;
+}
 
 //auth
 .auth {
@@ -152,7 +163,9 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
         @include input_label-style;
       }
       &_input {
-        @include input-style();
+        &_field {
+          @include input-style();
+        }
       }
     }
     &_password {
@@ -165,6 +178,7 @@ $box-shadow-component: 0px 4px 24px rgba(67, 67, 67, 0.25);
         &_field {
           @include input-style;
         }
+
         &_btn {
           position: absolute;
           right: 15px;
