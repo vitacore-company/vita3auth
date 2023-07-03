@@ -89,6 +89,6 @@ export interface IAddExternalMethod {
 }
 export interface ISaveExternalMethod {
   label: string
-  fn: (salt: string) => void
+  fn: (e: string) => void
   icon: () => JSX.Element
 }
