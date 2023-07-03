@@ -14,7 +14,7 @@ npm install @vitacore-company/vita3auth --save
 import { Auth } from "@vitacore-company/vita3auth"
 import "@vitacore-company/vita3auth/dist/index.css"
 
-;<Auth
+<Auth
   onEOAchange={setEOAwallet}
   label="Authorization"
   language="en"
@@ -47,17 +47,49 @@ add **@vitacore-company/vita3auth/dist/index.[css/scss]**
 ## API
 
 #### Auth
-
 | Parameter          | Type                       | Description                                          |
 | :----------------- | :------------------------- | :--------------------------------------------------- |
-| `onEOAchange`      | `(wallet: Wallet) => void` | **Required**. Returns wallet object after generating |
-| `label`            | `string`                   | **Required**                                         |
-| `language?`        | `string`                   | **en,ru,ch,ar,sp,in,it,ge**                          |
-| `saveCodeExternal` | `obj`                      | **Required**. Check type inside the project          |
-| `addCodeExternal`  | `obj`                      | **Required**. Check type inside the project          |
-| `providerURL?`     | `string`                   |                                                      |
+| `onEOAchange`      | `(wallet: Wallet) => void` | **Required** Returns wallet object after generating |
+| `label`            | `string`                   | **Required** Title of the login page                                         
+| `saveCodeExternal` | `obj`                      | **Required** ISaveExternalMethod[]          |
+| `addCodeExternal`  | `obj`                      | **Required**   IAddExternalMethod[]       |
+| `providerURL?`     | `string`                   | **Blockchain provider** |
+| `language?`        | `string`                   | **en,ru,ch,ar,sp,in,it,ge**                          |                                                    |
+
+
+### Types
+
+```jsx
+interface IAddExternalMethod {
+  label: string
+  fn: () => string
+  icon: () => JSX.Element
+}
+interface ISaveExternalMethod {
+  label: string
+  fn: (e: string) => void
+  icon: () => JSX.Element
+}
+
+```
+### Predefined localization
+`sp` Spainish, `ge` Deutsch, `ru` Russian<br/>
+`en` English, `ch` Chinese, `it` Italian<br/>
+`in` Indian, `ar` Arabic<br/>
+
 
 #### AddressEOA
+
+```jsx
+import { AddressEOA } from "@vitacore-company/vita3auth"
+import "@vitacore-company/vita3auth/dist/index.css"
+
+
+<AddressEOA address={EOAwallet.address} />
+
+```
+
+
 
 | Parameter         | Type     | Description |
 | :---------------- | :------- | :---------- |
